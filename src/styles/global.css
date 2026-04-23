@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+/*
+ * Memberley marketing site — design tokens
+ * Stone neutrals · amber accent · Fraunces display · Geist body · IBM Plex Mono accents
+ */
+
+@theme {
+    --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Fraunces', ui-serif, Georgia, serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
