@@ -1,0 +1,236 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const eyebrow =
+    'font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase';
+const display = 'font-serif font-semibold tracking-tight';
+
+const lastUpdated = 'April 24, 2026';
+
+const sections = [
+    {
+        n: '01',
+        title: 'Acceptance of terms',
+        body: [
+            'By accessing or using Memberley (the "Service"), you agree to be bound by these Terms of Use ("Terms"). If you are using the Service on behalf of an organization, you represent that you have authority to bind that organization to these Terms.',
+            'If you do not agree to these Terms, you may not access or use the Service.',
+        ],
+    },
+    {
+        n: '02',
+        title: 'Accounts',
+        body: [
+            'To use the Service you must create an account and provide accurate, current information. You are responsible for safeguarding your credentials and for all activity that occurs under your account.',
+            'You must notify us promptly of any unauthorized access or suspected breach of security. We are not liable for losses caused by unauthorized use of your account that you could have prevented.',
+        ],
+    },
+    {
+        n: '03',
+        title: 'Acceptable use',
+        body: [
+            'You agree not to misuse the Service. This includes, without limitation, attempting to gain unauthorized access, interfering with other users, transmitting malware, scraping the Service, or using it to violate any applicable law.',
+            'We may suspend or terminate accounts that violate these Terms or that pose a risk to the Service or other users.',
+        ],
+    },
+    {
+        n: '04',
+        title: 'Subscriptions and billing',
+        body: [
+            'Paid plans are billed in advance on a recurring basis. You authorize us to charge your payment method for all fees due. Fees are non-refundable except where required by law.',
+            'We may change pricing at any time, but changes to your existing subscription will only take effect at the start of your next billing cycle, after reasonable notice.',
+        ],
+    },
+    {
+        n: '05',
+        title: 'Your content',
+        body: [
+            'You retain ownership of the data and content you submit to the Service ("Customer Data"). You grant Memberley a limited license to host, process, and transmit Customer Data solely for the purpose of operating and improving the Service.',
+            'You are responsible for the legality of Customer Data and for obtaining any consents required to provide it to us.',
+        ],
+    },
+    {
+        n: '06',
+        title: 'Intellectual property',
+        body: [
+            'The Service, including its software, design, and trademarks, is owned by Memberley, Inc. and its licensors. We grant you a limited, non-exclusive, non-transferable right to use the Service in accordance with these Terms.',
+            'You may not copy, modify, reverse-engineer, or create derivative works of the Service except as expressly permitted.',
+        ],
+    },
+    {
+        n: '07',
+        title: 'Termination',
+        body: [
+            'You may cancel your account at any time from within the Service. We may suspend or terminate your access if you breach these Terms, fail to pay fees, or if continued provision of the Service is no longer commercially or legally viable.',
+            'Upon termination, your right to use the Service ends immediately. Provisions that by their nature should survive termination will survive.',
+        ],
+    },
+    {
+        n: '08',
+        title: 'Disclaimers',
+        body: [
+            'The Service is provided "as is" and "as available" without warranties of any kind, whether express or implied, including warranties of merchantability, fitness for a particular purpose, and non-infringement.',
+            'We do not warrant that the Service will be uninterrupted, error-free, or completely secure.',
+        ],
+    },
+    {
+        n: '09',
+        title: 'Limitation of liability',
+        body: [
+            'To the maximum extent permitted by law, Memberley will not be liable for any indirect, incidental, special, consequential, or punitive damages, or for any loss of profits or revenues, whether incurred directly or indirectly.',
+            'Our aggregate liability for any claim arising out of or relating to the Service will not exceed the amounts you paid us in the twelve months preceding the claim.',
+        ],
+    },
+    {
+        n: '10',
+        title: 'Changes to these terms',
+        body: [
+            'We may update these Terms from time to time. If we make material changes, we will notify you by email or through the Service. Continued use of the Service after changes take effect constitutes acceptance of the revised Terms.',
+        ],
+    },
+    {
+        n: '11',
+        title: 'Contact',
+        body: [
+            'Questions about these Terms can be sent to support@memberley.com.',
+        ],
+    },
+];
+---
+
+<Layout
+    title="Terms of Use — Memberley"
+    description="The terms governing your use of Memberley."
+>
+    <div class="min-h-dvh bg-stone-50 font-sans text-stone-900 antialiased">
+        <!-- Nav -->
+        <header
+            class="sticky top-0 z-50 border-b border-stone-300 bg-stone-50/90 backdrop-blur-sm"
+        >
+            <div
+                class="mx-auto flex h-14 max-w-[80rem] items-center justify-between px-6 lg:px-8"
+            >
+                <a
+                    href="/"
+                    aria-label="Homepage"
+                    class="flex items-center gap-2"
+                >
+                    <span
+                        class="flex size-6 items-center justify-center rounded-sm bg-stone-900 text-[0.625rem] font-semibold text-amber-400"
+                    >
+                        M
+                    </span>
+                    <span
+                        class="text-[0.9375rem] font-semibold tracking-tight text-stone-900"
+                    >
+                        Memberley
+                    </span>
+                </a>
+
+                <a
+                    href="/"
+                    class="text-[0.8125rem] text-stone-600 transition hover:text-stone-900"
+                >
+                    ← Back to home
+                </a>
+            </div>
+        </header>
+
+        <!-- Header -->
+        <section class="border-b border-stone-300">
+            <div class="mx-auto max-w-[80rem] px-6 py-20 lg:px-8 lg:py-24">
+                <div class={eyebrow}>§ Legal</div>
+                <h1
+                    class={`mt-5 max-w-[22ch] text-[clamp(2.5rem,5vw,4rem)] leading-[1] text-balance ${display} text-stone-900`}
+                >
+                    Terms of Use
+                </h1>
+                <p
+                    class="mt-6 max-w-[60ch] text-[1rem] leading-relaxed text-stone-600"
+                >
+                    These terms govern your access to and use of Memberley.
+                    Please read them carefully — they include important
+                    information about your rights, responsibilities, and limits
+                    on our liability.
+                </p>
+                <div
+                    class="mt-8 font-mono text-[0.75rem] tracking-wide text-stone-500 uppercase"
+                >
+                    Last updated · {lastUpdated}
+                </div>
+            </div>
+        </section>
+
+        <!-- Body -->
+        <section class="border-b border-stone-300 bg-stone-50">
+            <div
+                class="mx-auto grid max-w-[80rem] grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:px-8"
+            >
+                <aside class="col-span-4 hidden lg:block">
+                    <div class="sticky top-24">
+                        <div class={eyebrow}>§ Contents</div>
+                        <ol
+                            role="list"
+                            class="mt-5 space-y-2.5 border-t border-stone-300 pt-5"
+                        >
+                            {
+                                sections.map((s) => (
+                                    <li>
+                                        <a
+                                            href={`#s-${s.n}`}
+                                            class="flex gap-3 text-[0.8125rem] text-stone-600 transition hover:text-stone-900"
+                                        >
+                                            <span class="font-mono text-stone-500 tabular-nums">
+                                                {s.n}
+                                            </span>
+                                            <span>{s.title}</span>
+                                        </a>
+                                    </li>
+                                ))
+                            }
+                        </ol>
+                    </div>
+                </aside>
+
+                <div class="col-span-8">
+                    <div
+                        class="divide-y divide-stone-300 border-y border-stone-300"
+                    >
+                        {
+                            sections.map((s) => (
+                                <article id={`s-${s.n}`} class="py-10">
+                                    <div class="font-mono text-[0.75rem] text-stone-500">
+                                        {s.n}
+                                    </div>
+                                    <h2
+                                        class={`mt-3 text-[1.5rem] ${display} text-stone-900`}
+                                    >
+                                        {s.title}
+                                    </h2>
+                                    <div class="mt-4 space-y-4 text-[0.9375rem] leading-relaxed text-stone-600">
+                                        {s.body.map((p) => (
+                                            <p>{p}</p>
+                                        ))}
+                                    </div>
+                                </article>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-stone-50">
+            <div class="mx-auto max-w-[80rem] px-6 py-12 lg:px-8">
+                <div
+                    class="flex flex-col items-start justify-between gap-3 text-[0.75rem] text-stone-600 md:flex-row md:items-center"
+                >
+                    <span>© 2026 Memberley, Inc.</span>
+                    <a href="/" class="transition hover:text-stone-900">
+                        ← Back to home
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</Layout>

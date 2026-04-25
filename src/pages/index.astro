@@ -840,7 +840,7 @@ const footerCols = [
                                     {col.links.map((l) => (
                                         <li>
                                             <a
-                                                href="#"
+                                                href={l === 'Terms' ? '/terms' : '#'}
                                                 class="text-[0.8125rem] font-normal text-stone-600 transition"
                                             >
                                                 {l}
