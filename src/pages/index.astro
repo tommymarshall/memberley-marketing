@@ -13,6 +13,181 @@ const APP_URL =
 const SIGNUP_URL = `${APP_URL}/register`;
 const LOGIN_URL = `${APP_URL}/login`;
 
+// ── Plans ──────────────────────────────────────────────────────────────────
+// Pricing data is sourced from the app's public /api/v1/plans endpoint at
+// build time so prices and limits stay in sync. Marketing-only flair
+// (featured flag, CTA copy, extra differentiator bullets) is layered on top
+// via the lookup below, keyed by plan slug.
+
+type ApiPlan = {
+    id: number;
+    slug: string;
+    name: string;
+    description: string | null;
+    price_cents: number;
+    price_formatted: string;
+    trial_days: number;
+    limits: {
+        max_users: number | null;
+        max_facilities: number | null;
+        max_staff_users: number | null;
+        max_membership_tiers: number | null;
+        max_guests: number | null;
+    };
+    capabilities: {
+        facility_reservations: boolean;
+        checkins: boolean;
+        waitlist: boolean;
+        payments_and_billing: boolean;
+        activity_log: boolean;
+        public_registration: boolean;
+    };
+};
+
+type MarketingPlan = {
+    name: string;
+    price: string;
+    featured: boolean;
+    cta: string;
+    feats: string[];
+};
+
+const marketingMeta: Record<
+    string,
+    { featured: boolean; cta: string; extraFeats: string[] }
+> = {
+    starter: {
+        featured: false,
+        cta: 'Start free trial',
+        extraFeats: ['Tiers & billing', 'Email notifications'],
+    },
+    growth: {
+        featured: true,
+        cta: 'Start free trial',
+        extraFeats: ['Guest passes', 'Priority support'],
+    },
+    community: {
+        featured: false,
+        cta: 'Talk to us',
+        extraFeats: ['Custom onboarding', 'Dedicated support', 'SSO & audit exports'],
+    },
+};
+
+const fallbackPlans: MarketingPlan[] = [
+    {
+        name: 'Starter',
+        price: '$29',
+        featured: false,
+        cta: 'Start free trial',
+        feats: ['Up to 100 members', '1 facility', 'Tiers & billing', 'Email notifications'],
+    },
+    {
+        name: 'Growth',
+        price: '$79',
+        featured: true,
+        cta: 'Start free trial',
+        feats: [
+            'Up to 500 members',
+            '5 facilities',
+            'Reservations & check-ins',
+            'Waitlist automation',
+            'Guest passes',
+            'Priority support',
+        ],
+    },
+    {
+        name: 'Community',
+        price: '$199',
+        featured: false,
+        cta: 'Talk to us',
+        feats: [
+            'Unlimited members',
+            'Unlimited facilities',
+            'Custom onboarding',
+            'Dedicated support',
+            'SSO & audit exports',
+        ],
+    },
+];
+
+function buildFeats(plan: ApiPlan, extra: string[]): string[] {
+    const memberLimit = plan.limits.max_users;
+    const facilityLimit = plan.limits.max_facilities;
+
+    const feats: string[] = [];
+
+    feats.push(
+        memberLimit === null
+            ? 'Unlimited members'
+            : `Up to ${memberLimit.toLocaleString()} members`,
+    );
+    feats.push(
+        facilityLimit === null
+            ? 'Unlimited facilities'
+            : `${facilityLimit} ${facilityLimit === 1 ? 'facility' : 'facilities'}`,
+    );
+
+    if (plan.capabilities.facility_reservations && plan.capabilities.checkins) {
+        feats.push('Reservations & check-ins');
+    }
+    if (plan.capabilities.waitlist) {
+        feats.push('Waitlist automation');
+    }
+    if (plan.capabilities.activity_log) {
+        feats.push('Activity log & exports');
+    }
+    if (plan.capabilities.public_registration) {
+        feats.push('Public registration');
+    }
+
+    return [...feats, ...extra];
+}
+
+let plans: MarketingPlan[] = fallbackPlans;
+
+// Herd serves *.test on a self-signed cert; relax TLS verification only when
+// targeting a local Herd URL so devs can preview live pricing during build.
+const previousTlsReject = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
+const isLocalHerd = APP_URL.includes('.test');
+if (isLocalHerd) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
+
+try {
+    const res = await fetch(`${APP_URL}/api/v1/plans`, {
+        headers: { Accept: 'application/json' },
+    });
+    if (res.ok) {
+        const json = (await res.json()) as { data: ApiPlan[] };
+        plans = json.data.map((p): MarketingPlan => {
+            const meta = marketingMeta[p.slug] ?? {
+                featured: false,
+                cta: 'Start free trial',
+                extraFeats: [],
+            };
+            return {
+                name: p.name,
+                price: p.price_formatted,
+                featured: meta.featured,
+                cta: meta.cta,
+                feats: buildFeats(p, meta.extraFeats),
+            };
+        });
+    } else {
+        console.warn(`Plans API returned ${res.status}; using fallback pricing.`);
+    }
+} catch (err) {
+    console.warn('Plans API fetch failed; using fallback pricing.', err);
+} finally {
+    if (isLocalHerd) {
+        if (previousTlsReject === undefined) {
+            delete process.env.NODE_TLS_REJECT_UNAUTHORIZED;
+        } else {
+            process.env.NODE_TLS_REJECT_UNAUTHORIZED = previousTlsReject;
+        }
+    }
+}
+
 // Class tokens (inlined from the original paperTheme)
 const eyebrow =
     'font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase';
@@ -156,48 +331,6 @@ const setupSteps = [
         n: '03',
         title: 'Operate',
         desc: 'Renewals, retries, resets — automated. You stay out of it.',
-    },
-];
-
-const plans = [
-    {
-        name: 'Starter',
-        price: '$49',
-        featured: false,
-        cta: 'Start free trial',
-        feats: [
-            'Up to 100 members',
-            '2 facilities',
-            'Tiers & billing',
-            'Email notifications',
-        ],
-    },
-    {
-        name: 'Growth',
-        price: '$99',
-        featured: true,
-        cta: 'Start free trial',
-        feats: [
-            'Up to 500 members',
-            '10 facilities',
-            'Reservations & check-ins',
-            'Guest passes',
-            'Waitlist automation',
-            'Priority support',
-        ],
-    },
-    {
-        name: 'Community',
-        price: '$199',
-        featured: false,
-        cta: 'Talk to us',
-        feats: [
-            'Unlimited members',
-            'Unlimited facilities',
-            'Custom onboarding',
-            'Dedicated support',
-            'SSO & audit exports',
-        ],
     },
 ];
 
