@@ -248,41 +248,57 @@ const primaryFeatures = [
     {
         n: '01',
         title: 'Memberships',
-        desc: 'Tiers, pricing, guest pass allocations, renewals, and waitlists — with automatic reminders so nobody slips through the cracks.',
+        desc: 'Tiers, pricing, guest pass allocations, renewals, and waitlists with auto-promotion — plus bulk CSV import and a shareable invite link so you can move your whole roster over in an afternoon.',
     },
     {
         n: '02',
         title: 'Reservations',
-        desc: 'Members book lanes, courts, or rooms online. Conflict checks, approvals, and confirmation emails are handled for you.',
+        desc: 'A clean calendar for members to book lanes, courts, or rooms online. Conflict checks, operating hours, approvals, and confirmation emails are handled for you.',
     },
     {
         n: '03',
         title: 'Payments',
-        desc: 'Dues, renewals, guest fees, and refunds — collected automatically and deposited straight to your bank account.',
+        desc: 'Dues, renewals, guest fees, and refunds — collected through Stripe Connect and deposited straight to your bank. Receipts go out on every successful charge, automatically.',
     },
     {
         n: '04',
         title: 'Check-ins',
-        desc: 'Front-desk search by name, guest passes deducted and charged automatically, a line that actually moves.',
+        desc: 'Front-desk search by name, guest passes deducted and charged automatically, every action written to an activity log. A line that actually moves.',
     },
 ];
 
 const secondaryFeatures = [
     {
+        title: 'Bulk CSV import',
+        desc: 'Move your entire roster over in one upload, with per-row status overrides.',
+    },
+    {
+        title: 'Invite link & join codes',
+        desc: 'Share one URL. Members create an account and land on your default tier.',
+    },
+    {
+        title: 'Stripe Connect',
+        desc: 'Your own Stripe account. Payouts deposit straight to your bank — no middleman.',
+    },
+    {
+        title: 'Waitlist automation',
+        desc: 'Tier-aware queues, auto-promotion when seats open, expired-invite cleanup.',
+    },
+    {
         title: 'Email reminders',
-        desc: 'Renewals, receipts, and confirmations go out automatically.',
+        desc: 'Renewals, receipts, payment retries, and confirmations go out automatically.',
     },
     {
         title: 'Activity log',
-        desc: 'See every change and who made it, whenever you need to.',
+        desc: 'See every change and who made it, exportable whenever you need it.',
     },
     {
-        title: 'Team permissions',
-        desc: 'Give managers and staff exactly the access they need.',
+        title: 'Multi-org switcher',
+        desc: 'Run more than one club? Switch organizations without signing out.',
     },
     {
         title: 'Mobile-ready',
-        desc: 'Run the front desk from a tablet or phone — no install.',
+        desc: 'Run the front desk from a tablet or phone — no install, no app store.',
     },
 ];
 
@@ -319,18 +335,23 @@ const useCases = [
 const setupSteps = [
     {
         n: '01',
-        title: 'Configure',
-        desc: 'Facilities, tiers, pricing — a guided ten-minute setup.',
+        title: 'Sign up',
+        desc: 'A 3-step wizard — your details, your organization, an optional card. You\u2019re in.',
     },
     {
         n: '02',
-        title: 'Share link',
-        desc: 'One registration URL. Members sign up, choose, pay.',
+        title: 'Configure',
+        desc: 'A guided checklist walks you through branding, Stripe Connect, tiers, and the invite link.',
     },
     {
         n: '03',
+        title: 'Invite',
+        desc: 'Share your join link or import members via CSV. Joiners land on your default tier.',
+    },
+    {
+        n: '04',
         title: 'Operate',
-        desc: 'Renewals, retries, resets — automated. You stay out of it.',
+        desc: 'Renewals, retries, receipts, waitlist promotions — automated. You stay out of it.',
     },
 ];
 
@@ -444,7 +465,7 @@ const footerCols = [
                             New
                         </span>
                         <span class="text-[0.75rem] text-stone-700">
-                            Spring season check-ins are live →
+                            Stripe Connect + bulk CSV import are live →
                         </span>
                     </div>
 
@@ -710,7 +731,7 @@ const footerCols = [
 
                 <ol
                     role="list"
-                    class="grid grid-cols-1 gap-0 divide-y divide-stone-300 border-y border-stone-300 md:grid-cols-3 md:divide-x md:divide-y-0"
+                    class="grid grid-cols-1 gap-0 divide-y divide-stone-300 border-y border-stone-300 md:grid-cols-4 md:divide-x md:divide-y-0"
                 >
                     {
                         setupSteps.map((s) => (
