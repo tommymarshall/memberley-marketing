@@ -45,6 +45,7 @@ type ApiPlan = {
 };
 
 type MarketingPlan = {
+    slug: string;
     name: string;
     price: string;
     featured: boolean;
@@ -75,6 +76,7 @@ const marketingMeta: Record<
 
 const fallbackPlans: MarketingPlan[] = [
     {
+        slug: 'starter',
         name: 'Starter',
         price: '$29',
         featured: false,
@@ -82,6 +84,7 @@ const fallbackPlans: MarketingPlan[] = [
         feats: ['Up to 100 members', '1 facility', 'Tiers & billing', 'Email notifications'],
     },
     {
+        slug: 'growth',
         name: 'Growth',
         price: '$79',
         featured: true,
@@ -96,6 +99,7 @@ const fallbackPlans: MarketingPlan[] = [
         ],
     },
     {
+        slug: 'community',
         name: 'Community',
         price: '$199',
         featured: false,
@@ -166,6 +170,7 @@ try {
                 extraFeats: [],
             };
             return {
+                slug: p.slug,
                 name: p.name,
                 price: p.price_formatted,
                 featured: meta.featured,
@@ -779,7 +784,7 @@ const signupPerks = [
                                     </ul>
                                 </div>
                                 <a
-                                    href={SIGNUP_URL}
+                                    href={`${SIGNUP_URL}?plan=${encodeURIComponent(p.slug)}`}
                                     class={`mt-8 block rounded-sm py-2.5 text-center text-[0.875rem] font-medium transition ${p.featured ? 'bg-stone-900 text-stone-50 hover:bg-stone-800' : 'border border-stone-300 text-stone-900 hover:border-stone-400 hover:bg-stone-100'}`}
                                 >
                                     {p.cta}
