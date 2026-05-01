@@ -2,8 +2,20 @@
 import Layout from '../layouts/Layout.astro';
 
 // ── Beta launch page ──────────────────────────────────────────────────────
-// Temporary landing for early-access signups. Posts to /api/beta-signup,
-// which forwards to Resend (Contacts API).
+// Temporary landing for early-access signups. The form POSTs cross-origin
+// to the Laravel app (app.memberley.com), which forwards to Resend's
+// Contacts API. Marketing site stays fully static.
+
+const fromEnv = (import.meta.env.PUBLIC_MEMBERLEY_APP_URL as string | undefined)
+    ?.trim()
+    .replace(/\/$/, '');
+const APP_URL =
+    fromEnv && fromEnv.length > 0
+        ? fromEnv
+        : import.meta.env.DEV
+          ? 'http://memberley-app.test'
+          : 'https://app.memberley.com';
+const SIGNUP_ENDPOINT = `${APP_URL}/api/v1/marketing/beta-signup`;
 
 const eyebrow =
     'font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase';
@@ -255,7 +267,7 @@ const description =
     </div>
 
     <!-- Form behavior — progressive enhancement -->
-    <script is:inline>
+    <script is:inline define:vars={{ endpoint: SIGNUP_ENDPOINT }}>
         (function () {
             var form = document.querySelector('form.beta-form');
             if (!form) return;
@@ -282,7 +294,7 @@ const description =
                 }
 
                 try {
-                    var res = await fetch('/api/beta-signup', {
+                    var res = await fetch(endpoint, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
