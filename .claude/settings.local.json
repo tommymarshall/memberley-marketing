@@ -3,7 +3,16 @@
     "allow": [
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(mv src/pages/index.astro src/pages/home.astro)",
+      "Bash(mv src/pages/beta.astro src/pages/index.astro)",
+      "Bash(rm src/pages/api/beta-signup.ts)",
+      "Bash(rmdir src/pages/api)",
+      "Bash(npm run:*)",
+      "Bash(find /Users/tommymarshall/Sites/memberley-app/config -name cors*)",
+      "Bash(cd:*)",
+      "Bash(vendor/bin/pint --dirty --format agent)",
+      "Bash(php artisan:*)"
     ]
   }
 }
