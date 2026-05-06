@@ -1,6 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+declare const process: {
+    env: {
+        NODE_TLS_REJECT_UNAUTHORIZED?: string;
+    };
+};
+
 const fromEnv = (import.meta.env.PUBLIC_MEMBERLEY_APP_URL as string | undefined)
     ?.trim()
     .replace(/\/$/, '');
@@ -240,15 +246,6 @@ const metrics = [
     { k: 'Revenue this month', v: '$4,280' },
 ];
 
-const trustedBy = [
-    'Lakeside Club',
-    'Oakwood HOA',
-    'Pinecrest',
-    'Westbrook',
-    'Harborview',
-    'Forestglen',
-];
-
 const primaryFeatures = [
     {
         n: '01',
@@ -390,11 +387,15 @@ const signupPerks = [
                     aria-label="Homepage"
                     class="flex items-center gap-2"
                 >
-                    <span
-                        class="flex size-6 items-center justify-center rounded-sm bg-stone-900 text-[0.625rem] font-semibold text-amber-400"
-                    >
-                        M
-                    </span>
+                    <img
+                        src="/memberley-amper-light.svg"
+                        alt=""
+                        width="24"
+                        height="24"
+                        class="size-6"
+                        loading="eager"
+                        decoding="async"
+                    />
                     <span
                         class="text-[0.9375rem] font-semibold tracking-tight text-stone-900"
                     >
@@ -951,10 +952,21 @@ const signupPerks = [
                         class="rounded-lg border border-stone-800 bg-stone-950 p-8"
                     >
                         <div class="mb-6 flex items-center justify-between">
-                            <span
-                                class="font-mono text-[0.75rem] tracking-wide text-stone-400 uppercase"
-                            >
-                                Create organization
+                            <span class="flex items-center gap-2">
+                                <img
+                                    src="/memberley-amper-dark.svg"
+                                    alt=""
+                                    width="24"
+                                    height="24"
+                                    class="size-6"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
+                                <span
+                                    class="font-mono text-[0.75rem] tracking-wide text-stone-400 uppercase"
+                                >
+                                    Create organization
+                                </span>
                             </span>
                             <span
                                 class="rounded-sm bg-amber-400/15 px-2 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-amber-400 uppercase"
@@ -1001,7 +1013,7 @@ const signupPerks = [
         </footer>
     </div>
 
-    <script define:vars={{ appUrl: APP_URL }}>
+    <script is:inline define:vars={{ appUrl: APP_URL }}>
         (function () {
             function applyAuthenticatedNav() {
                 var signin = document.getElementById('nav-signin');

@@ -4,12 +4,19 @@ import '../styles/global.css';
 interface Props {
     title?: string;
     description?: string;
+    image?: string;
+    imageAlt?: string;
 }
 
 const {
     title = 'Memberley — Membership Management for Community Organizations',
     description = 'Memberley handles memberships, reservations, payments, and check-ins for community organizations. Your concierge for member management.',
+    image = '/og-image.png',
+    imageAlt = 'Memberley ampersand logo with the line: Memberships, reservations, payments, and check-ins in one calm workspace.',
 } = Astro.props;
+
+const canonicalUrl = Astro.url.href;
+const imageUrl = new URL(image, Astro.site ?? Astro.url).href;
 ---
 
 <!doctype html>
@@ -18,6 +25,14 @@ const {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta name="theme-color" content="#0f1419" />
+        <meta name="application-name" content="Memberley" />
+        <meta name="apple-mobile-web-app-title" content="Memberley" />
         <meta name="generator" content={Astro.generator} />
 
         <title>{title}</title>
@@ -26,11 +41,21 @@ const {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={Astro.url.href} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:site_name" content="Memberley" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:image:secure_url" content={imageUrl} />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={imageAlt} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={imageUrl} />
+        <meta name="twitter:image:alt" content={imageAlt} />
 
         <link rel="preconnect" href="https://fonts.bunny.net" />
         <link
