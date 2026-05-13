@@ -275,7 +275,7 @@ const primaryFeatures = [
     {
         n: '06',
         title: 'Member comms',
-        desc: 'Send email broadcasts with dynamic segments and per-recipient tracking, or text members one-to-one and en masse. Opens, deliveries, and bounces are tracked alongside everything else.',
+        desc: 'Send email broadcasts with dynamic segments and per-recipient tracking. Opens, deliveries, and bounces are tracked alongside everything else — and SMS broadcasts and one-to-one texts are rolling out in beta.',
     },
 ];
 
@@ -307,6 +307,7 @@ const secondaryFeatures = [
     {
         title: 'SMS member comms',
         desc: 'Reach members where they reply — broadcasts and one-to-one texts without juggling another tool.',
+        badge: 'Beta',
     },
     {
         title: 'Family accounts',
@@ -478,7 +479,7 @@ const signupPerks = [
                             New
                         </span>
                         <span class="text-[0.75rem] text-stone-700">
-                            Classes, SMS, email campaigns, and waivers are live →
+                            Classes, email campaigns, and waivers are live · SMS in beta →
                         </span>
                     </div>
 
@@ -657,8 +658,15 @@ const signupPerks = [
                         secondaryFeatures.map((f) => (
                             <div>
                                 <div class="mb-3 size-8 rounded-sm border border-stone-300 bg-stone-100" />
-                                <div class="text-[0.9375rem] font-semibold text-stone-900">
-                                    {f.title}
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <span class="text-[0.9375rem] font-semibold text-stone-900">
+                                        {f.title}
+                                    </span>
+                                    {f.badge && (
+                                        <span class="rounded-sm border border-amber-700/30 bg-amber-700/10 px-1.5 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-amber-800 uppercase">
+                                            {f.badge}
+                                        </span>
+                                    )}
                                 </div>
                                 <div class="mt-1.5 text-[0.8125rem] leading-relaxed text-stone-600">
                                     {f.desc}
