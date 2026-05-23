@@ -33,6 +33,7 @@ type ApiPlan = {
     price_cents: number;
     price_formatted: string;
     trial_days: number;
+    platform_fee_percentage: number;
     limits: {
         max_users: number | null;
         max_facilities: number | null;
@@ -57,7 +58,20 @@ type MarketingPlan = {
     featured: boolean;
     cta: string;
     feats: string[];
+    platformFeePercentage: number;
 };
+
+function formatPercent(value: number): string {
+    return Number.isInteger(value)
+        ? `${value}%`
+        : `${value.toFixed(2).replace(/\.?0+$/, '')}%`;
+}
+
+function feeLabel(value: number): string {
+    return value > 0
+        ? `${formatPercent(value)} application processing fee`
+        : 'No application processing fee';
+}
 
 const marketingMeta: Record<
     string,
@@ -88,6 +102,7 @@ const fallbackPlans: MarketingPlan[] = [
         featured: false,
         cta: 'Start free trial',
         feats: ['Up to 100 members', '1 facility', 'Tiers & billing', 'Email notifications'],
+        platformFeePercentage: 3,
     },
     {
         slug: 'growth',
@@ -103,6 +118,7 @@ const fallbackPlans: MarketingPlan[] = [
             'Guest passes',
             'Priority support',
         ],
+        platformFeePercentage: 2,
     },
     {
         slug: 'community',
@@ -117,6 +133,7 @@ const fallbackPlans: MarketingPlan[] = [
             'Dedicated support',
             'SSO & audit exports',
         ],
+        platformFeePercentage: 0,
     },
 ];
 
@@ -182,6 +199,7 @@ try {
                 featured: meta.featured,
                 cta: meta.cta,
                 feats: buildFeats(p, meta.extraFeats),
+                platformFeePercentage: Number(p.platform_fee_percentage ?? 0),
             };
         });
     } else {
@@ -793,6 +811,10 @@ const signupPerks = [
                                         <span class="text-[0.875rem] text-stone-600">
                                             /mo
                                         </span>
+                                    </div>
+                                    <div class="mt-3 font-mono text-[0.6875rem] tracking-wide text-stone-600 uppercase">
+                                        {p.platformFeePercentage > 0 ? '+ ' : ''}
+                                        {feeLabel(p.platformFeePercentage)}
                                     </div>
                                     <ul
                                         role="list"
