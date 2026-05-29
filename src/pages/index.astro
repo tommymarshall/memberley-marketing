@@ -90,7 +90,12 @@ const marketingMeta: Record<
   community: {
     featured: false,
     cta: "Start free trial",
-    extraFeats: ["Custom onboarding", "Dedicated support"],
+    extraFeats: [
+      "Embeddable widgets",
+      "White-label branding",
+      "Custom onboarding",
+      "Dedicated support",
+    ],
   },
 };
 
@@ -134,6 +139,8 @@ const fallbackPlans: MarketingPlan[] = [
     feats: [
       "Unlimited members",
       "Unlimited facilities",
+      "Embeddable widgets",
+      "White-label branding",
       "Custom onboarding",
       "Dedicated support",
       "SSO & audit exports",
@@ -314,6 +321,14 @@ const secondaryFeatures = [
     title: "Mobile-ready",
     desc: "Run the front desk from a tablet or phone — no install, no app store.",
   },
+  {
+    title: "Embeddable widgets",
+    desc: "Drop signup, schedule, and reservation widgets straight into your own site — no iframes, no jank.",
+  },
+  {
+    title: "White-label branding",
+    desc: "Your logo, colors, and domain across the member experience and outbound email.",
+  },
 ];
 
 const useCases = [
@@ -426,14 +441,8 @@ const signupPerks = [
             href={LOGIN_URL}
             class="text-[0.8125rem] text-stone-600 transition"
           >
-            Sign in
-          </a>
-          <a
-            id="nav-cta"
-            href={SIGNUP_URL}
-            class={`rounded-sm py-1.5 pr-3 pl-3 text-[0.8125rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
-          >
-            Get started →
+            <script src="https://memberley-app.test/embed.js" async></script>
+            <button data-memberley-org="camelot-pool">Memberley sign in</button>
           </a>
         </div>
       </div>
