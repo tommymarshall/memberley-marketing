@@ -1,0 +1,494 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+// ── App URLs (mirrors index.astro) ──────────────────────────────────────────
+const fromEnv = (import.meta.env.PUBLIC_MEMBERLEY_APP_URL as string | undefined)
+  ?.trim()
+  .replace(/\/$/, "");
+const APP_URL =
+  fromEnv && fromEnv.length > 0
+    ? fromEnv
+    : import.meta.env.DEV
+      ? "http://memberley-app.test"
+      : "https://app.memberley.com";
+const SIGNUP_URL = `${APP_URL}/register`;
+const LOGIN_URL = `${APP_URL}/login`;
+
+// ── Class tokens (inlined paper theme, matches index.astro) ──────────────────
+const eyebrow =
+  "font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase";
+const display = "font-serif font-semibold tracking-tight";
+const primaryBtn =
+  "bg-stone-900 text-stone-50 hover:bg-stone-800 focus-visible:outline-amber-600";
+const secondaryBtn =
+  "border border-stone-300 bg-white text-stone-900 hover:border-stone-400 hover:bg-stone-100";
+
+// ── Head-to-head ─────────────────────────────────────────────────────────────
+// Competitor details as published on membersplash.com (2026). Re-verify before
+// publishing — comparative claims must stay truthful.
+// Cell types: string = literal · true = ✓ · false = ✕ · null = — (n/a).
+type Cell = string | boolean | null;
+
+const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
+  { label: "Starting price", memberley: "From $29/mo", competitor: "$2,000–$3,500 / year" },
+  { label: "One-time setup fee", memberley: "None", competitor: "$500–$1,500" },
+  { label: "Dues deposit to your own Stripe (next business day)", memberley: true, competitor: null },
+  { label: "Member portal embeds in the website you already have", memberley: true, competitor: false },
+  { label: "White-label branding on portal & emails", memberley: true, competitor: null },
+  { label: "Free white-glove migration", memberley: true, competitor: null },
+  { label: "Modern, mobile-ready interface", memberley: true, competitor: null },
+  { label: "SMS broadcasts & one-to-one texts", memberley: "Beta", competitor: null },
+  { label: "QuickBooks & Mailchimp integrations", memberley: true, competitor: null },
+  { label: "Classes, lessons & programs", memberley: true, competitor: null },
+  { label: "Online dues & auto-renewal", memberley: true, competitor: true },
+  { label: "Photo & guest-pass check-in", memberley: true, competitor: true },
+  { label: "Waitlist automation", memberley: true, competitor: true },
+  { label: "Reservations (lanes / courts / rooms)", memberley: true, competitor: true },
+];
+
+// Extras Memberley includes that aren't part of the typical pool-software bundle.
+const builtInExtras = [
+  {
+    title: "Email broadcasts",
+    desc: "Dynamic member segments, newsletters and announcements, with open, delivery, and bounce tracking — no separate Mailchimp account required.",
+  },
+  {
+    title: "SMS member texts",
+    desc: "Reach members where they actually reply: broadcasts and one-to-one texts, right alongside everything else.",
+    badge: "Beta",
+  },
+  {
+    title: "QuickBooks & Mailchimp",
+    desc: "Sync dues and members to the tools your treasurer and your comms already run on.",
+  },
+  {
+    title: "Classes & programs",
+    desc: "Publish a catalog of lessons, clinics, and camps with a public signup page and rosters — no second booking tool.",
+  },
+  {
+    title: "Waivers & documents",
+    desc: "E-sign reusable waiver templates with annual expiration and share a document library, exportable as signed PDFs.",
+  },
+  {
+    title: "Embedded white-label portal",
+    desc: "Drop the full member portal into your own website, themed to your colors, fonts, and logo.",
+  },
+  {
+    title: "Modern, mobile-ready UI",
+    desc: "Run the front desk from a phone or tablet at the gate — fast, clean, nothing to install.",
+  },
+  {
+    title: "Family & household accounts",
+    desc: "Link a household under one roof and keep billing and guest passes straight.",
+  },
+];
+
+const reasons = [
+  {
+    title: "Keep your dues — and your brand",
+    body: "Connect your own Stripe account in minutes. Members pay your club directly and funds land in your bank the next business day. The portal and every email carry your logo and colors, not a vendor's.",
+  },
+  {
+    title: "No setup fee, lower yearly cost",
+    body: "Member Splash runs $2,000–$3,500 a year plus a $500–$1,500 setup fee before your first member pays. Memberley starts at $29/mo with nothing to set up.",
+  },
+  {
+    title: "Built this decade",
+    body: "A fast, modern interface your board and your front desk can actually use on a phone or tablet at the gate — not a dated dashboard.",
+  },
+  {
+    title: "We move you over for free",
+    body: "Send us your current roster and we import it, set up your branded portal, and have you live before registration opens next season. No spreadsheets, no downtime.",
+  },
+];
+
+const faqs = [
+  {
+    q: "Is Memberley a good Member Splash alternative for neighborhood pools?",
+    a: "Yes — Memberley is purpose-built for community and neighborhood pools: seasonal membership tiers, guest-pass auto-charge at the gate, photo check-in, waitlists, and online dues. The biggest differences are that dues settle to your own Stripe account, the member portal and emails are branded as your club, and there's no setup fee.",
+  },
+  {
+    q: "How does pricing compare to Member Splash?",
+    a: "Member Splash publishes $2,000/yr (Essentials+) to $3,500/yr (Premium), plus a one-time $500–$1,500 setup fee. Memberley starts at $29/mo, scales with your club's size, and has no setup fee. Most neighborhood pools land well under what they'd pay Member Splash in year one.",
+  },
+  {
+    q: "Where does the money go when members pay?",
+    a: "Into your own Stripe account. You connect Stripe in under 10 minutes and dues, renewals, and guest fees deposit to your bank the next business day — no middleman holding your funds.",
+  },
+  {
+    q: "Can we keep our existing club website?",
+    a: "Yes. Memberley's member portal embeds into the site you already have, themed to match. You don't have to move your website onto our servers.",
+  },
+  {
+    q: "Can we switch in the middle of the season?",
+    a: "You can switch anytime, but most clubs migrate in the off-season (fall through early spring) so everything is ready before registration opens. We handle the data import for you either way.",
+  },
+  {
+    q: "Do you work with Northern Virginia pools?",
+    a: "Yes — Memberley is based in Northern Virginia and we'll happily meet your board in person to walk through setup and migration.",
+  },
+];
+---
+
+<Layout
+  title="Member Splash Alternative for Neighborhood Pools | Memberley"
+  description="Looking for a Member Splash alternative? Memberley runs your pool's memberships, dues, guest passes, and check-in — with dues paid to your own Stripe account, your branding, no setup fee, and free migration."
+>
+  <div class="min-h-dvh bg-stone-50 font-sans text-stone-900 antialiased">
+    <!-- Nav -->
+    <header
+      class="sticky top-0 z-50 border-b border-stone-300 bg-stone-50/90 backdrop-blur-sm"
+    >
+      <div
+        class="mx-auto flex h-14 max-w-[80rem] items-center justify-between px-6 lg:px-8"
+      >
+        <a href="/" aria-label="Homepage" class="flex items-center gap-2">
+          <img
+            src="/memberley-amper-light.svg"
+            alt=""
+            width="24"
+            height="24"
+            class="size-6"
+            loading="eager"
+            decoding="async"
+          />
+          <span
+            class="text-[0.9375rem] font-semibold tracking-tight text-stone-900"
+          >
+            Memberley
+          </span>
+        </a>
+
+        <nav
+          class="hidden items-center gap-7 text-[0.8125rem] text-stone-600 md:flex"
+        >
+          <a href="/#features" class="transition hover:text-stone-900"
+            >Features</a
+          >
+          <a href="/#compare" class="transition hover:text-stone-900">Compare</a
+          >
+          <a href="/#pricing" class="transition hover:text-stone-900">Pricing</a
+          >
+        </nav>
+
+        <div class="flex items-center gap-4">
+          <a
+            href={LOGIN_URL}
+            class="text-[0.8125rem] text-stone-600 transition hover:text-stone-900"
+            >Sign in</a
+          >
+          <a
+            href={SIGNUP_URL}
+            class={`inline-flex items-center gap-2 rounded-sm px-4 py-2 text-[0.8125rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
+            >Start free trial</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="border-b border-stone-300">
+      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8 lg:py-20">
+        <div class="max-w-[60ch]">
+          <div class={eyebrow}>§ Member Splash alternative</div>
+          <h1
+            class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.98] text-balance ${display} text-stone-900`}
+          >
+            The modern Member Splash alternative for neighborhood pools.
+          </h1>
+          <p
+            class="mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
+          >
+            Same pool essentials — dues, guest passes, waitlists, photo
+            check-in — without the setup fee or the four-figure yearly bill. Your
+            members pay into <strong>your</strong> Stripe account, and the portal
+            wears <strong>your</strong> brand, not ours.
+          </p>
+          <div class="mt-10 flex flex-wrap items-center gap-3">
+            <a
+              href={SIGNUP_URL}
+              class={`group inline-flex items-center gap-2 rounded-sm py-2.5 pr-5 pl-5 text-[0.875rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
+            >
+              Start free trial
+              <span class="transition group-hover:translate-x-0.5">→</span>
+            </a>
+            <a
+              href="#compare"
+              class={`inline-flex items-center gap-2 rounded-sm py-2.5 pr-5 pl-5 text-[0.875rem] font-medium transition ${secondaryBtn}`}
+            >
+              See the comparison
+            </a>
+          </div>
+          <p class="mt-6 font-mono text-[0.75rem] tracking-wide text-stone-600">
+            Free migration off Member Splash · No setup fee · 14-day trial, no
+            card
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reasons -->
+    <section class="border-b border-stone-300">
+      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+        <div class="mb-14 max-w-[44ch]">
+          <div class={eyebrow}>§ Why pools switch</div>
+          <h2
+            class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
+          >
+            Four reasons clubs move to Memberley.
+          </h2>
+        </div>
+        <dl
+          class="grid grid-cols-1 divide-y divide-stone-300 border-y border-stone-300 md:grid-cols-2 md:divide-x md:divide-y-0"
+        >
+          {
+            reasons.map((r, i) => (
+              <div
+                class={`p-8 ${i >= 2 ? "md:border-t md:border-stone-300" : ""}`}
+              >
+                <dt class={`text-[1.375rem] ${display} text-stone-900`}>
+                  {r.title}
+                </dt>
+                <dd class="mt-3 max-w-[50ch] text-[0.9375rem] leading-relaxed text-stone-600">
+                  {r.body}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+
+    <!-- Head-to-head comparison -->
+    <section id="compare" class="border-b border-stone-300 bg-stone-50">
+      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+        <div class="mb-12 max-w-[44ch]">
+          <div class={eyebrow}>§ Head to head</div>
+          <h2
+            class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
+          >
+            Memberley vs. Member Splash.
+          </h2>
+        </div>
+
+        <div class="overflow-x-auto rounded-lg border border-stone-300 bg-white">
+          <table class="w-full min-w-[40rem] border-collapse text-left">
+            <thead>
+              <tr class="border-b border-stone-300 bg-stone-100">
+                <th class="w-[44%] p-4"></th>
+                <th
+                  class="bg-amber-700/[0.06] p-4 text-center text-[0.8125rem] font-semibold text-amber-800"
+                  >Memberley</th
+                >
+                <th
+                  class="p-4 text-center text-[0.8125rem] font-semibold text-stone-700"
+                  >Member Splash</th
+                >
+              </tr>
+            </thead>
+            <tbody>
+              {
+                rows.map((row) => (
+                  <tr class="border-b border-stone-200 last:border-0">
+                    <th class="p-4 align-middle text-[0.8125rem] font-medium text-stone-700">
+                      {row.label}
+                    </th>
+                    {[row.memberley, row.competitor].map((cell, i) => (
+                      <td
+                        class={`p-4 text-center align-middle ${i === 0 ? "bg-amber-700/[0.04]" : ""}`}
+                      >
+                        {typeof cell === "string" ? (
+                          <span class="text-[0.8125rem] text-stone-700">
+                            {cell}
+                          </span>
+                        ) : cell === true ? (
+                          <svg
+                            class="mx-auto size-4 text-amber-700"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            aria-label="Yes"
+                          >
+                            <path
+                              d="M3 8.3l3 3 7-7"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        ) : cell === false ? (
+                          <span
+                            class="text-[0.875rem] text-stone-400"
+                            aria-label="No"
+                          >
+                            ✕
+                          </span>
+                        ) : (
+                          <span class="text-stone-300" aria-label="Not offered">
+                            —
+                          </span>
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4 font-mono text-[0.6875rem] tracking-wide text-stone-500">
+          * Member Splash pricing &amp; features as published on membersplash.com
+          (2026). “—” means not advertised by Member Splash; verify current
+          terms before relying on them.
+        </p>
+
+        <!-- Fair-play note -->
+        <div
+          class="mt-10 flex flex-col gap-3 rounded-lg border border-stone-300 bg-white p-6 md:flex-row md:gap-6"
+        >
+          <div
+            class="font-mono text-[0.6875rem] tracking-wide text-stone-500 uppercase md:w-44 md:shrink-0"
+          >
+            Credit where due
+          </div>
+          <p class="text-[0.875rem] leading-relaxed text-stone-600">
+            Member Splash has served pools since 2010 and supports hundreds of
+            clubs with a deep, pool-specific toolset and a well-regarded support
+            team. If you're happy paying their annual fee and don't need your own
+            payment account or branding, they're a solid choice. Memberley is for
+            clubs that want lower cost, their own Stripe, and their own brand.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- More built in -->
+    <section class="border-b border-stone-300">
+      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+        <div class="mb-14 max-w-[44ch]">
+          <div class={eyebrow}>§ Beyond the basics</div>
+          <h2
+            class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
+          >
+            More that comes built in.
+          </h2>
+          <p class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600">
+            The tools most clubs end up bolting on separately are already part
+            of Memberley.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-10 gap-y-8 lg:grid-cols-4">
+          {
+            builtInExtras.map((f) => (
+              <div>
+                <div class="mb-3 size-8 rounded-sm border border-stone-300 bg-stone-100" />
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="text-[0.9375rem] font-semibold text-stone-900">
+                    {f.title}
+                  </span>
+                  {f.badge && (
+                    <span class="rounded-sm border border-amber-700/30 bg-amber-700/10 px-1.5 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-amber-800 uppercase">
+                      {f.badge}
+                    </span>
+                  )}
+                </div>
+                <div class="mt-1.5 text-[0.8125rem] leading-relaxed text-stone-600">
+                  {f.desc}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="border-b border-stone-300">
+      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+        <div class="mb-12 max-w-[44ch]">
+          <div class={eyebrow}>§ FAQ</div>
+          <h2
+            class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
+          >
+            Switching questions, answered.
+          </h2>
+        </div>
+        <dl class="divide-y divide-stone-300 border-y border-stone-300">
+          {
+            faqs.map((f) => (
+              <div class="grid grid-cols-1 gap-3 py-8 md:grid-cols-12 md:gap-8">
+                <dt class="text-[1.0625rem] font-semibold text-stone-900 md:col-span-5">
+                  {f.q}
+                </dt>
+                <dd class="max-w-[60ch] text-[0.9375rem] leading-relaxed text-stone-600 md:col-span-7">
+                  {f.a}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-stone-900 text-stone-50">
+      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+        <div class="max-w-[40ch]">
+          <div
+            class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-400 uppercase"
+          >
+            § Make the switch
+          </div>
+          <h2
+            class={`mt-5 text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
+          >
+            Leave the setup fee behind.
+          </h2>
+          <p class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400">
+            Start a free trial and see your club in Memberley in minutes — or
+            send us your Member Splash roster and we'll set everything up for
+            you, free, before next season.
+          </p>
+          <div class="mt-10 flex flex-wrap items-center gap-3">
+            <a
+              href={SIGNUP_URL}
+              class="inline-flex items-center gap-2 rounded-sm bg-amber-700 px-5 py-3 text-[0.875rem] font-semibold text-white transition hover:bg-amber-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
+            >
+              Start free trial →
+            </a>
+            <a
+              href={LOGIN_URL}
+              class="inline-flex items-center gap-2 rounded-sm border border-stone-700 px-5 py-3 text-[0.875rem] font-medium text-stone-200 transition hover:bg-stone-800"
+            >
+              Sign in
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="border-t border-stone-300 bg-stone-50">
+      <div
+        class="mx-auto flex max-w-[80rem] items-center justify-between px-6 py-6 text-[0.75rem] text-stone-600 lg:px-8"
+      >
+        <span>© 2026 Memberley, Inc.</span>
+        <a href="/" class="transition hover:text-stone-900">Home</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- FAQ structured data for rich results -->
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    })}
+  />
+</Layout>
