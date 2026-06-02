@@ -83,12 +83,12 @@ const marketingMeta: Record<
     extraFeats: ["Tiers & billing", "Email notifications"],
   },
   growth: {
-    featured: true,
+    featured: false,
     cta: "Start free trial",
     extraFeats: ["Guest passes", "Priority support"],
   },
   community: {
-    featured: false,
+    featured: true,
     cta: "Start free trial",
     extraFeats: [
       "Embedded member portal",
@@ -118,7 +118,7 @@ const fallbackPlans: MarketingPlan[] = [
     slug: "growth",
     name: "Growth",
     price: "$79",
-    featured: true,
+    featured: false,
     cta: "Start free trial",
     feats: [
       "Up to 500 members",
@@ -133,8 +133,8 @@ const fallbackPlans: MarketingPlan[] = [
   {
     slug: "community",
     name: "Community",
-    price: "$199",
-    featured: false,
+    price: "$239",
+    featured: true,
     cta: "Start free trial",
     feats: [
       "Unlimited members",
@@ -386,7 +386,7 @@ const compareRows: { label: string; cells: CompareCell[] }[] = [
   },
   {
     label: "Published starting price",
-    cells: ["From $29/mo", "$2,000–$3,500/yr", "$1,999/yr", "$25/mo + per court"],
+    cells: ["$29–$239/mo", "$2,000–$3,500/yr", "$1,999/yr", "$25/mo + per court"],
   },
   {
     label: "One-time setup fee",
@@ -544,14 +544,20 @@ const signupPerks = [
           <a href="#docs" class="transition hover:text-stone-900">Help</a>
         </nav>
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
           <a
             id="nav-signin"
             href={LOGIN_URL}
-            class="text-[0.8125rem] text-stone-600 transition"
+            class="text-[0.8125rem] text-stone-600 transition hover:text-stone-900"
           >
-            <script src={`${APP_URL}/embed.js`} async is:inline></script>
-            <button data-memberley-org="camelot-pool">Memberley sign in</button>
+            Sign in
+          </a>
+          <a
+            id="nav-cta"
+            href={SIGNUP_URL}
+            class={`inline-flex items-center gap-2 rounded-sm px-4 py-2 text-[0.8125rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
+          >
+            Register
           </a>
         </div>
       </div>
@@ -838,15 +844,10 @@ const signupPerks = [
                       <img
                         src={c.logo}
                         alt={c.name}
-                        class={`mx-auto block h-6 w-auto object-contain ${c.isOwn ? "" : "opacity-60 grayscale"}`}
+                        class={`mx-auto block h-7 w-auto object-contain ${c.isOwn ? "" : "opacity-60 grayscale"}`}
                         loading="lazy"
                         decoding="async"
                       />
-                      <span
-                        class={`mt-2 block text-[0.6875rem] font-semibold tracking-wide ${i === 0 ? "text-amber-800" : "text-stone-600"}`}
-                      >
-                        {c.name}
-                      </span>
                     </th>
                   ))
                 }
