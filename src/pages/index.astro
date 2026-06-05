@@ -718,34 +718,36 @@ const signupPerks = [
             {
               [...secondaryFeatures, ...secondaryFeatures].map((f, i) => (
                 <div
-                  class="w-72 shrink-0"
+                  class="relative w-72 shrink-0 overflow-hidden px-1 pt-3 pb-2"
                   aria-hidden={i >= secondaryFeatures.length ? "true" : undefined}
                 >
-                  <div class="mb-3 flex size-8 items-center justify-center rounded-sm border border-stone-300 bg-stone-100 text-amber-800">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.6"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="size-[1.125rem]"
-                      aria-hidden="true"
-                      set:html={f.icon}
-                    />
-                  </div>
-                  <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-[0.9375rem] font-semibold text-stone-900">
-                      {f.title}
-                    </span>
-                    {f.badge && (
-                      <span class="rounded-sm border border-amber-700/30 bg-amber-700/10 px-1.5 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-amber-800 uppercase">
-                        {f.badge}
-                      </span>
-                    )}
-                  </div>
-                  <div class="mt-1.5 text-[0.8125rem] leading-relaxed text-stone-600">
-                    {f.desc}
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="pointer-events-none absolute -top-4 -right-4 size-36 text-amber-700/15"
+                    aria-hidden="true"
+                    set:html={f.icon}
+                  />
+                  <div class="relative">
+                    <div class="flex flex-wrap items-start gap-2">
+                      <h3
+                        class={`text-[1.5rem] leading-tight ${display} text-stone-900`}
+                      >
+                        {f.title}
+                      </h3>
+                      {f.badge && (
+                        <span class="mt-1.5 rounded-sm border border-amber-700/30 bg-amber-700/10 px-1.5 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-amber-800 uppercase">
+                          {f.badge}
+                        </span>
+                      )}
+                    </div>
+                    <p class="mt-2 text-[0.8125rem] leading-relaxed text-stone-600">
+                      {f.desc}
+                    </p>
                   </div>
                 </div>
               ))
