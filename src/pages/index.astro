@@ -718,7 +718,7 @@ const signupPerks = [
             {
               [...secondaryFeatures, ...secondaryFeatures].map((f, i) => (
                 <div
-                  class="relative w-72 shrink-0 overflow-hidden px-1 pt-3 pb-2"
+                  class="relative w-72 shrink-0 px-1 pt-3 pb-2"
                   aria-hidden={i >= secondaryFeatures.length ? "true" : undefined}
                 >
                   <svg
@@ -728,7 +728,7 @@ const signupPerks = [
                     stroke-width="1.25"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    class="pointer-events-none absolute -top-4 -right-4 size-36 text-amber-700/15"
+                    class="pointer-events-none absolute -top-4 -right-4 size-36 text-amber-700/10"
                     aria-hidden="true"
                     set:html={f.icon}
                   />
