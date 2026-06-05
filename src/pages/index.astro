@@ -395,7 +395,11 @@ type CompareCell = string | boolean | null;
 
 const compareColumns: { name: string; logo: string; isOwn: boolean }[] = [
   { name: "Memberley", logo: "/memberley-amper-light.svg", isOwn: true },
-  { name: "Member Splash", logo: "/competitors/member-splash.png", isOwn: false },
+  {
+    name: "Member Splash",
+    logo: "/competitors/member-splash.png",
+    isOwn: false,
+  },
   { name: "PoolDues", logo: "/competitors/pooldues.png", isOwn: false },
   { name: "CourtReserve", logo: "/competitors/courtreserve.svg", isOwn: false },
 ];
@@ -412,7 +416,12 @@ const compareRows: { label: string; cells: CompareCell[] }[] = [
   },
   {
     label: "Published starting price",
-    cells: ["$29–$239/mo", "$2,000–$3,500/yr", "$1,999/yr", "$25/mo + per court"],
+    cells: [
+      "$29–$239/mo",
+      "$2,000–$3,500/yr",
+      "$1,999/yr",
+      "$25/mo + per court",
+    ],
   },
   {
     label: "One-time setup fee",
@@ -709,9 +718,14 @@ const signupPerks = [
           }
         </dl>
 
+        <div class="mt-12 text-center">
+          <h3 class={`text-[1.375rem] ${display} text-stone-900`}>
+            and many more features...
+          </h3>
+        </div>
         <!-- secondary feature marquee -->
         <div
-          class="feature-marquee relative mt-20 overflow-hidden"
+          class="feature-marquee relative mt-16 pt-4 overflow-hidden"
           aria-label="More Memberley features"
         >
           <div class="feature-marquee-track flex w-max gap-10">
@@ -719,7 +733,9 @@ const signupPerks = [
               [...secondaryFeatures, ...secondaryFeatures].map((f, i) => (
                 <div
                   class="relative w-72 shrink-0 px-1 pt-3 pb-2"
-                  aria-hidden={i >= secondaryFeatures.length ? "true" : undefined}
+                  aria-hidden={
+                    i >= secondaryFeatures.length ? "true" : undefined
+                  }
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -728,7 +744,7 @@ const signupPerks = [
                     stroke-width="1.25"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    class="pointer-events-none absolute -top-4 -right-4 size-36 text-amber-700/10"
+                    class="pointer-events-none absolute -top-4 -right-4 size-36 text-amber-700/8"
                     aria-hidden="true"
                     set:html={f.icon}
                   />
@@ -879,7 +895,9 @@ const signupPerks = [
         </div>
 
         <!-- Comparison table -->
-        <div class="overflow-x-auto rounded-lg border border-stone-300 bg-white">
+        <div
+          class="overflow-x-auto rounded-lg border border-stone-300 bg-white"
+        >
           <table class="w-full min-w-[46rem] border-collapse text-left">
             <thead>
               <tr class="border-b border-stone-300 bg-stone-100">
@@ -932,14 +950,14 @@ const signupPerks = [
                             />
                           </svg>
                         ) : cell === false ? (
-                          <span class="text-[0.875rem] text-stone-400" aria-label="No">
+                          <span
+                            class="text-[0.875rem] text-stone-400"
+                            aria-label="No"
+                          >
                             ✕
                           </span>
                         ) : (
-                          <span
-                            class="text-stone-300"
-                            aria-label="Not offered"
-                          >
+                          <span class="text-stone-300" aria-label="Not offered">
                             —
                           </span>
                         )}
@@ -999,8 +1017,8 @@ const signupPerks = [
             On a swim team?
           </div>
           <p class="text-[0.875rem] leading-relaxed text-stone-700">
-            Keep your team on <strong>SwimTopia</strong> — now NVSL&rsquo;s
-            official platform for meets and registration. Memberley runs the
+            Keep your team on <strong>SwimTopia</strong> — now NVSL&rsquo;s official
+            platform for meets and registration. Memberley runs the
             <em>pool</em>: memberships, dues, guest passes, and the front gate —
             the side SwimTopia doesn&rsquo;t cover. The two work side by side.
           </p>
