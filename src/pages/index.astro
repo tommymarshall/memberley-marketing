@@ -687,28 +687,36 @@ const signupPerks = [
           }
         </dl>
 
-        <!-- secondary feature grid -->
-        <div class="mt-20 grid grid-cols-2 gap-x-10 gap-y-8 lg:grid-cols-4">
-          {
-            secondaryFeatures.map((f) => (
-              <div>
-                <div class="mb-3 size-8 rounded-sm border border-stone-300 bg-stone-100" />
-                <div class="flex flex-wrap items-center gap-2">
-                  <span class="text-[0.9375rem] font-semibold text-stone-900">
-                    {f.title}
-                  </span>
-                  {f.badge && (
-                    <span class="rounded-sm border border-amber-700/30 bg-amber-700/10 px-1.5 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-amber-800 uppercase">
-                      {f.badge}
+        <!-- secondary feature marquee -->
+        <div
+          class="feature-marquee relative mt-20 overflow-hidden"
+          aria-label="More Memberley features"
+        >
+          <div class="feature-marquee-track flex w-max gap-10">
+            {
+              [...secondaryFeatures, ...secondaryFeatures].map((f, i) => (
+                <div
+                  class="w-72 shrink-0"
+                  aria-hidden={i >= secondaryFeatures.length ? "true" : undefined}
+                >
+                  <div class="mb-3 size-8 rounded-sm border border-stone-300 bg-stone-100" />
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-[0.9375rem] font-semibold text-stone-900">
+                      {f.title}
                     </span>
-                  )}
+                    {f.badge && (
+                      <span class="rounded-sm border border-amber-700/30 bg-amber-700/10 px-1.5 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-amber-800 uppercase">
+                        {f.badge}
+                      </span>
+                    )}
+                  </div>
+                  <div class="mt-1.5 text-[0.8125rem] leading-relaxed text-stone-600">
+                    {f.desc}
+                  </div>
                 </div>
-                <div class="mt-1.5 text-[0.8125rem] leading-relaxed text-stone-600">
-                  {f.desc}
-                </div>
-              </div>
-            ))
-          }
+              ))
+            }
+          </div>
         </div>
       </div>
     </section>
@@ -1243,3 +1251,46 @@ const signupPerks = [
     })();
   </script>
 </Layout>
+
+<style>
+  .feature-marquee {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 4rem,
+      #000 calc(100% - 4rem),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 4rem,
+      #000 calc(100% - 4rem),
+      transparent
+    );
+  }
+
+  .feature-marquee-track {
+    animation: feature-marquee-slide 60s linear infinite;
+    will-change: transform;
+  }
+
+  .feature-marquee:hover .feature-marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes feature-marquee-slide {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .feature-marquee-track {
+      animation: none;
+    }
+  }
+</style>
