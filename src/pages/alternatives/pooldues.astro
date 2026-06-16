@@ -30,8 +30,8 @@ const secondaryBtn =
 type Cell = string | boolean | null;
 
 const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
-  { label: "Starting price", memberley: "From $29/mo", competitor: "$1,999 / year (flat)" },
-  { label: "Pricing scales to your club's size", memberley: true, competitor: false },
+  { label: "Starting price", memberley: "From $100/yr + add-ons", competitor: "$1,999 / year (flat)" },
+  { label: "Pay for only the add-on modules you use", memberley: true, competitor: false },
   { label: "Payments", memberley: "Your own Stripe · next-day payout", competitor: "PayPal" },
   { label: "Keep the website you already have (portal embeds)", memberley: true, competitor: false },
   { label: "White-label branding on portal & emails", memberley: true, competitor: null },
@@ -57,7 +57,7 @@ const reasons = [
   },
   {
     title: "Pricing that fits your pool",
-    body: "A flat $1,999/yr is steep for an 80-family neighborhood pool. Memberley starts at $29/mo and scales with your size, so small clubs aren't subsidizing big ones.",
+    body: "PoolDues charges a flat $1,999/yr for the whole bundle, used or not. Memberley starts at $100/yr — unlimited members — and you add modules like reservations or check-in only if your club needs them.",
   },
   {
     title: "Comms & integrations built in",
@@ -117,7 +117,7 @@ const faqs = [
   },
   {
     q: "How does pricing compare to PoolDues?",
-    a: "PoolDues is a flat $1,999/yr regardless of club size. Memberley starts at $29/mo and scales with your membership, so smaller pools pay less while larger clubs still come out ahead in most cases.",
+    a: "PoolDues is a flat $1,999/yr for the whole bundle. Memberley starts at $100/yr with unlimited members and a 2% payment fee — or a $500/yr Base plan with zero payment fees — and you pay for only the add-on modules you use, so most neighborhood pools come out well under what PoolDues charges.",
   },
   {
     q: "Can we switch in the middle of the season?",
