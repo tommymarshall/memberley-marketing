@@ -326,7 +326,7 @@ const secondaryFeatures: SecondaryFeature[] = [
     icon: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
   },
   {
-    title: "SMS member comms",
+    title: "SMS broadcast",
     desc: "Reach members where they reply — broadcasts and one-to-one texts without juggling another tool.",
     badge: "Beta",
     icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
@@ -622,7 +622,7 @@ const signupPerks = [
           </div>
 
           <h1
-            class={`max-w-[20ch] text-[clamp(3rem,6vw,5.25rem)] leading-[0.95] text-balance ${display} text-stone-900`}
+            class={`max-w-[20ch] text-[clamp(3rem,4vw,5.25rem)] leading-[0.95] text-balance ${display} text-stone-900`}
           >
             Run your community like it runs itself.
           </h1>
@@ -698,10 +698,12 @@ const signupPerks = [
               class="mt-6 max-w-[52ch] text-[1rem] leading-relaxed text-pretty text-stone-300"
             >
               Some competitors stitch memberships, calendars, and payments
-              together from loosely connected plugins and themes. Memberley is a
-              single application written for the job — memberships, bookings,
-              dues, and the front desk share one codebase and one source of
-              truth.
+              together from loosely connected plugins and themes. This makes it
+              harder for you to make changes or add new features to your
+              website. Memberley is a single application written for the job —
+              memberships, bookings, dues, white-label branding and embedding
+              means each feature works together seamlessly and easy to
+              customize.
             </p>
             <p
               class="mt-4 max-w-[52ch] text-[1rem] leading-relaxed text-pretty text-stone-300"
@@ -789,13 +791,13 @@ const signupPerks = [
           <h2
             class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
-            Tons of tools. Zero spreadsheets.
+            Everything your club actually needs.
           </h2>
           <p
             class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
           >
-            Everything your club actually needs to run — together in one place,
-            so your board, your staff, and your members all see the same truth.
+            Tons of tools. Zero spreadsheets. All in one place, so your board,
+            your staff, and your members all see the same truth.
           </p>
         </div>
 
@@ -824,53 +826,35 @@ const signupPerks = [
             and many more features...
           </h3>
         </div>
-        <!-- secondary feature marquee -->
-        <div
-          class="feature-marquee relative mt-16 pt-4 overflow-hidden"
-          aria-label="More Memberley features"
+        <!-- secondary features grid -->
+        <ul
+          role="list"
+          class="mt-12 grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-3 lg:grid-cols-4"
         >
-          <div class="feature-marquee-track flex w-max gap-10">
-            {
-              [...secondaryFeatures, ...secondaryFeatures].map((f, i) => (
-                <div
-                  class="relative w-72 shrink-0 px-1 pt-3 pb-2"
-                  aria-hidden={
-                    i >= secondaryFeatures.length ? "true" : undefined
-                  }
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.25"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="pointer-events-none absolute -top-4 -right-4 size-36 text-amber-700/8"
-                    aria-hidden="true"
-                    set:html={f.icon}
-                  />
-                  <div class="relative">
-                    <div class="flex flex-wrap items-start gap-2">
-                      <h3
-                        class={`text-[1.5rem] leading-tight ${display} text-stone-900`}
-                      >
-                        {f.title}
-                      </h3>
-                      {f.badge && (
-                        <span class="mt-1.5 rounded-sm border border-amber-700/30 bg-amber-700/10 px-1.5 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-amber-800 uppercase">
-                          {f.badge}
-                        </span>
-                      )}
-                    </div>
-                    <p class="mt-2 text-[0.8125rem] leading-relaxed text-stone-600">
-                      {f.desc}
-                    </p>
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </div>
+          {
+            secondaryFeatures.map((f) => (
+              <li class="flex items-center gap-2.5 text-[0.9375rem] text-stone-700">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-5 shrink-0 text-amber-700"
+                  aria-hidden="true"
+                  set:html={f.icon}
+                />
+                <span>{f.title}</span>
+                {f.badge && (
+                  <span class="rounded-sm border border-amber-700/30 bg-amber-700/10 px-1.5 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-amber-800 uppercase">
+                    {f.badge}
+                  </span>
+                )}
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </section>
 
@@ -1085,8 +1069,12 @@ const signupPerks = [
         </div>
 
         <!-- Base plans + what every plan includes -->
-        <div class="overflow-hidden rounded-lg border border-stone-300 bg-white">
-          <div class="grid grid-cols-1 divide-y divide-stone-300 md:grid-cols-2 md:divide-x md:divide-y-0">
+        <div
+          class="overflow-hidden rounded-lg border border-stone-300 bg-white"
+        >
+          <div
+            class="grid grid-cols-1 divide-y divide-stone-300 md:grid-cols-2 md:divide-x md:divide-y-0"
+          >
             {
               plans.map((p) => (
                 <div
@@ -1138,7 +1126,9 @@ const signupPerks = [
           </div>
 
           <div class="border-t border-stone-300 bg-stone-100 px-8 py-7">
-            <div class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase">
+            <div
+              class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase"
+            >
               Every plan includes
             </div>
             <ul
@@ -1356,46 +1346,3 @@ const signupPerks = [
     })();
   </script>
 </Layout>
-
-<style>
-  .feature-marquee {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent,
-      #000 4rem,
-      #000 calc(100% - 4rem),
-      transparent
-    );
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      #000 4rem,
-      #000 calc(100% - 4rem),
-      transparent
-    );
-  }
-
-  .feature-marquee-track {
-    animation: feature-marquee-slide 60s linear infinite;
-    will-change: transform;
-  }
-
-  .feature-marquee:hover .feature-marquee-track {
-    animation-play-state: paused;
-  }
-
-  @keyframes feature-marquee-slide {
-    from {
-      transform: translateX(-50%);
-    }
-    to {
-      transform: translateX(0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .feature-marquee-track {
-      animation: none;
-    }
-  }
-</style>
