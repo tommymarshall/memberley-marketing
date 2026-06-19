@@ -14,7 +14,8 @@
       "Bash(vendor/bin/pint --dirty --format agent)",
       "Bash(php artisan:*)",
       "Bash(npx astro *)",
-      "Bash(sips -g pixelWidth -g pixelHeight /Users/tommymarshall/Sites/memberley-marketing/app-members.png)"
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/tommymarshall/Sites/memberley-marketing/app-members.png)",
+      "mcp__chrome-devtools__navigate_page"
     ]
   }
 }

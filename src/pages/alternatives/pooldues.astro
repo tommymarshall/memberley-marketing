@@ -35,10 +35,10 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   { label: "Payments", memberley: "Your own Stripe · next-day payout", competitor: "PayPal" },
   { label: "Keep the website you already have (portal embeds)", memberley: true, competitor: false },
   { label: "White-label branding on portal & emails", memberley: true, competitor: null },
-  { label: "Built-in email broadcasts & member segments", memberley: true, competitor: null },
-  { label: "SMS broadcasts & one-to-one texts", memberley: "Beta", competitor: null },
-  { label: "QuickBooks & Mailchimp integrations", memberley: true, competitor: null },
-  { label: "Classes, lessons & programs", memberley: true, competitor: null },
+  { label: "Built-in email broadcasts & member segments", memberley: true, competitor: true },
+  { label: "SMS broadcasts & one-to-one texts", memberley: "Beta", competitor: "Opt-in alerts" },
+  { label: "QuickBooks & Mailchimp integrations", memberley: true, competitor: true },
+  { label: "Classes, lessons & programs", memberley: true, competitor: true },
   { label: "Digital waivers & document library", memberley: true, competitor: null },
   { label: "Free white-glove migration", memberley: true, competitor: null },
   { label: "Online dues & auto-renewal", memberley: true, competitor: true },
@@ -61,16 +61,12 @@ const reasons = [
   },
   {
     title: "Comms & integrations built in",
-    body: "Email broadcasts with member segments, SMS texts (beta), and QuickBooks + Mailchimp sync are included — no bolting on a separate newsletter or accounting tool.",
+    body: "PoolDues includes mass email and PayPal-to-QuickBooks export, but Memberley adds open and bounce tracking, SMS broadcasts (beta), and native QuickBooks and Mailchimp sync — no separate newsletter or accounting workflow.",
   },
 ];
 
-// Extras Memberley includes that aren't part of the PoolDues feature set.
+// Extras where Memberley goes further than PoolDues's published feature set.
 const builtInExtras = [
-  {
-    title: "Email broadcasts",
-    desc: "Dynamic member segments, newsletters and announcements, with open, delivery, and bounce tracking — no Mailchimp account required.",
-  },
   {
     title: "SMS member texts",
     desc: "Reach members where they actually reply: broadcasts and one-to-one texts, right alongside everything else.",
@@ -78,11 +74,7 @@ const builtInExtras = [
   },
   {
     title: "QuickBooks & Mailchimp",
-    desc: "Sync dues and members to the tools your treasurer and your comms already run on.",
-  },
-  {
-    title: "Classes & programs",
-    desc: "Publish a catalog of lessons, clinics, and camps with a public signup page and rosters — no second booking tool.",
+    desc: "Native sync of dues and members — not just a PayPal export or optional Mailchimp push.",
   },
   {
     title: "Waivers & documents",
@@ -353,11 +345,11 @@ const faqs = [
           </div>
           <p class="text-[0.875rem] leading-relaxed text-stone-600">
             PoolDues is purpose-built for swim &amp; tennis clubs, with native
-            iOS apps, built-in concession credit, and one simple flat price. If
-            you want a fully hosted, all-in-one site and PayPal works for you,
-            it's a reasonable choice. Memberley is for clubs that want their own
-            Stripe payouts, their own website, and built-in comms and
-            integrations.
+            iOS apps, built-in mass email, concession credit, and one simple flat
+            price. If you want a fully hosted, all-in-one site and PayPal works
+            for you, it's a reasonable choice. Memberley is for clubs that want
+            their own Stripe payouts, their own website, and native comms and
+            accounting integrations.
           </p>
         </div>
       </div>

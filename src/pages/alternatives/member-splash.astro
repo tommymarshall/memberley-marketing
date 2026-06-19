@@ -32,13 +32,14 @@ type Cell = string | boolean | null;
 const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   { label: "Starting price", memberley: "From $100/yr + add-ons", competitor: "$2,000–$3,500 / year" },
   { label: "One-time setup fee", memberley: "None", competitor: "$500–$1,500" },
-  { label: "Dues deposit to your own Stripe (next business day)", memberley: true, competitor: null },
+  { label: "Payments", memberley: "Your own Stripe · next-day payout", competitor: "ECRYPT merchant account" },
   { label: "Member portal embeds in the website you already have", memberley: true, competitor: false },
   { label: "White-label branding on portal & emails", memberley: true, competitor: null },
+  { label: "Built-in email broadcasts & member segments", memberley: true, competitor: true },
   { label: "Free white-glove migration", memberley: true, competitor: null },
   { label: "Modern, mobile-ready interface", memberley: true, competitor: null },
   { label: "SMS broadcasts & one-to-one texts", memberley: "Beta", competitor: null },
-  { label: "QuickBooks & Mailchimp integrations", memberley: true, competitor: null },
+  { label: "QuickBooks & Mailchimp integrations", memberley: true, competitor: true },
   { label: "Classes, lessons & programs", memberley: true, competitor: null },
   { label: "Online dues & auto-renewal", memberley: true, competitor: true },
   { label: "Photo & guest-pass check-in", memberley: true, competitor: true },
@@ -46,12 +47,8 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   { label: "Reservations (lanes / courts / rooms)", memberley: true, competitor: true },
 ];
 
-// Extras Memberley includes that aren't part of the typical pool-software bundle.
+// Extras where Memberley goes further than Member Splash's published feature set.
 const builtInExtras = [
-  {
-    title: "Email broadcasts",
-    desc: "Dynamic member segments, newsletters and announcements, with open, delivery, and bounce tracking — no separate Mailchimp account required.",
-  },
   {
     title: "SMS member texts",
     desc: "Reach members where they actually reply: broadcasts and one-to-one texts, right alongside everything else.",
@@ -59,7 +56,7 @@ const builtInExtras = [
   },
   {
     title: "QuickBooks & Mailchimp",
-    desc: "Sync dues and members to the tools your treasurer and your comms already run on.",
+    desc: "Native sync of dues and members — not just optional Mailchimp and manual QuickBooks reconciliation.",
   },
   {
     title: "Classes & programs",
@@ -353,10 +350,11 @@ const faqs = [
           </div>
           <p class="text-[0.875rem] leading-relaxed text-stone-600">
             Member Splash has served pools since 2010 and supports hundreds of
-            clubs with a deep, pool-specific toolset and a well-regarded support
-            team. If you're happy paying their annual fee and don't need your own
-            payment account or branding, they're a solid choice. Memberley is for
-            clubs that want lower cost, their own Stripe, and their own brand.
+            clubs with a deep, pool-specific toolset, built-in email, and a
+            well-regarded support team. If you're happy paying their annual fee
+            and don't need your own Stripe account or an embeddable portal,
+            they're a solid choice. Memberley is for clubs that want lower cost,
+            their own Stripe, and their own brand.
           </p>
         </div>
       </div>
