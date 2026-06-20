@@ -250,40 +250,46 @@ const eyebrow =
   "font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase";
 const display = "font-serif font-semibold tracking-tight";
 const primaryBtn =
-  "bg-stone-900 text-stone-50 hover:bg-stone-800 focus-visible:outline-amber-600";
+  "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800 focus-visible:outline-amber-600";
 const secondaryBtn =
-  "border border-stone-300 bg-white text-stone-900 hover:border-stone-400 hover:bg-stone-100";
+  "border border-stone-950/15 bg-white text-stone-900 hover:border-stone-950/30 hover:bg-stone-100";
 
 const primaryFeatures = [
   {
     n: "01",
     title: "Memberships",
     desc: "Tiers, pricing, guest pass allocations, renewals, and waitlists with auto-promotion — plus bulk CSV import and a shareable invite link so you can move your whole roster over in an afternoon.",
+    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   },
   {
     n: "02",
     title: "Reservations",
     desc: "A clean calendar for members to book lanes, courts, or rooms online. Conflict checks, operating hours, approvals, and confirmation emails are handled for you.",
+    icon: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>',
   },
   {
     n: "03",
     title: "Payments",
     desc: "Members pay you directly through your own Stripe account — funds land in your bank the next business day. No middleman, no support tickets, no waiting on us to cut a check. Connect Stripe in under 10 minutes and you’re collecting dues, renewals, guest fees, and refunds with receipts sent automatically on every charge.",
+    icon: '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
   },
   {
     n: "04",
     title: "Check-ins",
     desc: "Front-desk search by name, guest passes deducted and charged automatically, every action written to an activity log. A line that actually moves.",
+    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/>',
   },
   {
     n: "05",
     title: "Classes & programs",
     desc: "Build a catalog of offerings, schedule sessions, publish a public signup page, and manage enrollments — without bolting on a second booking tool.",
+    icon: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
   },
   {
     n: "06",
     title: "Member comms",
     desc: "Send email broadcasts with dynamic segments and per-recipient tracking. Opens, deliveries, and bounces are tracked alongside everything else — and SMS broadcasts and one-to-one texts are rolling out in beta.",
+    icon: '<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
   },
 ];
 
@@ -541,10 +547,11 @@ const signupPerks = [
 ---
 
 <Layout>
-  <div class="min-h-dvh bg-stone-50 font-sans text-stone-900 antialiased">
+  <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased isolate">
     <!-- Nav -->
     <header
-      class="sticky top-0 z-50 border-b border-stone-300 bg-stone-50/90 backdrop-blur-sm"
+      id="site-header"
+      class="sticky top-0 z-50 border-b border-stone-950/10 bg-stone-50/80 backdrop-blur-md"
     >
       <div
         class="mx-auto flex h-14 max-w-[80rem] items-center justify-between px-6 lg:px-8"
@@ -565,7 +572,7 @@ const signupPerks = [
             Memberley
           </span>
           <span
-            class="ml-2 rounded-sm border border-stone-300 px-1.5 py-0.5 font-mono text-[0.625rem] text-stone-600"
+            class="ml-2 rounded-sm border border-stone-950/15 px-1.5 py-0.5 font-mono text-[0.625rem] text-stone-600"
           >
             v1.0
           </span>
@@ -602,13 +609,20 @@ const signupPerks = [
     </header>
 
     <!-- Hero -->
-    <section class="overflow-hidden border-b border-stone-300">
+    <section
+      class="relative isolate overflow-hidden border-b border-stone-950/10"
+    >
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 -z-10 grid-veil"
+      >
+      </div>
       <div
         class="mx-auto grid max-w-[80rem] grid-cols-1 gap-16 px-6 pt-10 pb-24 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-20"
       >
         <div class="lg:col-span-5">
           <div
-            class="mb-8 inline-flex items-center gap-2 rounded-full border border-stone-300 bg-stone-100 py-1 pr-3 pl-1"
+            class="mb-8 inline-flex items-center gap-2 rounded-full bg-stone-100 py-1 pr-3 pl-1 ring-1 ring-stone-950/10"
           >
             <span
               class="flex items-center gap-1.5 rounded-full bg-amber-700 px-2 py-0.5 text-[0.625rem] font-medium tracking-wide text-white uppercase"
@@ -662,7 +676,14 @@ const signupPerks = [
         </div>
 
         <!-- Right — product screenshot -->
-        <div class="flex items-center lg:col-span-7 lg:-mr-12 xl:-mr-24">
+        <div
+          class="relative isolate flex items-center lg:col-span-7 lg:-mr-12 xl:-mr-24"
+        >
+          <div
+            aria-hidden="true"
+            class="pointer-events-none absolute -inset-8 -z-10 halo-amber"
+          >
+          </div>
           <picture class="block w-full">
             <source srcset="/app-members.webp" type="image/webp" />
             <img
@@ -670,7 +691,7 @@ const signupPerks = [
               alt="Memberley Members dashboard showing active members, tiers, and invite link"
               width="1400"
               height="897"
-              class="w-full rounded-lg border border-stone-300 bg-white shadow-sm"
+              class="w-full rounded-lg bg-white shadow-paper ring-1 ring-stone-950/5"
               loading="eager"
               decoding="async"
             />
@@ -680,9 +701,12 @@ const signupPerks = [
     </section>
 
     <!-- Purpose-built vs plugin stacks -->
-    <section id="platform" class="bg-stone-900 text-stone-50">
+    <section id="platform" class="paper-dark text-stone-50">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
-        <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+        <div
+          data-reveal
+          class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16"
+        >
           <div class="lg:col-span-5">
             <div
               class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-400 uppercase"
@@ -717,7 +741,7 @@ const signupPerks = [
           <div class="flex flex-col justify-center lg:col-span-7">
             <ul
               role="list"
-              class="divide-y divide-stone-800 rounded-lg border border-stone-800 bg-stone-950"
+              class="divide-y divide-white/10 rounded-lg bg-stone-950 ring-1 ring-white/10"
             >
               <li class="flex gap-4 p-6 md:p-8">
                 <span
@@ -784,9 +808,9 @@ const signupPerks = [
     </section>
 
     <!-- Features -->
-    <section id="features" class="border-b border-stone-300">
+    <section id="features" class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
-        <div class="mb-16 max-w-[44ch]">
+        <div data-reveal class="mb-16 max-w-[44ch]">
           <div class={eyebrow}>§ Features</div>
           <h2
             class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
@@ -802,18 +826,38 @@ const signupPerks = [
         </div>
 
         <dl
-          class="grid grid-cols-1 divide-y divide-stone-300 border-y border-stone-300 md:grid-cols-2 md:divide-x md:divide-y-0"
+          class="grid grid-cols-1 divide-y divide-stone-950/10 border-y border-stone-950/10 md:grid-cols-2 md:divide-x md:divide-y-0"
         >
           {
             primaryFeatures.map((f, i) => (
               <div
-                class={`p-8 ${i >= 2 ? "md:border-t md:border-stone-300" : ""}`}
+                data-reveal
+                style={`--reveal-delay:${(i % 2) * 70}ms`}
+                class={`relative p-8 md:p-10 ${i >= 2 ? "md:border-t md:border-stone-950/10" : ""}`}
               >
-                <div class="font-mono text-[0.75rem] text-stone-500">{f.n}</div>
-                <dt class={`mt-3 text-[1.375rem] ${display} text-stone-900`}>
+                <span
+                  aria-hidden="true"
+                  class="pointer-events-none absolute top-7 right-7 font-serif text-[3.5rem] leading-none font-semibold text-stone-950/6 tabular-nums select-none"
+                >
+                  {f.n}
+                </span>
+                <div class="flex size-10 items-center justify-center rounded-lg bg-amber-700/10 text-amber-700 ring-1 ring-amber-700/15">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="size-5"
+                    aria-hidden="true"
+                    set:html={f.icon}
+                  />
+                </div>
+                <dt class={`mt-5 text-[1.375rem] ${display} text-stone-900`}>
                   {f.title}
                 </dt>
-                <dd class="mt-3 max-w-[50ch] text-[0.9375rem] leading-relaxed text-stone-600">
+                <dd class="mt-3 max-w-[46ch] text-[0.9375rem] leading-relaxed text-stone-600">
                   {f.desc}
                 </dd>
               </div>
@@ -821,15 +865,17 @@ const signupPerks = [
           }
         </dl>
 
-        <div class="mt-12 text-center">
-          <h3 class={`text-[1.375rem] ${display} text-stone-900`}>
-            and many more features...
+        <div data-reveal class="mt-16 flex items-center gap-5">
+          <h3 class={`shrink-0 text-[1.375rem] ${display} text-stone-900`}>
+            and many more
           </h3>
+          <div class="h-px flex-1 bg-stone-950/10"></div>
         </div>
         <!-- secondary features grid -->
         <ul
           role="list"
-          class="mt-12 grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-3 lg:grid-cols-4"
+          data-reveal
+          class="mt-10 grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-3 lg:grid-cols-4"
         >
           {
             secondaryFeatures.map((f) => (
@@ -859,9 +905,9 @@ const signupPerks = [
     </section>
 
     <!-- Comparison -->
-    <section id="compare" class="border-b border-stone-300 bg-stone-50">
+    <section id="compare" class="border-b border-stone-950/10 bg-stone-50">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
-        <div class="mb-12 max-w-[52ch]">
+        <div data-reveal class="mb-12 max-w-[52ch]">
           <div class={eyebrow}>§ Compare</div>
           <h2
             class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
@@ -879,16 +925,17 @@ const signupPerks = [
 
         <!-- Comparison table -->
         <div
-          class="overflow-x-auto rounded-lg border border-stone-300 bg-white"
+          data-reveal
+          class="overflow-x-auto rounded-lg bg-white shadow-paper ring-1 ring-stone-950/5"
         >
           <table class="w-full min-w-[46rem] border-collapse text-left">
             <thead>
-              <tr class="border-b border-stone-300 bg-stone-100">
+              <tr class="border-b border-stone-950/10 bg-stone-100">
                 <th class="w-[32%] p-4"></th>
                 {
                   compareColumns.map((c, i) => (
                     <th
-                      class={`p-4 text-center ${i === 0 ? "bg-amber-700/[0.06]" : ""}`}
+                      class={`p-4 text-center ${i === 0 ? "bg-amber-700/10" : ""}`}
                     >
                       <img
                         src={c.logo}
@@ -905,13 +952,13 @@ const signupPerks = [
             <tbody>
               {
                 compareRows.map((row) => (
-                  <tr class="border-b border-stone-200 last:border-0">
+                  <tr class="border-b border-stone-950/5 last:border-0">
                     <th class="p-4 align-middle text-[0.8125rem] font-medium text-stone-700">
                       {row.label}
                     </th>
                     {row.cells.map((cell, i) => (
                       <td
-                        class={`p-4 text-center align-middle ${i === 0 ? "bg-amber-700/[0.04]" : ""}`}
+                        class={`p-4 text-center align-middle ${i === 0 ? "bg-amber-700/5" : ""}`}
                       >
                         {typeof cell === "string" ? (
                           <span class="text-[0.8125rem] text-stone-700">
@@ -959,7 +1006,7 @@ const signupPerks = [
 
         <!-- Why clubs switch -->
         <div
-          class="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-stone-300 bg-stone-300 md:grid-cols-3"
+          class="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-lg bg-stone-950/10 ring-1 ring-stone-950/10 md:grid-cols-3"
         >
           {
             switchCards.map((c) => (
@@ -973,7 +1020,7 @@ const signupPerks = [
                 <p class="mt-3 text-[0.8125rem] leading-relaxed text-stone-500">
                   {c.strong}
                 </p>
-                <ul class="mt-5 space-y-2.5 border-t border-stone-300 pt-5">
+                <ul class="mt-5 space-y-2.5 border-t border-stone-950/10 pt-5">
                   {c.cons.map((s) => (
                     <li class="flex gap-2.5 text-[0.8125rem] leading-relaxed text-stone-600">
                       <span class="mt-0.5 shrink-0 text-stone-400">−</span>
@@ -981,7 +1028,7 @@ const signupPerks = [
                     </li>
                   ))}
                 </ul>
-                <p class="mt-5 border-t border-stone-300 pt-5 text-[0.8125rem] leading-relaxed text-stone-700">
+                <p class="mt-5 border-t border-stone-950/10 pt-5 text-[0.8125rem] leading-relaxed text-stone-700">
                   <span class="font-semibold text-amber-800">Memberley:</span>{" "}
                   {c.win}
                 </p>
@@ -992,7 +1039,7 @@ const signupPerks = [
 
         <!-- SwimTopia complement -->
         <div
-          class="mt-10 flex flex-col gap-3 rounded-lg border border-amber-700/30 bg-amber-700/[0.05] p-6 md:flex-row md:items-center md:gap-6"
+          class="mt-10 flex flex-col gap-3 rounded-lg bg-amber-700/5 p-6 ring-1 ring-amber-700/25 md:flex-row md:items-center md:gap-6"
         >
           <div
             class="font-mono text-[0.6875rem] tracking-wide text-amber-800 uppercase md:w-44 md:shrink-0"
@@ -1010,9 +1057,9 @@ const signupPerks = [
     </section>
 
     <!-- Inverse section: use cases -->
-    <section class="bg-stone-900 text-stone-50">
+    <section class="paper-dark text-stone-50">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
-        <div class="mb-14 max-w-[48ch]">
+        <div data-reveal class="mb-14 max-w-[48ch]">
           <div
             class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-400 uppercase"
           >
@@ -1026,7 +1073,7 @@ const signupPerks = [
         </div>
 
         <div
-          class="grid grid-cols-1 divide-y divide-stone-800 border-y border-stone-800 md:grid-cols-3 md:divide-x md:divide-y-0"
+          class="grid grid-cols-1 divide-y divide-white/10 border-y border-white/10 md:grid-cols-3 md:divide-x md:divide-y-0"
         >
           {
             useCases.map((c) => (
@@ -1050,9 +1097,9 @@ const signupPerks = [
     </section>
 
     <!-- Pricing -->
-    <section id="pricing" class="border-b border-stone-300 bg-stone-50">
+    <section id="pricing" class="border-b border-stone-950/10 bg-stone-50">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
-        <div class="mb-14 max-w-[52ch]">
+        <div data-reveal class="mb-14 max-w-[52ch]">
           <div class={eyebrow}>§ Pricing</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
@@ -1070,20 +1117,27 @@ const signupPerks = [
 
         <!-- Base plans + what every plan includes -->
         <div
-          class="overflow-hidden rounded-lg border border-stone-300 bg-white"
+          data-reveal
+          class="overflow-hidden rounded-lg bg-white shadow-paper ring-1 ring-stone-950/5"
         >
           <div
-            class="grid grid-cols-1 divide-y divide-stone-300 md:grid-cols-2 md:divide-x md:divide-y-0"
+            class="grid grid-cols-1 divide-y divide-stone-950/10 md:grid-cols-2 md:divide-x md:divide-y-0"
           >
             {
               plans.map((p) => (
                 <div
-                  class={`relative flex flex-col justify-between gap-8 p-8 ${p.featured ? "bg-amber-700/[0.04]" : ""}`}
+                  class={`relative flex flex-col justify-between gap-8 p-8 ${p.featured ? "bg-amber-700/6" : ""}`}
                 >
                   {p.featured && (
-                    <span class="absolute top-6 right-6 rounded-sm bg-amber-700 px-2 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-white uppercase">
-                      Recommended
-                    </span>
+                    <>
+                      <span
+                        aria-hidden="true"
+                        class="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-amber-500 to-amber-700"
+                      />
+                      <span class="absolute top-6 right-6 rounded-sm bg-amber-700 px-2 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-white uppercase">
+                        Recommended
+                      </span>
+                    </>
                   )}
                   <div>
                     <div class="font-mono text-[0.6875rem] tracking-wide text-stone-600 uppercase">
@@ -1116,7 +1170,7 @@ const signupPerks = [
                   </div>
                   <a
                     href={`${SIGNUP_URL}?plan=${encodeURIComponent(p.slug)}`}
-                    class={`block rounded-sm py-2.5 text-center text-[0.875rem] font-medium transition ${p.featured ? "bg-stone-900 text-stone-50 hover:bg-stone-800" : "border border-stone-300 text-stone-900 hover:border-stone-400 hover:bg-stone-100"}`}
+                    class={`block rounded-sm py-2.5 text-center text-[0.875rem] font-medium transition ${p.featured ? "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800" : "border border-stone-950/15 text-stone-900 hover:border-stone-950/30 hover:bg-stone-100"}`}
                   >
                     {p.cta}
                   </a>
@@ -1125,7 +1179,7 @@ const signupPerks = [
             }
           </div>
 
-          <div class="border-t border-stone-300 bg-stone-100 px-8 py-7">
+          <div class="border-t border-stone-950/10 bg-stone-100 px-8 py-7">
             <div
               class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase"
             >
@@ -1161,7 +1215,7 @@ const signupPerks = [
 
         <!-- Pay for what you need — à la carte modules -->
         <div class="mt-20">
-          <div class="mb-10 max-w-[56ch]">
+          <div data-reveal class="mb-10 max-w-[56ch]">
             <div class={eyebrow}>§ Add-ons</div>
             <h3
               class={`mt-5 max-w-[24ch] text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.05] text-balance ${display} text-stone-900`}
@@ -1177,11 +1231,14 @@ const signupPerks = [
             </p>
           </div>
 
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div
+            data-reveal
+            class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          >
             {
               modules.map((m) => (
-                <div class="flex flex-col rounded-lg border border-stone-300 bg-white p-6">
-                  <div class="mb-4 flex size-9 items-center justify-center rounded-md border border-stone-300 bg-stone-100 text-amber-700">
+                <div class="flex flex-col rounded-lg bg-white p-6 ring-1 ring-stone-950/10">
+                  <div class="mb-4 flex size-9 items-center justify-center rounded-md bg-stone-100 text-amber-700 ring-1 ring-stone-950/10">
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
@@ -1226,11 +1283,11 @@ const signupPerks = [
     </section>
 
     <!-- Signup CTA -->
-    <section class="bg-stone-900 text-stone-50">
+    <section class="paper-dark text-stone-50">
       <div
         class="mx-auto grid max-w-[80rem] grid-cols-1 gap-16 px-6 py-24 lg:grid-cols-12 lg:px-8"
       >
-        <div class="col-span-5">
+        <div data-reveal class="col-span-5">
           <div
             class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-400 uppercase"
           >
@@ -1250,7 +1307,7 @@ const signupPerks = [
 
           <ul
             role="list"
-            class="mt-10 space-y-3 border-t border-stone-800 pt-8"
+            class="mt-10 space-y-3 border-t border-white/10 pt-8"
           >
             {
               signupPerks.map((i) => (
@@ -1264,7 +1321,7 @@ const signupPerks = [
         </div>
 
         <div class="col-span-7">
-          <div class="rounded-lg border border-stone-800 bg-stone-950 p-8">
+          <div data-reveal class="rounded-lg bg-stone-950 p-8 ring-1 ring-white/10">
             <div class="mb-6 flex items-center justify-between">
               <span class="flex items-center gap-2">
                 <img
@@ -1296,7 +1353,7 @@ const signupPerks = [
 
             <a
               href={SIGNUP_URL}
-              class="block w-full rounded-sm bg-amber-700 py-3 text-center text-[0.875rem] font-semibold text-white transition hover:bg-amber-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
+              class="block w-full rounded-sm bg-amber-700 py-3 text-center text-[0.875rem] font-semibold text-white shadow-btn transition hover:bg-amber-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
             >
               Create my organization →
             </a>
@@ -1312,7 +1369,7 @@ const signupPerks = [
       </div>
     </section>
 
-    <footer class="border-t border-stone-300 bg-stone-50">
+    <footer class="border-t border-stone-950/10 bg-stone-50">
       <div
         class="mx-auto flex max-w-[80rem] items-center justify-between px-6 py-6 text-[0.75rem] text-stone-600 lg:px-8"
       >
@@ -1343,6 +1400,44 @@ const signupPerks = [
       probe.onload = applyAuthenticatedNav;
       probe.onerror = function () {};
       document.head.appendChild(probe);
+    })();
+  </script>
+
+  <script is:inline>
+    (function () {
+      // Sticky header lifts onto a soft shadow once the page scrolls.
+      var header = document.getElementById("site-header");
+      if (header) {
+        var onScroll = function () {
+          header.toggleAttribute("data-scrolled", window.scrollY > 8);
+        };
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+      }
+
+      // Gentle scroll-in reveals; show everything if IO is unsupported.
+      var reveals = document.querySelectorAll("[data-reveal]");
+      if (!reveals.length) return;
+      if (!("IntersectionObserver" in window)) {
+        reveals.forEach(function (el) {
+          el.classList.add("is-visible");
+        });
+        return;
+      }
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
+      );
+      reveals.forEach(function (el) {
+        io.observe(el);
+      });
     })();
   </script>
 </Layout>

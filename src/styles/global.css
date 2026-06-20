@@ -9,10 +9,133 @@
     --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
     --font-serif: 'Fraunces', ui-serif, Georgia, serif;
     --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+    /*
+     * Warm, layered elevation tuned for the stone/amber paper palette —
+     * softer and a touch warmer than Tailwind's default neutral shadows, so
+     * lifted surfaces feel printed onto the page rather than stuck on top.
+     */
+    --shadow-paper:
+        0 1px 2px -1px rgb(28 25 23 / 0.07),
+        0 6px 16px -8px rgb(28 25 23 / 0.1),
+        0 22px 44px -20px rgb(28 25 23 / 0.16);
+    --shadow-paper-lg:
+        0 2px 4px -2px rgb(28 25 23 / 0.08),
+        0 10px 24px -10px rgb(28 25 23 / 0.12),
+        0 34px 64px -24px rgb(28 25 23 / 0.2);
+    /* Tight, warm lift for buttons — enough to separate from the page
+       without reading as a heavy drop shadow. */
+    --shadow-btn:
+        0 1px 1px rgb(28 25 23 / 0.1), 0 1px 2px -0.5px rgb(28 25 23 / 0.16);
 }
 
 html {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Let Fraunces' optical-size axis track the font size — big display
+       headings get the high-contrast cut, body-size serif stays readable. */
+    font-optical-sizing: auto;
+}
+
+/* Warm text selection — a small, premium tell that ties to the amber accent. */
+::selection {
+    background-color: rgb(180 83 9 / 0.16);
+}
+
+/*
+ * Warm overhead light for the light "paper" canvas — a faint amber wash from
+ * the very top that gives the otherwise-flat stone background gentle
+ * dimension. Anchored once on the page root so it lives behind the hero and
+ * fades out before the content sections (no per-section banding).
+ */
+@utility paper-light {
+    background-color: var(--color-stone-50);
+    background-image: radial-gradient(
+        72rem 46rem at 50% -18%,
+        rgb(180 83 9 / 0.06),
+        transparent 62%
+    );
+}
+
+/*
+ * Depth for the dark sections instead of a flat fill: a soft amber glow from
+ * the top and a warmer pool drifting up from the lower corner.
+ */
+@utility paper-dark {
+    background-color: var(--color-stone-900);
+    background-image:
+        radial-gradient(
+            64rem 42rem at 50% -14%,
+            rgb(251 191 36 / 0.08),
+            transparent 56%
+        ),
+        radial-gradient(
+            96rem 64rem at 108% 116%,
+            rgb(180 83 9 / 0.07),
+            transparent 60%
+        );
+}
+
+/*
+ * Faint engineering grid for the hero's negative space, masked to a soft
+ * ellipse so it fades to nothing well before the headline.
+ */
+@utility grid-veil {
+    background-image:
+        linear-gradient(to right, rgb(28 25 23 / 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(28 25 23 / 0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(
+        40rem 32rem at 70% 22%,
+        black,
+        transparent 74%
+    );
+    mask-image: radial-gradient(40rem 32rem at 70% 22%, black, transparent 74%);
+}
+
+/* Soft warm halo placed behind elevated media (the hero screenshot). */
+@utility halo-amber {
+    background-image: radial-gradient(
+        46rem 34rem at 52% 40%,
+        rgb(217 119 6 / 0.16),
+        transparent 68%
+    );
+}
+
+/*
+ * Sticky header — flush with the page at the top, then lifts onto a soft
+ * shadow + more opaque backdrop once scrolled. `data-scrolled` is toggled by
+ * a passive scroll listener.
+ */
+#site-header {
+    transition:
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+}
+#site-header[data-scrolled] {
+    background-color: rgb(250 250 249 / 0.88);
+    box-shadow:
+        0 1px 0 0 rgb(28 25 23 / 0.04),
+        0 10px 30px -14px rgb(28 25 23 / 0.28);
+}
+
+/*
+ * Gentle scroll-in reveals. The hidden start state only applies once JS adds
+ * `.js-reveal` (so no-JS users see everything) and only when the visitor
+ * hasn't asked for reduced motion. The reveal IO adds `.is-visible`.
+ */
+@media (prefers-reduced-motion: no-preference) {
+    .js-reveal [data-reveal] {
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+            opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+            transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        transition-delay: var(--reveal-delay, 0ms);
+    }
+    .js-reveal [data-reveal].is-visible {
+        opacity: 1;
+        transform: none;
+    }
 }
