@@ -1,0 +1,243 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const eyebrow =
+    'font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase';
+const display = 'font-serif font-semibold tracking-tight';
+
+const lastUpdated = 'June 30, 2026';
+
+const sections = [
+    {
+        n: '01',
+        title: 'Overview',
+        body: [
+            'This Privacy Policy describes how Memberley, Inc. ("Memberley," "we," "us") collects, uses, and shares information when you use Memberley (the "Service"). It applies to organizations that run their membership on Memberley and to the members, customers, and visitors they serve.',
+            'We aim to collect only what we need to operate the Service, and to be clear about how it is used. If you have questions, you can reach us at support@memberley.com.',
+        ],
+    },
+    {
+        n: '02',
+        title: 'Information we collect',
+        body: [
+            'Account information you provide, such as your name, email address, organization details, and login credentials.',
+            'Member and customer data that an organization stores in the Service, including contact details, memberships, classes, payments, and related records ("Customer Data").',
+            'Usage and device information, such as pages viewed, features used, IP address, browser type, and similar diagnostic data, collected automatically as you use the Service.',
+        ],
+    },
+    {
+        n: '03',
+        title: 'How we use information',
+        body: [
+            'To provide, maintain, and improve the Service, process transactions, and provide support.',
+            'To secure the Service, prevent fraud and abuse, and comply with our legal obligations.',
+            'To communicate with you about your account, including service, security, and transactional messages that are necessary to operate the Service.',
+        ],
+    },
+    {
+        n: '04',
+        title: 'SMS and email communications',
+        body: [
+            'We send transactional messages — such as receipts, account notices, password resets, and confirmations — by email because they are necessary to provide the Service.',
+            'Marketing and other non-essential email and SMS messages are opt-in only. We will only send them if you have given consent, and they are sent occasionally rather than on a fixed schedule.',
+            'You can opt out at any time: unsubscribe from any marketing email, or reply STOP to any text message. Message and data rates may apply to SMS, and message frequency varies. Opting out of marketing messages does not stop transactional messages required to run your account.',
+        ],
+    },
+    {
+        n: '05',
+        title: 'How we share information',
+        body: [
+            'We do not sell your personal information. We share information only as needed to operate the Service.',
+            'With service providers that help us run the Service — for example, hosting, payment processing, email, and SMS delivery — who are permitted to use the information only to provide those services to us.',
+            'When required by law, to protect our rights or the safety of others, or in connection with a merger, acquisition, or sale of assets, subject to this Policy.',
+        ],
+    },
+    {
+        n: '06',
+        title: 'Data retention',
+        body: [
+            'We retain information for as long as your account is active or as needed to provide the Service, then for the period required to meet our legal, accounting, or reporting obligations.',
+            'Organizations control much of their Customer Data and may update or delete records within the Service. When an account is closed, we delete or anonymize associated data within a reasonable period, except where retention is required by law.',
+        ],
+    },
+    {
+        n: '07',
+        title: 'Security',
+        body: [
+            'We use reasonable administrative, technical, and physical safeguards designed to protect information against unauthorized access, loss, or misuse.',
+            'No method of transmission or storage is completely secure, so we cannot guarantee absolute security. Please notify us promptly if you believe your account has been compromised.',
+        ],
+    },
+    {
+        n: '08',
+        title: 'Your choices and rights',
+        body: [
+            'You can access and update much of your account information directly within the Service. You may also opt out of marketing email and SMS as described above.',
+            'Depending on where you live, you may have rights to access, correct, delete, or port your personal information, or to object to certain processing. To exercise these rights, contact us at support@memberley.com. If your information is held by an organization that uses Memberley, we may direct your request to that organization.',
+        ],
+    },
+    {
+        n: '09',
+        title: "Children's privacy",
+        body: [
+            'The Service is not directed to children under 13, and we do not knowingly collect personal information from them. Where an organization manages records for minors as part of its programs, it is responsible for obtaining any consents required by law.',
+        ],
+    },
+    {
+        n: '10',
+        title: 'Changes to this policy',
+        body: [
+            'We may update this Privacy Policy from time to time. If we make material changes, we will notify you by email or through the Service. Continued use of the Service after changes take effect constitutes acceptance of the revised Policy.',
+        ],
+    },
+    {
+        n: '11',
+        title: 'Contact',
+        body: [
+            'Questions about this Privacy Policy or our handling of your information can be sent to support@memberley.com.',
+        ],
+    },
+];
+---
+
+<Layout
+    title="Privacy Policy — Memberley"
+    description="How Memberley collects, uses, and protects your information."
+>
+    <div class="min-h-dvh bg-stone-50 font-sans text-stone-900 antialiased">
+        <!-- Nav -->
+        <header
+            class="sticky top-0 z-50 border-b border-stone-300 bg-stone-50/90 backdrop-blur-sm"
+        >
+            <div
+                class="mx-auto flex h-14 max-w-[80rem] items-center justify-between px-6 lg:px-8"
+            >
+                <a
+                    href="/"
+                    aria-label="Homepage"
+                    class="flex items-center gap-2"
+                >
+                    <img
+                        src="/memberley-amper-light.svg"
+                        alt=""
+                        width="24"
+                        height="24"
+                        class="size-6"
+                        loading="eager"
+                        decoding="async"
+                    />
+                    <span
+                        class="text-[0.9375rem] font-semibold tracking-tight text-stone-900"
+                    >
+                        Memberley
+                    </span>
+                </a>
+
+                <a
+                    href="/"
+                    class="text-[0.8125rem] text-stone-600 transition hover:text-stone-900"
+                >
+                    ← Back to home
+                </a>
+            </div>
+        </header>
+
+        <!-- Header -->
+        <section class="border-b border-stone-300">
+            <div class="mx-auto max-w-[80rem] px-6 py-20 lg:px-8 lg:py-24">
+                <div class={eyebrow}>§ Legal</div>
+                <h1
+                    class={`mt-5 max-w-[22ch] text-[clamp(2.5rem,5vw,4rem)] leading-[1] text-balance ${display} text-stone-900`}
+                >
+                    Privacy Policy
+                </h1>
+                <p
+                    class="mt-6 max-w-[60ch] text-[1rem] leading-relaxed text-stone-600"
+                >
+                    This policy explains what information Memberley collects, how
+                    we use it, and the choices you have. Marketing email and SMS
+                    are opt-in only and sent occasionally — you can opt out at
+                    any time.
+                </p>
+                <div
+                    class="mt-8 font-mono text-[0.75rem] tracking-wide text-stone-500 uppercase"
+                >
+                    Last updated · {lastUpdated}
+                </div>
+            </div>
+        </section>
+
+        <!-- Body -->
+        <section class="border-b border-stone-300 bg-stone-50">
+            <div
+                class="mx-auto grid max-w-[80rem] grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:px-8"
+            >
+                <aside class="col-span-4 hidden lg:block">
+                    <div class="sticky top-24">
+                        <div class={eyebrow}>§ Contents</div>
+                        <ol
+                            role="list"
+                            class="mt-5 space-y-2.5 border-t border-stone-300 pt-5"
+                        >
+                            {
+                                sections.map((s) => (
+                                    <li>
+                                        <a
+                                            href={`#s-${s.n}`}
+                                            class="flex gap-3 text-[0.8125rem] text-stone-600 transition hover:text-stone-900"
+                                        >
+                                            <span class="font-mono text-stone-500 tabular-nums">
+                                                {s.n}
+                                            </span>
+                                            <span>{s.title}</span>
+                                        </a>
+                                    </li>
+                                ))
+                            }
+                        </ol>
+                    </div>
+                </aside>
+
+                <div class="col-span-8">
+                    <div
+                        class="divide-y divide-stone-300 border-y border-stone-300"
+                    >
+                        {
+                            sections.map((s) => (
+                                <article id={`s-${s.n}`} class="py-10">
+                                    <div class="font-mono text-[0.75rem] text-stone-500">
+                                        {s.n}
+                                    </div>
+                                    <h2
+                                        class={`mt-3 text-[1.5rem] ${display} text-stone-900`}
+                                    >
+                                        {s.title}
+                                    </h2>
+                                    <div class="mt-4 space-y-4 text-[0.9375rem] leading-relaxed text-stone-600">
+                                        {s.body.map((p) => (
+                                            <p>{p}</p>
+                                        ))}
+                                    </div>
+                                </article>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-stone-50">
+            <div class="mx-auto max-w-[80rem] px-6 py-12 lg:px-8">
+                <div
+                    class="flex flex-col items-start justify-between gap-3 text-[0.75rem] text-stone-600 md:flex-row md:items-center"
+                >
+                    <span>© 2026 Memberley, Inc.</span>
+                    <a href="/" class="transition hover:text-stone-900">
+                        ← Back to home
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</Layout>
