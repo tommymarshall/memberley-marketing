@@ -410,8 +410,9 @@ const useCases = [
 ];
 
 // ── Competitor comparison ───────────────────────────────────────────────────
-// Pricing & feature claims sourced from each vendor's public site (~2026).
-// Re-verify before publishing — comparative claims must stay truthful.
+// Pricing & feature claims sourced from each vendor's public site (last
+// verified July 2026). Re-verify before publishing — comparative claims must
+// stay truthful.
 // Cell types: string = literal value · true = ✓ · false = ✕ · null = — (n/a).
 type CompareCell = string | boolean | null;
 
@@ -433,7 +434,7 @@ const compareRows: { label: string; cells: CompareCell[] }[] = [
       "Pools & neighborhood communities",
       "Pools / HOA / swim & tennis",
       "Swim & tennis / HOA pools",
-      "Tennis, pickleball & courts",
+      "Tennis, pickleball & padel",
     ],
   },
   {
@@ -442,40 +443,36 @@ const compareRows: { label: string; cells: CompareCell[] }[] = [
       "From $0/yr + 3% per payment",
       "$2,000–$3,500/yr",
       "$1,999/yr",
-      "From $159/mo (8 courts)",
+      "From $159/mo (annual billing, 8 courts)",
     ],
   },
   {
     label: "One-time setup fee",
-    cells: ["None", "$500–$1,500", "Included", null],
-  },
-  {
-    label: "Dues settle to your own Stripe (next business day)",
-    cells: [true, null, null, null],
+    cells: ["None", "Optional $500–$1,000", "Included", null],
   },
   {
     label: "Payment processor",
-    cells: ["Your own Stripe", "ECRYPT", "PayPal", null],
+    cells: ["Your own Stripe", "ECRYPT", "PayPal", "Stripe or SafeSave"],
   },
   {
     label: "Member portal embeds in the website you already have",
-    cells: [true, false, false, null],
+    cells: [true, "Keep-your-site option", false, null],
   },
   {
     label: "White-label branding (portal + emails)",
-    cells: [true, null, null, null],
+    cells: [true, null, null, "Top tier only"],
   },
   {
     label: "Free white-glove migration",
-    cells: [true, null, null, null],
+    cells: [true, true, true, null],
   },
   {
     label: "Built-in email & SMS broadcasts",
-    cells: [true, true, true, "Metered"],
+    cells: [true, "SMS on top tier only", "SMS opt-in alerts only", "Metered"],
   },
   {
     label: "QuickBooks & Mailchimp integrations",
-    cells: [true, true, true, null],
+    cells: [true, "Mailchimp · QB via CSV", "Mailchimp · QB export", null],
   },
   {
     label: "Dues, POS & credits in one revenue report",
@@ -483,15 +480,27 @@ const compareRows: { label: string; cells: CompareCell[] }[] = [
   },
   {
     label: "POS inventory tracking (stock counts)",
-    cells: [true, null, null, null],
-  },
-  {
-    label: "Classes, lessons & programs",
     cells: [true, null, true, true],
   },
   {
-    label: "Online dues & auto-renewal",
+    label: "Digital waivers & document library",
+    cells: [true, "Waivers only", null, "Waivers only"],
+  },
+  {
+    label: "Installment payment plans",
+    cells: [true, "Future release", true, null],
+  },
+  {
+    label: "ACH bank payments for dues",
+    cells: [true, true, null, null],
+  },
+  {
+    label: "Classes, lessons & programs",
     cells: [true, true, true, true],
+  },
+  {
+    label: "Online dues & auto-renewal",
+    cells: [true, "Auto-renew: future release", true, true],
   },
   {
     label: "Guest passes, check-in & waitlist",
@@ -509,8 +518,8 @@ const switchCards = [
     strong:
       "The long-time incumbent for neighborhood pools — proven since 2010 with deep pool features and responsive support.",
     cons: [
-      "$2,000–$3,500/yr plus a $500–$1,500 setup fee, before your first member pays.",
-      "Members pay into their system and see their branding, not your club's.",
+      "$2,000–$3,500/yr before your first member pays — plus $500–$1,000 more if you want hands-on setup.",
+      "Payments run through their ECRYPT gateway — you can't bring your own Stripe account.",
       "Reporting that some admins describe as clunky.",
     ],
     win: "Memberley starts at $0/yr with a 3% payment fee — or a $500/yr Base plan with zero payment fees — with no setup fee, deposits dues to your own Stripe the next business day, and brands the portal and emails as your club, and we migrate you for free.",
@@ -531,10 +540,10 @@ const switchCards = [
     strong: "Strong court scheduling built for tennis & pickleball clubs.",
     cons: [
       "Designed around courts — not seasonal pool memberships, guest passes, and front-gate check-in.",
-      "Each club gets its own separate app, so members who belong to more than one juggle multiple logins.",
-      "Metered SMS and email, with the branded mobile app gated to higher tiers.",
+      "SMS and email broadcasts are metered — 500 texts and 5,000 marketing emails a month, then you pay per bundle.",
+      "The branded club app is gated to the top tier, with a $499 setup fee and a one-year contract.",
     ],
-    win: "Memberley is pool-first: seasonal tiers, guest-pass auto-charge at the gate, and a check-in line that actually moves — one member portal for every club, with flat-priced modules instead of metered SMS and email.",
+    win: "Memberley is pool-first: seasonal tiers, guest-pass auto-charge at the gate, and a check-in line that actually moves — with flat-priced modules instead of metered SMS and email.",
   },
 ];
 

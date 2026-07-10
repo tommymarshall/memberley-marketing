@@ -31,18 +31,18 @@ type Cell = string | boolean | null;
 
 const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   { label: "Starting price", memberley: "From $0/yr + 3% per payment", competitor: "$2,000–$3,500 / year" },
-  { label: "One-time setup fee", memberley: "None", competitor: "$500–$1,500" },
+  { label: "One-time setup fee", memberley: "None", competitor: "Optional $500–$1,000" },
   { label: "Payments", memberley: "Your own Stripe · next-day payout", competitor: "ECRYPT merchant account" },
-  { label: "Member portal embeds in the website you already have", memberley: true, competitor: false },
+  { label: "Member portal embeds in the website you already have", memberley: true, competitor: "Keep-your-site option" },
   { label: "White-label branding on portal & emails", memberley: true, competitor: null },
   { label: "Built-in email broadcasts & member segments", memberley: true, competitor: true },
-  { label: "Free white-glove migration", memberley: true, competitor: null },
+  { label: "Free white-glove migration", memberley: true, competitor: true },
   { label: "Modern, mobile-ready interface", memberley: true, competitor: null },
-  { label: "SMS broadcasts & one-to-one texts", memberley: "Beta", competitor: null },
-  { label: "QuickBooks & Mailchimp integrations", memberley: true, competitor: true },
-  { label: "Classes, lessons & programs", memberley: true, competitor: null },
-  { label: "Online dues & auto-renewal", memberley: true, competitor: true },
-  { label: "Photo & guest-pass check-in", memberley: true, competitor: true },
+  { label: "SMS broadcasts & one-to-one texts", memberley: "Beta", competitor: "Top tier only" },
+  { label: "QuickBooks & Mailchimp integrations", memberley: true, competitor: "Mailchimp · QB via CSV" },
+  { label: "Classes, lessons & programs", memberley: true, competitor: true },
+  { label: "Online dues & auto-renewal", memberley: true, competitor: "Auto-renew: future release" },
+  { label: "Guest passes & QR check-in", memberley: true, competitor: true },
   { label: "Waitlist automation", memberley: true, competitor: true },
   { label: "Reservations (lanes / courts / rooms)", memberley: true, competitor: true },
 ];
@@ -87,7 +87,7 @@ const reasons = [
   },
   {
     title: "No setup fee, lower yearly cost",
-    body: "Member Splash runs $2,000–$3,500 a year plus a $500–$1,500 setup fee before your first member pays. Memberley starts at $0/yr — just a 3% payment fee — with nothing to set up.",
+    body: "Member Splash runs $2,000–$3,500 a year before your first member pays — plus $500–$1,000 more if you want hands-on setup. Memberley starts at $0/yr — just a 3% payment fee — with nothing to set up.",
   },
   {
     title: "Built this decade",
@@ -102,11 +102,11 @@ const reasons = [
 const faqs = [
   {
     q: "Is Memberley a good Member Splash alternative for neighborhood pools?",
-    a: "Yes — Memberley is purpose-built for community and neighborhood pools: seasonal membership tiers, guest-pass auto-charge at the gate, photo check-in, waitlists, and online dues. The biggest differences are that dues settle to your own Stripe account, the member portal and emails are branded as your club, and there's no setup fee.",
+    a: "Yes — Memberley is purpose-built for community and neighborhood pools: seasonal membership tiers, guest-pass auto-charge at the gate, QR-code check-in, waitlists, and online dues. The biggest differences are that dues settle to your own Stripe account, the member portal and emails are branded as your club, and there's no setup fee.",
   },
   {
     q: "How does pricing compare to Member Splash?",
-    a: "Member Splash publishes $2,000/yr (Essentials+) to $3,500/yr (Premium), plus a one-time $500–$1,500 setup fee. Memberley starts at $0/yr — unlimited members, no setup fee — with a 3% payment fee, or a $500/yr Base plan with zero payment fees; either way you add only the modules you need. Most neighborhood pools land well under what they'd pay Member Splash in year one.",
+    a: "Member Splash publishes $2,000/yr (Essentials OS) to $3,500/yr (Premium OS), with hands-on setup available for an extra $500–$1,000. Memberley starts at $0/yr — unlimited members, no setup fee — with a 3% payment fee, or a $500/yr Base plan with zero payment fees; either way you add only the modules you need. Most neighborhood pools land well under what they'd pay Member Splash in year one.",
   },
   {
     q: "Where does the money go when members pay?",
@@ -196,10 +196,10 @@ const faqs = [
           <p
             class="mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
           >
-            Same pool essentials — dues, guest passes, waitlists, photo
-            check-in — without the setup fee or the four-figure yearly bill. Your
-            members pay into <strong>your</strong> Stripe account, and the portal
-            wears <strong>your</strong> brand, not ours.
+            Same pool essentials — dues, guest passes, waitlists, QR
+            check-in — without the four-figure yearly bill. Your members pay
+            into <strong>your</strong> Stripe account, and the portal wears
+            <strong>your</strong> brand, not ours.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
             <a
@@ -440,7 +440,7 @@ const faqs = [
           <h2
             class={`mt-5 text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
           >
-            Leave the setup fee behind.
+            Leave the four-figure bill behind.
           </h2>
           <p class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400">
             Start a free trial and see your club in Memberley in minutes — or
