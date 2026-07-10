@@ -157,7 +157,7 @@ const marketingMeta: Record<
     featured: false,
     cta: "Start free trial",
     tagline:
-      "Everything you need to run the club online, with a small per-payment fee.",
+      "Everything you need to run the club online — no annual fee, just 3% per payment.",
   },
   base: {
     featured: true,
@@ -171,12 +171,12 @@ const fallbackPlans: MarketingPlan[] = [
   {
     slug: "starter",
     name: "Starter",
-    price: "$100",
+    price: "$0",
     interval: "year",
     tagline: marketingMeta.starter.tagline,
     featured: false,
     cta: "Start free trial",
-    platformFeePercentage: 2,
+    platformFeePercentage: 3,
   },
   {
     slug: "base",
@@ -439,7 +439,7 @@ const compareRows: { label: string; cells: CompareCell[] }[] = [
   {
     label: "Published starting price",
     cells: [
-      "From $100/yr + add-ons",
+      "From $0/yr + 3% per payment",
       "$2,000–$3,500/yr",
       "$1,999/yr",
       "From $159/mo (8 courts)",
@@ -513,7 +513,7 @@ const switchCards = [
       "Members pay into their system and see their branding, not your club's.",
       "Reporting that some admins describe as clunky.",
     ],
-    win: "Memberley starts at $100/yr — or a $500/yr Base plan with zero payment fees — with no setup fee, deposits dues to your own Stripe the next business day, and brands the portal and emails as your club, and we migrate you for free.",
+    win: "Memberley starts at $0/yr with a 3% payment fee — or a $500/yr Base plan with zero payment fees — with no setup fee, deposits dues to your own Stripe the next business day, and brands the portal and emails as your club, and we migrate you for free.",
   },
   {
     name: "PoolDues",
@@ -524,7 +524,7 @@ const switchCards = [
       "Payments run through PayPal rather than your own Stripe account.",
       "They host your website on their servers, so you never fully own it.",
     ],
-    win: "Memberley starts at $100/yr and you pay for only the modules you need, deposits to your own Stripe, and embeds into the website you already have instead of replacing it.",
+    win: "Memberley starts at $0/yr with a 3% payment fee and you pay for only the modules you need, deposits to your own Stripe, and embeds into the website you already have instead of replacing it.",
   },
   {
     name: "CourtReserve",
