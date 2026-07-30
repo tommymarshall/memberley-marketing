@@ -214,14 +214,20 @@ try {
     // to the hardcoded plans below rather than render an empty pricing grid.
     if (Array.isArray(json.data) && json.data.length > 0) {
       plans = json.data.map((p): MarketingPlan => {
-        const meta = marketingMeta[p.slug] ?? {
+        // The Community plan was named "Base" until 2026-07. The API derives
+        // the slug from the name, so a build against a not-yet-redeployed app
+        // still returns base/Base — normalize so this page renders the new
+        // name and keeps the plan's featured styling either way.
+        const slug = p.slug === "base" ? "community" : p.slug;
+        const name = p.name === "Base" ? "Community" : p.name;
+        const meta = marketingMeta[slug] ?? {
           featured: false,
           cta: "Start free trial",
           tagline: p.description ?? "",
         };
         return {
-          slug: p.slug,
-          name: p.name,
+          slug,
+          name,
           price: p.price_formatted,
           interval: p.billing_interval,
           tagline: meta.tagline,
