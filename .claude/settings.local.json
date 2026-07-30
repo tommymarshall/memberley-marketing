@@ -15,7 +15,12 @@
       "Bash(php artisan:*)",
       "Bash(npx astro *)",
       "Bash(sips -g pixelWidth -g pixelHeight /Users/tommymarshall/Sites/memberley-marketing/app-members.png)",
-      "mcp__chrome-devtools__navigate_page"
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__resize_page",
+      "mcp__chrome-devtools__take_screenshot",
+      "Bash(grep -rn --include=\"*.astro\" --include=\"*.ts\" --include=\"*.tsx\" --include=\"*.js\" --include=\"*.jsx\" --include=\"*.md\" --include=\"*.mdx\" --include=\"*.json\" -iE '\\\\$100|2%|2 ?percent|per year|/year|/yr' /Users/tommymarshall/Sites/memberley-marketing/src)",
+      "Bash(grep -n -iE 'starter|fee|pricing|\\\\$' /Users/tommymarshall/Sites/memberley-marketing/src/pages/terms.astro)",
+      "Bash(grep -rni \"3% per payment\\\\|per payment\\\\|\\\\$0/yr\\\\|From \\\\$0\" src/)"
     ]
   }
 }

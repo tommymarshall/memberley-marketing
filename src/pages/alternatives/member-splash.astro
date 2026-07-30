@@ -32,21 +32,65 @@ const secondaryBtn =
 type Cell = string | boolean | null;
 
 const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
-  { label: "Starting price", memberley: "$0/yr + 3%, or $500/yr with no payment fees", competitor: "$2,000–$3,500 / year" },
-  { label: "One-time setup fee", memberley: "None", competitor: "Optional $500–$1,000" },
-  { label: "Payments", memberley: "Your own Stripe · 1–2 day payouts", competitor: "ECRYPT merchant account" },
-  { label: "Member portal embeds in the website you already have", memberley: true, competitor: "Keep-your-site option" },
-  { label: "White-label branding on portal & emails", memberley: true, competitor: null },
-  { label: "Built-in email broadcasts & member segments", memberley: true, competitor: true },
+  {
+    label: "Starting price",
+    memberley: "$0/yr + 3%, or $500/yr with no payment fees",
+    competitor: "$2,000–$3,500 / year",
+  },
+  {
+    label: "One-time setup fee",
+    memberley: "None",
+    competitor: "Optional $500–$1,000",
+  },
+  {
+    label: "Payments",
+    memberley: "Your own Stripe · 1–2 day payouts",
+    competitor: "ECRYPT merchant account",
+  },
+  {
+    label: "Member portal embeds in the website you already have",
+    memberley: true,
+    competitor: "Keep-your-site option",
+  },
+  {
+    label: "White-label branding on portal & emails",
+    memberley: true,
+    competitor: null,
+  },
+  {
+    label: "Built-in email broadcasts & member segments",
+    memberley: true,
+    competitor: true,
+  },
   { label: "Free white-glove migration", memberley: true, competitor: true },
-  { label: "Modern, mobile-ready interface", memberley: true, competitor: null },
-  { label: "SMS broadcasts & one-to-one texts", memberley: "Beta", competitor: "Top tier only" },
-  { label: "QuickBooks & Mailchimp integrations", memberley: true, competitor: "Mailchimp · QB via CSV" },
+  {
+    label: "Modern, mobile-ready interface",
+    memberley: true,
+    competitor: null,
+  },
+  {
+    label: "SMS broadcasts & one-to-one texts",
+    memberley: "Beta",
+    competitor: "Top tier only",
+  },
+  {
+    label: "QuickBooks & Mailchimp integrations",
+    memberley: true,
+    competitor: "Mailchimp · QB via CSV",
+  },
   { label: "Classes, lessons & programs", memberley: true, competitor: true },
-  { label: "Online dues & auto-renewal", memberley: true, competitor: "Auto-renew: future release" },
+  {
+    label: "Online dues & auto-renewal",
+    memberley: true,
+    competitor: "Auto-renew: future release",
+  },
   { label: "Guest passes & QR check-in", memberley: true, competitor: true },
   { label: "Waitlist automation", memberley: true, competitor: true },
-  { label: "Reservations (lanes / courts / rooms)", memberley: true, competitor: true },
+  {
+    label: "Reservations (lanes / courts / rooms)",
+    memberley: true,
+    competitor: true,
+  },
 ];
 
 // Extras where Memberley goes further than Member Splash's published feature set.
@@ -115,7 +159,7 @@ const faqs = [
   },
   {
     q: "How does pricing compare to Member Splash?",
-    a: "Member Splash publishes $2,000/yr (Essentials OS) to $3,500/yr (Premium OS), with hands-on setup available for an extra $500–$1,000. Memberley starts at $0/yr — unlimited members, no setup fee — with a 3% payment fee, or a $500/yr Base plan with zero payment fees; either way you add only the modules you need. Standard Stripe processing fees apply, as with any provider. Most neighborhood pools land well under what they'd pay Member Splash in year one.",
+    a: "Member Splash publishes $2,000/yr (Essentials OS) to $3,500/yr (Premium OS), with hands-on setup available for an extra $500–$1,000. Memberley starts at $0/yr — unlimited members, no setup fee — with a 3% payment fee, or a $500/yr Community plan with zero payment fees; either way you add only the modules you need. Standard Stripe processing fees apply, as with any provider. Most neighborhood pools land well under what they'd pay Member Splash in year one.",
   },
   {
     q: "Where does the money go when members pay?",
@@ -157,8 +201,9 @@ const faqs = [
             class="mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
           >
             The same pool essentials (dues, guest passes, waitlists, QR
-            check-in) without the four-figure yearly bill. Your members pay
-            into <strong>your</strong> Stripe account, and the portal wears
+            check-in) without the four-figure yearly bill. Your members pay into <strong
+              >your</strong
+            > Stripe account, and the portal wears
             <strong>your</strong> brand, not ours.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
@@ -228,7 +273,9 @@ const faqs = [
           </h2>
         </div>
 
-        <div class="overflow-x-auto rounded-lg border border-stone-950/15 bg-white">
+        <div
+          class="overflow-x-auto rounded-lg border border-stone-950/15 bg-white"
+        >
           <table class="w-full min-w-[40rem] border-collapse text-left">
             <thead>
               <tr class="border-b border-stone-950/10 bg-stone-100">
@@ -301,9 +348,9 @@ const faqs = [
         <p
           class="mt-4 max-w-[75ch] font-mono text-[0.75rem] tracking-wide text-stone-500"
         >
-          * Member Splash pricing &amp; features as published on membersplash.com
-          (2026). “—” means not advertised by Member Splash; verify current
-          terms before relying on them.
+          * Member Splash pricing &amp; features as published on
+          membersplash.com (2026). “—” means not advertised by Member Splash;
+          verify current terms before relying on them.
         </p>
 
         <!-- Fair-play note -->
@@ -337,7 +384,9 @@ const faqs = [
           >
             More that comes built in.
           </h2>
-          <p class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600">
+          <p
+            class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
+          >
             The tools most clubs end up bolting on separately are already part
             of Memberley.
           </p>
@@ -421,7 +470,9 @@ const faqs = [
           >
             Leave the four-figure bill behind.
           </h2>
-          <p class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400">
+          <p
+            class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400"
+          >
             Start a free trial and see your club in Memberley in minutes, or
             send us your Member Splash roster and we'll set everything up for
             you, free, before next season.

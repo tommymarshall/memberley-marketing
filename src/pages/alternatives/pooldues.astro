@@ -32,20 +32,64 @@ const secondaryBtn =
 type Cell = string | boolean | null;
 
 const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
-  { label: "Starting price", memberley: "$0/yr + 3%, or $500/yr with no payment fees", competitor: "$1,999 / year (flat)" },
-  { label: "Pay for only the add-on modules you use", memberley: true, competitor: false },
-  { label: "Payments", memberley: "Your own Stripe · 1–2 day payouts", competitor: "PayPal" },
-  { label: "Keep the website you already have (portal embeds)", memberley: true, competitor: false },
-  { label: "White-label branding on portal & emails", memberley: true, competitor: null },
-  { label: "Built-in email broadcasts & member segments", memberley: true, competitor: true },
-  { label: "SMS broadcasts & one-to-one texts", memberley: "Beta", competitor: "Opt-in alerts" },
-  { label: "QuickBooks & Mailchimp integrations", memberley: true, competitor: "Mailchimp · QB export" },
+  {
+    label: "Starting price",
+    memberley: "$0/yr + 3%, or $500/yr with no payment fees",
+    competitor: "$1,999 / year (flat)",
+  },
+  {
+    label: "Pay for only the add-on modules you use",
+    memberley: true,
+    competitor: false,
+  },
+  {
+    label: "Payments",
+    memberley: "Your own Stripe · 1–2 day payouts",
+    competitor: "PayPal",
+  },
+  {
+    label: "Keep the website you already have (portal embeds)",
+    memberley: true,
+    competitor: false,
+  },
+  {
+    label: "White-label branding on portal & emails",
+    memberley: true,
+    competitor: null,
+  },
+  {
+    label: "Built-in email broadcasts & member segments",
+    memberley: true,
+    competitor: true,
+  },
+  {
+    label: "SMS broadcasts & one-to-one texts",
+    memberley: "Beta",
+    competitor: "Opt-in alerts",
+  },
+  {
+    label: "QuickBooks & Mailchimp integrations",
+    memberley: true,
+    competitor: "Mailchimp · QB export",
+  },
   { label: "Classes, lessons & programs", memberley: true, competitor: true },
-  { label: "Digital waivers & document library", memberley: true, competitor: null },
+  {
+    label: "Digital waivers & document library",
+    memberley: true,
+    competitor: null,
+  },
   { label: "Free white-glove migration", memberley: true, competitor: true },
   { label: "Online dues & auto-renewal", memberley: true, competitor: true },
-  { label: "Guest passes & member check-in", memberley: true, competitor: true },
-  { label: "Reservations (lanes / courts / cabanas)", memberley: true, competitor: true },
+  {
+    label: "Guest passes & member check-in",
+    memberley: true,
+    competitor: true,
+  },
+  {
+    label: "Reservations (lanes / courts / cabanas)",
+    memberley: true,
+    competitor: true,
+  },
 ];
 
 const reasons = [
@@ -117,7 +161,7 @@ const faqs = [
   },
   {
     q: "How does pricing compare to PoolDues?",
-    a: "PoolDues is a flat $1,999/yr for the whole bundle. Memberley starts at $0/yr with unlimited members and a 3% payment fee — or a $500/yr Base plan with zero payment fees — and you pay for only the add-on modules you use, so most neighborhood pools come out well under what PoolDues charges. Standard Stripe processing fees apply, as with any provider.",
+    a: "PoolDues is a flat $1,999/yr for the whole bundle. Memberley starts at $0/yr with unlimited members and a 3% payment fee — or a $500/yr Community plan with zero payment fees — and you pay for only the add-on modules you use, so most neighborhood pools come out well under what PoolDues charges. Standard Stripe processing fees apply, as with any provider.",
   },
   {
     q: "Can we switch in the middle of the season?",
@@ -151,10 +195,10 @@ const faqs = [
             class="mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
           >
             Everything swim & tennis clubs need (dues, reservations, guest
-            passes, check-in), but members pay into <strong>your</strong> Stripe
-            account instead of PayPal, the portal lives on the website you
-            <strong>already</strong> have, and email, SMS, and accounting
-            sync come built in.
+            passes, check-in), but members pay into <strong>your</strong> Stripe account
+            instead of PayPal, the portal lives on the website you
+            <strong>already</strong> have, and email, SMS, and accounting sync come
+            built in.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
             <a
@@ -172,7 +216,8 @@ const faqs = [
             </a>
           </div>
           <p class="mt-6 font-mono text-[0.75rem] tracking-wide text-stone-600">
-            Free migration off PoolDues · Your own Stripe · 14-day trial, no card
+            Free migration off PoolDues · Your own Stripe · 14-day trial, no
+            card
           </p>
         </div>
       </div>
@@ -222,7 +267,9 @@ const faqs = [
           </h2>
         </div>
 
-        <div class="overflow-x-auto rounded-lg border border-stone-950/15 bg-white">
+        <div
+          class="overflow-x-auto rounded-lg border border-stone-950/15 bg-white"
+        >
           <table class="w-full min-w-[40rem] border-collapse text-left">
             <thead>
               <tr class="border-b border-stone-950/10 bg-stone-100">
@@ -275,7 +322,10 @@ const faqs = [
                             ✕
                           </span>
                         ) : (
-                          <span class="text-stone-300" aria-label="Not advertised">
+                          <span
+                            class="text-stone-300"
+                            aria-label="Not advertised"
+                          >
                             —
                           </span>
                         )}
@@ -311,11 +361,11 @@ const faqs = [
           </div>
           <p class="text-[0.875rem] leading-relaxed text-stone-600">
             PoolDues is purpose-built for swim &amp; tennis clubs, with native
-            iOS apps, built-in mass email, concession credit, and one simple flat
-            price. If you want a fully hosted, all-in-one site and PayPal works
-            for you, it's a reasonable choice. Memberley is for clubs that want
-            their own Stripe payouts, their own website, and native comms and
-            accounting integrations.
+            iOS apps, built-in mass email, concession credit, and one simple
+            flat price. If you want a fully hosted, all-in-one site and PayPal
+            works for you, it's a reasonable choice. Memberley is for clubs that
+            want their own Stripe payouts, their own website, and native comms
+            and accounting integrations.
           </p>
         </div>
       </div>
@@ -331,7 +381,9 @@ const faqs = [
           >
             More that comes built in.
           </h2>
-          <p class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600">
+          <p
+            class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
+          >
             The tools most clubs end up bolting on separately are already part
             of Memberley.
           </p>
@@ -415,7 +467,9 @@ const faqs = [
           >
             Keep your dues. Keep your site.
           </h2>
-          <p class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400">
+          <p
+            class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400"
+          >
             Start a free trial and see your club in Memberley in minutes, or
             send us your PoolDues roster and we'll set everything up for you,
             free, before next season.

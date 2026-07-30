@@ -51,11 +51,11 @@ const faqGroups: FaqGroup[] = [
     faqs: [
       {
         q: "What does Memberley cost?",
-        a: "Two plans, both with unlimited members: Starter is $0/yr with a 3% fee per payment processed through Memberley. Base is $500/yr with zero payment fees. Add-on modules (reservations, front desk & check-in, point of sale, communications, branded site & embed, classes & events) are flat-priced at $100–$250 per year each. Standard Stripe processing fees apply on every plan, as with any provider.",
+        a: "Two plans, both with unlimited members: Starter is $0/yr with a 3% fee per payment processed through Memberley. Community is $500/yr with zero payment fees. Add-on modules (reservations, front desk & check-in, point of sale, communications, branded site & embed, classes & events) are flat-priced at $100–$250 per year each. Standard Stripe processing fees apply on every plan, as with any provider.",
       },
       {
         q: "Which plan should we pick?",
-        a: "A rule of thumb: if your club collects more than about $17,000 a year through Memberley, Base's flat $500 costs less than Starter's 3%, and you keep 100% of your dues. Smaller clubs usually start on Starter and upgrade when the math flips.",
+        a: "A rule of thumb: if your club collects more than about $17,000 a year through Memberley, Community's flat $500 costs less than Starter's 3%, and you keep 100% of your dues. Smaller clubs usually start on Starter and upgrade when the math flips.",
       },
       {
         q: "What are add-on modules?",
@@ -97,7 +97,7 @@ const faqGroups: FaqGroup[] = [
       },
       {
         q: "How do we reach a human?",
-        a: "Write hello@memberley.com. Memberley is based in Northern Virginia, and we'll happily meet your board in person to walk through setup and migration.",
+        a: "Write hello@memberley.com or call the founder Tommy at (703) 895-6939. Memberley is based in Northern Virginia, and we'll happily meet your board in person to walk through setup and migration.",
       },
     ],
   },
@@ -182,10 +182,12 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
           >
             Talk to a person, or just try it.
           </h2>
-          <p class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400">
+          <p
+            class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400"
+          >
             Write us and we&rsquo;ll walk your board through setup and
-            migration, or explore the live demo and start a free trial
-            whenever you&rsquo;re ready.
+            migration, or explore the live demo and start a free trial whenever
+            you&rsquo;re ready.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
             <a

@@ -149,9 +149,7 @@ function formatPercent(value: number): string {
 }
 
 function feeLabel(value: number): string {
-  return value > 0
-    ? `${formatPercent(value)} per payment`
-    : "No platform fees";
+  return value > 0 ? `${formatPercent(value)} per payment` : "No platform fees";
 }
 
 const marketingMeta: Record<
@@ -164,7 +162,7 @@ const marketingMeta: Record<
     tagline:
       "Everything you need to run the club online: no annual fee, 3% per payment.",
   },
-  base: {
+  community: {
     featured: true,
     cta: "Start free trial",
     tagline:
@@ -184,11 +182,11 @@ const fallbackPlans: MarketingPlan[] = [
     platformFeePercentage: 3,
   },
   {
-    slug: "base",
-    name: "Base",
+    slug: "community",
+    name: "Community",
     price: "$500",
     interval: "year",
-    tagline: marketingMeta.base.tagline,
+    tagline: marketingMeta.community.tagline,
     featured: true,
     cta: "Start free trial",
     platformFeePercentage: 0,
@@ -610,7 +608,9 @@ const signupPerks = [
 ---
 
 <Layout>
-  <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased isolate">
+  <div
+    class="min-h-dvh paper-light font-sans text-stone-900 antialiased isolate"
+  >
     <SiteHeader />
 
     <!-- Hero -->
@@ -731,8 +731,8 @@ const signupPerks = [
               together from loosely connected plugins and themes, which makes
               every change to your website a small project. Memberley is a
               single application written for the job: memberships, bookings,
-              dues, branding, and embedding are designed together, so each
-              piece works with the rest and stays easy to customize.
+              dues, branding, and embedding are designed together, so each piece
+              works with the rest and stays easy to customize.
             </p>
             <p
               class="mt-4 max-w-[52ch] text-[1rem] leading-relaxed text-pretty text-stone-300"
@@ -826,8 +826,8 @@ const signupPerks = [
             class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
           >
             One workspace, zero spreadsheets: your board, your staff, and your
-            members all see the same truth. The essentials come with every
-            plan; features marked as add-ons are <a
+            members all see the same truth. The essentials come with every plan;
+            features marked as add-ons are <a
               href="#pricing"
               class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
               >flat-priced modules</a
@@ -946,8 +946,8 @@ const signupPerks = [
             class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
           >
             Built for neighborhood pools, courts, and community swim clubs, so
-            the comparison that matters is against the tools you&rsquo;ve already
-            tried.
+            the comparison that matters is against the tools you&rsquo;ve
+            already tried.
           </p>
         </div>
 
@@ -1152,12 +1152,12 @@ const signupPerks = [
             class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
           >
             Every plan starts with unlimited members and the essentials to run
-            your club. Add modules only when you need them, and try everything free
-            for 14 days, no card required.
+            your club. Add modules only when you need them, and try everything
+            free for 14 days, no card required.
           </p>
         </div>
 
-        <!-- Base plans + what every plan includes -->
+        <!-- Community plans + what every plan includes -->
         <div
           data-reveal
           class="overflow-hidden rounded-lg bg-white shadow-paper ring-1 ring-stone-950/5"
@@ -1225,7 +1225,7 @@ const signupPerks = [
             class="border-t border-stone-950/10 px-8 py-4 text-[0.8125rem] leading-relaxed text-stone-600"
           >
             Rule of thumb: collecting more than about $17,000 a year through
-            Memberley? <strong class="text-stone-900">Base</strong> costs less
+            Memberley? <strong class="text-stone-900">Community</strong> costs less
             than Starter&rsquo;s 3%, and you keep 100% of your dues.
           </div>
 
@@ -1363,10 +1363,7 @@ const signupPerks = [
             the signup link with your members. That&rsquo;s the whole thing.
           </p>
 
-          <ul
-            role="list"
-            class="mt-10 space-y-3 border-t border-white/10 pt-8"
-          >
+          <ul role="list" class="mt-10 space-y-3 border-t border-white/10 pt-8">
             {
               signupPerks.map((i) => (
                 <li class="flex items-center gap-3 text-[0.875rem] text-stone-300">
@@ -1379,7 +1376,10 @@ const signupPerks = [
         </div>
 
         <div class="col-span-7">
-          <div data-reveal class="rounded-lg bg-stone-950 p-8 ring-1 ring-white/10">
+          <div
+            data-reveal
+            class="rounded-lg bg-stone-950 p-8 ring-1 ring-white/10"
+          >
             <div class="mb-6 flex items-center justify-between">
               <span class="flex items-center gap-2">
                 <img
