@@ -26,51 +26,116 @@ const secondaryBtn =
   "border border-stone-950/15 bg-white text-stone-900 hover:border-stone-950/30 hover:bg-stone-100";
 
 // ── Head-to-head ─────────────────────────────────────────────────────────────
-// Competitor details as published on membersplash.com (2026). Re-verify before
+// Competitor details as published on courtreserve.com (2026). Re-verify before
 // publishing — comparative claims must stay truthful.
-// Cell types: string = literal · true = ✓ · false = ✕ · null = — (n/a).
+// Cell types: string = literal · true = ✓ · false = ✕ · null = — (not advertised).
 type Cell = string | boolean | null;
 
 const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
-  { label: "Starting price", memberley: "$0/yr + 3%, or $500/yr with no payment fees", competitor: "$2,000–$3,500 / year" },
-  { label: "One-time setup fee", memberley: "None", competitor: "Optional $500–$1,000" },
-  { label: "Payments", memberley: "Your own Stripe · 1–2 day payouts", competitor: "ECRYPT merchant account" },
-  { label: "Member portal embeds in the website you already have", memberley: true, competitor: "Keep-your-site option" },
-  { label: "White-label branding on portal & emails", memberley: true, competitor: null },
-  { label: "Built-in email broadcasts & member segments", memberley: true, competitor: true },
-  { label: "Free white-glove migration", memberley: true, competitor: true },
-  { label: "Modern, mobile-ready interface", memberley: true, competitor: null },
-  { label: "SMS broadcasts & one-to-one texts", memberley: "Beta", competitor: "Top tier only" },
-  { label: "QuickBooks & Mailchimp integrations", memberley: true, competitor: "Mailchimp · QB via CSV" },
+  {
+    label: "Focus",
+    memberley: "Pools, courts & neighborhood communities",
+    competitor: "Tennis, pickleball & padel",
+  },
+  {
+    label: "Starting price",
+    memberley: "$0/yr + 3% per payment — or $500/yr, no payment fees",
+    competitor: "From $159/mo (annual billing, 8 courts)",
+  },
+  {
+    label: "Payments",
+    memberley: "Your own Stripe · 1–2 day payouts",
+    competitor: "Stripe or SafeSave",
+  },
+  {
+    label: "Email & SMS broadcasts",
+    memberley: "Flat-priced module · 1,000 SMS/mo included",
+    competitor: "Metered — 500 texts & 5,000 marketing emails/mo",
+  },
+  {
+    label: "White-label branding on portal & emails",
+    memberley: "$100/yr module",
+    competitor: "Top tier only · $499 setup · 1-yr contract",
+  },
+  {
+    label: "Member portal embeds in the website you already have",
+    memberley: true,
+    competitor: null,
+  },
+  { label: "One-time setup fee", memberley: "None", competitor: null },
+  {
+    label: "QuickBooks & Mailchimp integrations",
+    memberley: true,
+    competitor: null,
+  },
+  {
+    label: "Digital waivers & document library",
+    memberley: true,
+    competitor: "Waivers only",
+  },
+  { label: "Installment payment plans", memberley: true, competitor: null },
+  { label: "ACH bank payments for dues", memberley: true, competitor: null },
+  { label: "Free white-glove migration", memberley: true, competitor: null },
   { label: "Classes, lessons & programs", memberley: true, competitor: true },
-  { label: "Online dues & auto-renewal", memberley: true, competitor: "Auto-renew: future release" },
-  { label: "Guest passes & QR check-in", memberley: true, competitor: true },
-  { label: "Waitlist automation", memberley: true, competitor: true },
-  { label: "Reservations (lanes / courts / rooms)", memberley: true, competitor: true },
+  { label: "Online dues & auto-renewal", memberley: true, competitor: true },
+  {
+    label: "Guest passes, check-in & waitlist",
+    memberley: true,
+    competitor: true,
+  },
+  {
+    label: "Reservations (lanes / courts / rooms)",
+    memberley: true,
+    competitor: true,
+  },
+  { label: "POS inventory tracking", memberley: true, competitor: true },
 ];
 
-// Extras where Memberley goes further than Member Splash's published feature set.
+const reasons = [
+  {
+    title: "Pool-first, not court-first",
+    body: "CourtReserve is designed around court scheduling. Memberley is built around the way community clubs actually run: seasonal membership tiers, guest passes auto-charged at the gate, a front-desk line that moves, with courts, lanes, and rooms covered by the same reservations module.",
+  },
+  {
+    title: "Flat-priced comms, not metered",
+    body: "CourtReserve meters broadcasts at 500 texts and 5,000 marketing emails a month, then you pay per bundle. Memberley's Communications module is $150/yr flat with 1,000 SMS a month included and unlimited email campaigns.",
+  },
+  {
+    title: "Your brand isn't a top-tier perk",
+    body: "CourtReserve gates its branded club experience to the top tier, with a $499 setup fee and a one-year contract. Memberley's Branded Site & Embed module is $100/yr — no setup fee, no contract — and covers the portal, sign-in pages, and every email.",
+  },
+  {
+    title: "Pricing that fits a seasonal club",
+    body: "From $159 a month, year-round, adds up fast for a pool that's open fourteen weeks. Memberley starts at $0/yr with a 3% payment fee — or $500/yr with none — and you turn modules on only when your club needs them.",
+  },
+];
+
+// Extras where Memberley goes further for pools & community clubs.
 const builtInExtras = [
   {
-    title: "SMS member texts",
-    desc: "Reach members where they actually reply: broadcasts and one-to-one texts, right alongside everything else.",
-    badge: "Beta",
-    icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+    title: "Guest-pass auto-charge",
+    desc: "Passes deducted at the gate and charged automatically when a member runs out.",
+    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/>',
   },
   {
-    title: "QuickBooks & Mailchimp",
-    desc: "Native sync of dues and members — not just optional Mailchimp and manual QuickBooks reconciliation.",
-    icon: '<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/>',
+    title: "QR-code check-in",
+    desc: "Members scan in at the front gate — no kiosk hardware, no app install.",
+    icon: '<rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/>',
   },
   {
-    title: "Classes & programs",
-    desc: "Publish a catalog of lessons, clinics, and camps with a public signup page and rosters — no second booking tool.",
-    icon: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
+    title: "Family & household accounts",
+    desc: "Link a household under one roof and keep billing and guest passes straight.",
+    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   },
   {
     title: "Waivers & documents",
-    desc: "E-sign reusable waiver templates with annual expiration and share a document library, exportable as signed PDFs.",
+    desc: "E-sign reusable waiver templates and share a document library, exportable as signed PDFs.",
     icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/>',
+  },
+  {
+    title: "QuickBooks & Mailchimp",
+    desc: "Native sync of dues and members into the accounting and email tools you already use.",
+    icon: '<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/>',
   },
   {
     title: "Embedded white-label portal",
@@ -78,67 +143,43 @@ const builtInExtras = [
     icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
   },
   {
-    title: "Modern, mobile-ready UI",
-    desc: "Run the front desk from a phone or tablet at the gate — fast, clean, nothing to install.",
-    icon: '<rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/>',
-  },
-  {
-    title: "Family & household accounts",
-    desc: "Link a household under one roof and keep billing and guest passes straight.",
-    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
-  },
-];
-
-const reasons = [
-  {
-    title: "Keep your dues — and your brand",
-    body: "Connect your own Stripe account in minutes. Members pay your club directly and payouts typically reach your bank in 1–2 business days. The portal and every email carry your logo and colors, not a vendor's.",
-  },
-  {
-    title: "No setup fee, lower yearly cost",
-    body: "Member Splash runs $2,000–$3,500 a year before your first member pays, plus $500–$1,000 more if you want hands-on setup. Memberley starts at $0/yr with a 3% payment fee, and there's nothing to set up.",
-  },
-  {
-    title: "Built this decade",
-    body: "A fast, modern interface your board and your front desk can actually use on a phone or tablet at the gate — not a dated dashboard.",
-  },
-  {
-    title: "We move you over for free",
-    body: "Send us your current roster and we import it, set up your branded portal, and have you live before registration opens next season. No spreadsheets, no downtime.",
+    title: "ACH & installment plans",
+    desc: "Members pay dues by bank transfer or on a payment plan, with autopay and automatic late fees built in.",
+    icon: '<line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',
   },
 ];
 
 const faqs = [
   {
-    q: "Is Memberley a good Member Splash alternative for neighborhood pools?",
-    a: "Yes — Memberley is purpose-built for community and neighborhood pools: seasonal membership tiers, guest-pass auto-charge at the gate, QR-code check-in, waitlists, and online dues. The biggest differences are that dues settle to your own Stripe account, the member portal and emails are branded as your club, and there's no setup fee.",
+    q: "Is Memberley a good CourtReserve alternative?",
+    a: "It depends on what you run. If you're a dedicated tennis, pickleball, or padel operation, CourtReserve's court scheduling is deep and purpose-built. If you're a pool, swim & tennis club, or HOA where courts are one amenity among many, Memberley is built around your actual season: memberships and dues, guest passes, front-gate check-in, and reservations for courts, lanes, and rooms together.",
   },
   {
-    q: "How does pricing compare to Member Splash?",
-    a: "Member Splash publishes $2,000/yr (Essentials OS) to $3,500/yr (Premium OS), with hands-on setup available for an extra $500–$1,000. Memberley starts at $0/yr — unlimited members, no setup fee — with a 3% payment fee, or a $500/yr Base plan with zero payment fees; either way you add only the modules you need. Standard Stripe processing fees apply, as with any provider. Most neighborhood pools land well under what they'd pay Member Splash in year one.",
+    q: "How does pricing compare to CourtReserve?",
+    a: "CourtReserve publishes plans from $159/month on annual billing for up to 8 courts, billed year-round. Memberley starts at $0/yr with unlimited members and a 3% payment fee — or a $500/yr Base plan with zero payment fees — plus flat-priced add-on modules ($100–$250/yr) you enable only if you need them.",
   },
   {
-    q: "Where does the money go when members pay?",
-    a: "Into your own Stripe account. You connect Stripe in under 10 minutes, and dues, renewals, and guest fees typically deposit to your bank in 1–2 business days — no middleman holding your funds.",
+    q: "Are texts and emails metered?",
+    a: "Not with Memberley. The Communications module is $150/yr flat and includes 1,000 SMS a month with unlimited email campaigns; if you need more texts in a busy month, top-ups are available in 1,000-message packs. CourtReserve's published plans meter broadcasts at 500 texts and 5,000 marketing emails a month, then charge per bundle.",
   },
   {
-    q: "Can we keep our existing club website?",
-    a: "Yes. Memberley's member portal embeds into the site you already have, themed to match. You don't have to move your website onto our servers.",
+    q: "Can we still run court reservations on Memberley?",
+    a: "Yes — the Facilities & Reservations module covers courts, lanes, and rooms with operating hours, booking slots, and conflict checks. Courts are a first-class amenity; they're just not the only thing the product is organized around.",
   },
   {
-    q: "Can we switch in the middle of the season?",
-    a: "You can switch anytime, but most clubs migrate in the off-season (fall through early spring) so everything is ready before registration opens. We handle the data import for you either way.",
+    q: "Do you offer white-label branding?",
+    a: "Yes. The Branded Site & Embed module ($100/yr) applies your logo, colors, and typography across the member portal, sign-in pages, and emails, and lets you embed the portal in the website you already have — no setup fee and no annual contract.",
   },
   {
-    q: "Do you work with Northern Virginia pools?",
-    a: "Yes — Memberley is based in Northern Virginia and we'll happily meet your board in person to walk through setup and migration.",
+    q: "Do you work with Northern Virginia clubs?",
+    a: "Yes — Memberley is based in Northern Virginia and we'll meet your board in person to walk through setup and migration. Migration is free: send us your current roster and we'll have you live before next season.",
   },
 ];
 ---
 
 <Layout
-  title="Member Splash Alternative for Neighborhood Pools | Memberley"
-  description="Looking for a Member Splash alternative? Memberley runs your pool's memberships, dues, guest passes, and check-in — with dues paid to your own Stripe account, your branding, no setup fee, and free migration."
+  title="CourtReserve Alternative for Pools & Community Clubs | Memberley"
+  description="Looking for a CourtReserve alternative for a pool or community club? Memberley is pool-first — seasonal memberships, guest passes, front-gate check-in, and court reservations — with flat-priced modules instead of metered SMS and email."
 >
   <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased">
     <SiteHeader />
@@ -147,19 +188,19 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8 lg:py-20">
         <div class="max-w-[60ch]">
-          <div class={eyebrow}>§ Member Splash alternative</div>
+          <div class={eyebrow}>§ CourtReserve alternative</div>
           <h1
             class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4.5vw,4rem)] leading-[1] text-balance ${display} text-stone-900`}
           >
-            The modern Member Splash alternative for neighborhood pools.
+            The pool-first CourtReserve alternative.
           </h1>
           <p
             class="mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
           >
-            The same pool essentials (dues, guest passes, waitlists, QR
-            check-in) without the four-figure yearly bill. Your members pay
-            into <strong>your</strong> Stripe account, and the portal wears
-            <strong>your</strong> brand, not ours.
+            Courts covered, of course. But Memberley is organized around the
+            rest of your club too: seasonal memberships, guest passes
+            auto-charged at the gate, front-desk check-in, and dues that settle
+            to <strong>your</strong> Stripe account.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
             <a
@@ -176,9 +217,10 @@ const faqs = [
               See the comparison
             </a>
           </div>
-          <p class="mt-6 font-mono text-[0.75rem] tracking-wide text-stone-600">
-            Free migration off Member Splash · No setup fee · 14-day trial, no
-            card
+          <p
+            class="mt-6 max-w-[75ch] font-mono text-[0.75rem] tracking-wide text-stone-600"
+          >
+            Free migration · No setup fee · 14-day trial, no card
           </p>
         </div>
       </div>
@@ -188,7 +230,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
-          <div class={eyebrow}>§ Why pools switch</div>
+          <div class={eyebrow}>§ Why clubs switch</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -224,11 +266,13 @@ const faqs = [
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
-            Memberley vs. Member Splash.
+            Memberley vs. CourtReserve.
           </h2>
         </div>
 
-        <div class="overflow-x-auto rounded-lg border border-stone-950/15 bg-white">
+        <div
+          class="overflow-x-auto rounded-lg bg-white shadow-paper ring-1 ring-stone-950/5"
+        >
           <table class="w-full min-w-[40rem] border-collapse text-left">
             <thead>
               <tr class="border-b border-stone-950/10 bg-stone-100">
@@ -239,7 +283,7 @@ const faqs = [
                 >
                 <th
                   class="p-4 text-center text-[0.8125rem] font-semibold text-stone-700"
-                  >Member Splash</th
+                  >CourtReserve</th
                 >
               </tr>
             </thead>
@@ -281,7 +325,10 @@ const faqs = [
                             ✕
                           </span>
                         ) : (
-                          <span class="text-stone-300" aria-label="Not offered">
+                          <span
+                            class="text-stone-300"
+                            aria-label="Not advertised"
+                          >
                             —
                           </span>
                         )}
@@ -301,14 +348,14 @@ const faqs = [
         <p
           class="mt-4 max-w-[75ch] font-mono text-[0.75rem] tracking-wide text-stone-500"
         >
-          * Member Splash pricing &amp; features as published on membersplash.com
-          (2026). “—” means not advertised by Member Splash; verify current
-          terms before relying on them.
+          * CourtReserve pricing &amp; features as published on courtreserve.com
+          (2026). “—” means not advertised by CourtReserve; verify current terms
+          before relying on them.
         </p>
 
         <!-- Fair-play note -->
         <div
-          class="mt-10 flex flex-col gap-3 rounded-lg border border-stone-950/15 bg-white p-6 md:flex-row md:gap-6"
+          class="mt-10 flex flex-col gap-3 rounded-lg bg-white p-6 ring-1 ring-stone-950/10 md:flex-row md:gap-6"
         >
           <div
             class="font-mono text-[0.6875rem] tracking-wide text-stone-500 uppercase md:w-44 md:shrink-0"
@@ -316,12 +363,11 @@ const faqs = [
             Credit where due
           </div>
           <p class="text-[0.875rem] leading-relaxed text-stone-600">
-            Member Splash has served pools since 2010 and supports hundreds of
-            clubs with a deep, pool-specific toolset, built-in email, and a
-            well-regarded support team. If you're happy paying their annual fee
-            and don't need your own Stripe account or an embeddable portal,
-            they're a solid choice. Memberley is for clubs that want lower cost,
-            their own Stripe, and their own brand.
+            CourtReserve is excellent at what it's built for — deep court
+            scheduling, leagues, and programming for tennis, pickleball, and
+            padel operations. If courts are your whole business, it's a strong
+            choice. Memberley is for pools and community clubs where courts are
+            one amenity among many.
           </p>
         </div>
       </div>
@@ -331,15 +377,15 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
-          <div class={eyebrow}>§ Beyond the basics</div>
+          <div class={eyebrow}>§ Beyond the courts</div>
           <h2
             class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
-            More that comes built in.
+            The rest of the club, built in.
           </h2>
           <p class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600">
-            The tools most clubs end up bolting on separately are already part
-            of Memberley.
+            The parts of running a community club that court software leaves to
+            spreadsheets.
           </p>
         </div>
         <div class="grid grid-cols-2 gap-x-10 gap-y-8 lg:grid-cols-4">
@@ -359,15 +405,8 @@ const faqs = [
                     set:html={f.icon}
                   />
                 </div>
-                <div class="flex flex-wrap items-center gap-2">
-                  <span class="text-[0.9375rem] font-semibold text-stone-900">
-                    {f.title}
-                  </span>
-                  {f.badge && (
-                    <span class="rounded-sm border border-brand-700/30 bg-brand-700/10 px-1.5 py-0.5 font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase">
-                      {f.badge}
-                    </span>
-                  )}
+                <div class="text-[0.9375rem] font-semibold text-stone-900">
+                  {f.title}
                 </div>
                 <div class="mt-1.5 text-[0.8125rem] leading-relaxed text-stone-600">
                   {f.desc}
@@ -419,17 +458,17 @@ const faqs = [
           <h2
             class={`mt-5 text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
           >
-            Leave the four-figure bill behind.
+            Run the whole club, not just the courts.
           </h2>
           <p class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400">
             Start a free trial and see your club in Memberley in minutes, or
-            send us your Member Splash roster and we'll set everything up for
-            you, free, before next season.
+            send us your current roster and we'll set everything up for you,
+            free, before next season.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
             <a
               href={SIGNUP_URL}
-              class="inline-flex items-center gap-2 rounded-sm bg-brand-700 px-5 py-3 text-[0.875rem] font-semibold text-white transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+              class="inline-flex items-center gap-2 rounded-sm bg-brand-700 px-5 py-3 text-[0.875rem] font-semibold text-white shadow-btn transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
             >
               Start free trial →
             </a>

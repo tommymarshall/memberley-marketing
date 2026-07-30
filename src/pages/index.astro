@@ -1,5 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 
 declare const process: {
   env: {
@@ -18,6 +20,8 @@ const APP_URL =
       : "https://app.memberley.com";
 const SIGNUP_URL = `${APP_URL}/register`;
 const LOGIN_URL = `${APP_URL}/login`;
+const DEMO_URL = "https://demo.memberley.com";
+const CONTACT_EMAIL = "hello@memberley.com";
 
 // ── Plans ──────────────────────────────────────────────────────────────────
 // Pricing data is sourced from the app's public /api/v1/plans endpoint at
@@ -80,7 +84,7 @@ const modules: AddOnModule[] = [
     name: "Facilities & Reservations",
     price: "$250",
     interval: "year",
-    desc: "Let members book courts, lanes, and rooms — with operating hours, slots, and conflict checks.",
+    desc: "Let members book courts, lanes, and rooms, with operating hours, slots, and conflict checks.",
     icon: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>',
   },
   {
@@ -94,7 +98,7 @@ const modules: AddOnModule[] = [
     name: "Point of Sale",
     price: "$250",
     interval: "year",
-    desc: "Sell at the snack bar or pro shop, with products, registers, and sales reporting — and daily sales sync to QuickBooks.",
+    desc: "Sell at the snack bar or pro shop, with products, registers, and sales reporting, plus daily sales sync to QuickBooks.",
     icon: '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
   },
   {
@@ -109,14 +113,14 @@ const modules: AddOnModule[] = [
     name: "Branded Site & Embed",
     price: "$100",
     interval: "year",
-    desc: "Embed the fully branded member portal on your own website with drop-in widgets — and your logo, colors, and typography carry across the admin, manager, and member dashboards too.",
+    desc: "Embed the fully branded member portal on your own website with drop-in widgets; your logo, colors, and typography carry across the admin, manager, and member dashboards too.",
     icon: '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>',
   },
   {
     name: "Classes & Events",
     price: "$200",
     interval: "year",
-    desc: "Sell classes, lessons, camps, leagues, and events — with online registration, rosters, and session scheduling.",
+    desc: "Sell classes, lessons, camps, leagues, and events, with online registration, rosters, and session scheduling.",
     icon: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
   },
 ];
@@ -129,6 +133,7 @@ const baseFeatures: string[] = [
   "Member portal & online signup",
   "Email announcements & reminders",
   "Waitlist with auto-promotion",
+  "Reports with scheduled email delivery",
   "QuickBooks & Mailchimp integrations",
   "Activity log & exports",
 ];
@@ -146,7 +151,7 @@ function formatPercent(value: number): string {
 function feeLabel(value: number): string {
   return value > 0
     ? `${formatPercent(value)} per payment`
-    : "No platform fees!";
+    : "No platform fees";
 }
 
 const marketingMeta: Record<
@@ -157,13 +162,13 @@ const marketingMeta: Record<
     featured: false,
     cta: "Start free trial",
     tagline:
-      "Everything you need to run the club online — no annual fee, just 3% per payment.",
+      "Everything you need to run the club online: no annual fee, 3% per payment.",
   },
   base: {
     featured: true,
     cta: "Start free trial",
     tagline:
-      "Everything in Starter with zero payment fees — keep 100% of your dues.",
+      "Everything in Starter with zero payment fees. Keep 100% of your dues.",
   },
 };
 
@@ -247,18 +252,27 @@ try {
 
 // Class tokens (inlined from the original paperTheme)
 const eyebrow =
-  "font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase";
+  "font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase";
 const display = "font-serif font-semibold tracking-tight";
 const primaryBtn =
-  "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800 focus-visible:outline-amber-600";
+  "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800 focus-visible:outline-brand-600";
 const secondaryBtn =
   "border border-stone-950/15 bg-white text-stone-900 hover:border-stone-950/30 hover:bg-stone-100";
 
-const primaryFeatures = [
+type PrimaryFeature = {
+  n: string;
+  title: string;
+  desc: string;
+  icon: string;
+  /** Label shown when the feature is powered by a paid add-on module. */
+  addon?: string;
+};
+
+const primaryFeatures: PrimaryFeature[] = [
   {
     n: "01",
     title: "Memberships",
-    desc: "Tiers, pricing, guest pass allocations, renewals, and waitlists with auto-promotion — plus bulk CSV import and a shareable invite link so you can move your whole roster over in an afternoon.",
+    desc: "Tiers, pricing, guest pass allocations, renewals, and waitlists with auto-promotion, plus bulk CSV import and a shareable invite link so you can move your whole roster over in an afternoon.",
     icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   },
   {
@@ -266,116 +280,153 @@ const primaryFeatures = [
     title: "Reservations",
     desc: "A clean calendar for members to book lanes, courts, or rooms online. Conflict checks, operating hours, approvals, and confirmation emails are handled for you.",
     icon: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>',
+    addon: "Add-on module",
   },
   {
     n: "03",
     title: "Payments",
-    desc: "Members pay you directly through your own Stripe account — funds land in your bank the next business day. No middleman, no support tickets, no waiting on us to cut a check. Connect Stripe in under 10 minutes and you’re collecting dues, renewals, guest fees, and refunds with receipts sent automatically on every charge.",
+    desc: "Members pay dues by card or ACH bank transfer through your own Stripe account. Payouts typically reach your bank in 1–2 business days, with no middleman holding your funds. Autopay, installment plans, discount codes, and automatic late fees are built in, and receipts go out on every charge. Connect Stripe in under 10 minutes.",
     icon: '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
   },
   {
     n: "04",
-    title: "Check-ins & front-desk",
-    desc: "Front-desk search by name, guest passes deducted and charged automatically, and a built-in point-of-sale for snack-bar and pro-shop purchases — every action written to an activity log. A line that actually moves.",
+    title: "Front desk & check-in",
+    desc: "Front-desk search by name, QR-code scanning at the gate, guest passes deducted and charged automatically, and a built-in point-of-sale for snack-bar and pro-shop purchases, with every action written to an activity log. A line that actually moves.",
     icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/>',
+    addon: "Add-on module",
   },
   {
     n: "05",
     title: "Classes & programs",
-    desc: "Build a catalog of offerings, schedule sessions, publish a public signup page, and manage enrollments — without bolting on a second booking tool.",
+    desc: "Build a catalog of offerings, schedule sessions, publish a public signup page, and manage enrollments, without bolting on a second booking tool.",
     icon: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
+    addon: "Add-on module",
   },
   {
     n: "06",
     title: "Member comms",
-    desc: "Send email broadcasts with dynamic segments and per-recipient tracking. Opens, deliveries, and bounces are tracked alongside everything else — and SMS broadcasts and one-to-one texts are rolling out in beta.",
+    desc: "Send email broadcasts with dynamic segments and per-recipient tracking. Opens, deliveries, and bounces are tracked alongside everything else, and SMS broadcasts and one-to-one texts are rolling out in beta. Everyday announcements and reminders are included on every plan.",
     icon: '<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
+    addon: "Campaigns & SMS add-on",
   },
 ];
 
 type SecondaryFeature = {
   title: string;
-  desc: string;
   icon: string;
   badge?: string;
 };
 
-const secondaryFeatures: SecondaryFeature[] = [
+type FeatureGroup = {
+  title: string;
+  items: SecondaryFeature[];
+};
+
+const featureGroups: FeatureGroup[] = [
   {
-    title: "Bulk CSV import",
-    desc: "Move your entire roster over in one upload, with per-row status overrides.",
-    icon: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/>',
+    title: "Money & billing",
+    items: [
+      {
+        title: "Stripe Connect",
+        icon: '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
+      },
+      {
+        title: "ACH bank payments",
+        icon: '<line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',
+      },
+      {
+        title: "Autopay & renewals",
+        icon: '<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',
+      },
+      {
+        title: "Installment plans",
+        icon: '<circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/>',
+      },
+      {
+        title: "Discount codes",
+        icon: '<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M9 9h.01"/><path d="m15 9-6 6"/><path d="M15 15h.01"/>',
+      },
+      {
+        title: "Automatic late fees",
+        icon: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/>',
+      },
+    ],
   },
   {
-    title: "Invite link & join codes",
-    desc: "Share one URL. Members create an account and land on your default tier.",
-    icon: '<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/>',
+    title: "Members & front desk",
+    items: [
+      {
+        title: "Bulk CSV import",
+        icon: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/>',
+      },
+      {
+        title: "Invite link & join codes",
+        icon: '<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/>',
+      },
+      {
+        title: "Family accounts",
+        icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+      },
+      {
+        title: "Waitlist automation",
+        icon: '<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>',
+      },
+      {
+        title: "Waivers & documents",
+        icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/>',
+      },
+      {
+        title: "View as member",
+        icon: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
+      },
+    ],
   },
   {
-    title: "Stripe Connect",
-    desc: "Your own Stripe account, connected in minutes. Members pay you directly and funds deposit next business day — never us in the middle.",
-    icon: '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
+    title: "Comms & brand",
+    items: [
+      {
+        title: "Email campaigns",
+        icon: '<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
+      },
+      {
+        title: "Email reminders",
+        icon: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+      },
+      {
+        title: "SMS broadcast",
+        badge: "Beta",
+        icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+      },
+      {
+        title: "Embedded member portal",
+        icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+      },
+      {
+        title: "White-label branding",
+        icon: '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>',
+      },
+    ],
   },
   {
-    title: "Waitlist automation",
-    desc: "Tier-aware queues, auto-promotion when seats open, expired-invite cleanup.",
-    icon: '<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>',
-  },
-  {
-    title: "Email campaigns",
-    desc: "Build dynamic member segments, send broadcasts, and track opens, deliveries, and bounces.",
-    icon: '<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
-  },
-  {
-    title: "Email reminders",
-    desc: "Renewals, receipts, payment retries, and confirmations go out automatically.",
-    icon: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
-  },
-  {
-    title: "SMS broadcast",
-    desc: "Reach members where they reply — broadcasts and one-to-one texts without juggling another tool.",
-    badge: "Beta",
-    icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
-  },
-  {
-    title: "Family accounts",
-    desc: "Households under one roof: link members, share billing context, and keep passes straight.",
-    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
-  },
-  {
-    title: "Waivers & documents",
-    desc: "E-sign reusable waiver templates, share document libraries, and export signed PDFs.",
-    icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/>',
-  },
-  {
-    title: "Activity log",
-    desc: "See every change and who made it, exportable whenever you need it.",
-    icon: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
-  },
-  {
-    title: "View as member",
-    desc: "Step into any member's view to diagnose issues without disturbing their session — read-only by default, with every action attributed to you in the activity log.",
-    icon: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
-  },
-  {
-    title: "Multi-org switcher",
-    desc: "Run more than one club? Switch organizations without signing out.",
-    icon: '<path d="m17 3 4 4-4 4"/><path d="M3 7h18"/><path d="m7 21-4-4 4-4"/><path d="M21 17H3"/>',
-  },
-  {
-    title: "Mobile-ready",
-    desc: "Run the front desk from a tablet or phone — no install, no app store.",
-    icon: '<rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/>',
-  },
-  {
-    title: "Embedded member portal",
-    desc: "Drop the full member portal — profile, reservations, documents, payments, announcements — into your own site, themed to match with colors, fonts, and corner radius.",
-    icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
-  },
-  {
-    title: "White-label branding",
-    desc: "Brand colors, fonts, corner radius, density, logos, and favicon applied across the member app, staff app, sign-in pages, and transactional emails.",
-    icon: '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>',
+    title: "Operations",
+    items: [
+      {
+        title: "Reports, delivered on a schedule",
+        icon: '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+      },
+      {
+        title: "Activity log",
+        icon: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+      },
+      {
+        title: "Multi-org switcher",
+        icon: '<path d="m17 3 4 4-4 4"/><path d="M3 7h18"/><path d="m7 21-4-4 4-4"/><path d="M21 17H3"/>',
+      },
+      {
+        title: "Mobile-ready",
+        icon: '<rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/>',
+      },
+    ],
   },
 ];
 
@@ -384,7 +435,7 @@ const useCases = [
     tag: "Swim Clubs",
     bullets: [
       "Seasonal memberships",
-      "Room and Lane reservations",
+      "Lane and room reservations",
       "Guest-pass deduction",
       "Peak-season waitlists",
     ],
@@ -394,8 +445,8 @@ const useCases = [
     bullets: [
       "Annual assessments",
       "Amenity booking",
-      "Courts reservations",
-      "Guest passes",
+      "Court reservations",
+      "Automatic late fees",
     ],
   },
   {
@@ -403,7 +454,7 @@ const useCases = [
     bullets: [
       "Multi-tier categories",
       "Event reservations",
-      "Check-ins and Check-outs",
+      "Check-ins and check-outs",
       "Automated renewals",
     ],
   },
@@ -440,7 +491,7 @@ const compareRows: { label: string; cells: CompareCell[] }[] = [
   {
     label: "Published starting price",
     cells: [
-      "$500/yr OR 3% per payment",
+      "$0/yr + 3%, or $500/yr with no payment fees",
       "$2,000–$3,500/yr",
       "$1,999/yr",
       "From $159/mo (annual billing, 8 courts)",
@@ -515,6 +566,7 @@ const compareRows: { label: string; cells: CompareCell[] }[] = [
 const switchCards = [
   {
     name: "Member Splash",
+    href: "/alternatives/member-splash",
     strong:
       "The long-time incumbent for neighborhood pools — proven since 2010 with deep pool features and responsive support.",
     cons: [
@@ -522,10 +574,11 @@ const switchCards = [
       "Payments run through their ECRYPT gateway — you can't bring your own Stripe account.",
       "Reporting that some admins describe as clunky.",
     ],
-    win: "Memberley starts at $0/yr with a 3% payment fee — or a $500/yr Base plan with zero payment fees — with no setup fee, deposits dues to your own Stripe the next business day, and brands the portal and emails as your club, and we migrate you for free.",
+    win: "Memberley starts at $0/yr + 3% per payment (or $500/yr with zero payment fees), with no setup fee, payouts to your own Stripe in 1–2 business days, a portal and emails branded as your club, and free migration.",
   },
   {
     name: "PoolDues",
+    href: "/alternatives/pooldues",
     strong:
       "Purpose-built for swim & tennis clubs with one simple flat annual price.",
     cons: [
@@ -533,17 +586,18 @@ const switchCards = [
       "Payments run through PayPal rather than your own Stripe account.",
       "They host your website on their servers, so you never fully own it.",
     ],
-    win: "Memberley starts at $0/yr with a 3% payment fee and you pay for only the modules you need, deposits to your own Stripe, and embeds into the website you already have instead of replacing it.",
+    win: "Memberley starts at $0/yr + 3% per payment (or $500/yr with zero payment fees), you pay for only the modules you need, payouts land in your own Stripe account, and the portal embeds into the website you already have.",
   },
   {
     name: "CourtReserve",
+    href: "/alternatives/courtreserve",
     strong: "Strong court scheduling built for tennis & pickleball clubs.",
     cons: [
       "Designed around courts — not seasonal pool memberships, guest passes, and front-gate check-in.",
       "SMS and email broadcasts are metered — 500 texts and 5,000 marketing emails a month, then you pay per bundle.",
       "The branded club app is gated to the top tier, with a $499 setup fee and a one-year contract.",
     ],
-    win: "Memberley is pool-first: seasonal tiers, guest-pass auto-charge at the gate, and a check-in line that actually moves — with flat-priced modules instead of metered SMS and email.",
+    win: "Memberley is pool-first: seasonal tiers, guest-pass auto-charge at the gate, and a check-in line that actually moves, with flat-priced modules instead of metered SMS and email.",
   },
 ];
 
@@ -557,65 +611,7 @@ const signupPerks = [
 
 <Layout>
   <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased isolate">
-    <!-- Nav -->
-    <header
-      id="site-header"
-      class="sticky top-0 z-50 border-b border-stone-950/10 bg-stone-50/80 backdrop-blur-md"
-    >
-      <div
-        class="mx-auto flex h-14 max-w-[80rem] items-center justify-between px-6 lg:px-8"
-      >
-        <a href="/" aria-label="Homepage" class="flex items-center gap-2">
-          <img
-            src="/memberley-amper-light.svg"
-            alt=""
-            width="24"
-            height="24"
-            class="size-6"
-            loading="eager"
-            decoding="async"
-          />
-          <span
-            class="text-[0.9375rem] font-semibold tracking-tight text-stone-900"
-          >
-            Memberley
-          </span>
-          <span
-            class="ml-2 rounded-sm border border-stone-950/15 px-1.5 py-0.5 font-mono text-[0.625rem] text-stone-600"
-          >
-            v1.0
-          </span>
-        </a>
-
-        <nav
-          class="hidden items-center gap-7 text-[0.8125rem] text-stone-600 md:flex"
-        >
-          <a href="#features" class="transition hover:text-stone-900"
-            >Features</a
-          >
-          <a href="#compare" class="transition hover:text-stone-900">Compare</a>
-          <a href="#pricing" class="transition hover:text-stone-900">Pricing</a>
-          <a href="#docs" class="transition hover:text-stone-900">Help</a>
-        </nav>
-
-        <div class="flex items-center gap-3">
-          <a
-            id="nav-signin"
-            href={LOGIN_URL}
-            class="text-[0.8125rem] text-stone-600 transition hover:text-stone-900"
-          >
-            Sign in
-          </a>
-          <a
-            id="nav-cta"
-            href={SIGNUP_URL}
-            class={`inline-flex items-center gap-2 rounded-sm px-4 py-2 text-[0.8125rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
-          >
-            Register
-          </a>
-        </div>
-      </div>
-    </header>
+    <SiteHeader />
 
     <!-- Hero -->
     <section
@@ -630,11 +626,12 @@ const signupPerks = [
         class="mx-auto grid max-w-[80rem] grid-cols-1 gap-16 px-6 pt-10 pb-24 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-20"
       >
         <div class="lg:col-span-5">
-          <div
-            class="mb-8 inline-flex items-center gap-2 rounded-full bg-stone-100 py-1 pr-3 pl-1 ring-1 ring-stone-950/10"
+          <a
+            href="#features"
+            class="mb-8 inline-flex items-center gap-2 rounded-full bg-stone-100 py-1 pr-3 pl-1 ring-1 ring-stone-950/10 transition hover:ring-stone-950/20"
           >
             <span
-              class="flex items-center gap-1.5 rounded-full bg-amber-700 px-2 py-0.5 text-[0.625rem] font-medium tracking-wide text-white uppercase"
+              class="flex items-center gap-1.5 rounded-full bg-brand-700 px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-white uppercase"
             >
               <span class="size-1.5 rounded-full bg-white"></span>
               New
@@ -642,10 +639,10 @@ const signupPerks = [
             <span class="text-[0.75rem] text-stone-700">
               Classes, email campaigns, and waivers are live · SMS in beta →
             </span>
-          </div>
+          </a>
 
           <h1
-            class={`max-w-[20ch] text-[clamp(3rem,4vw,5.25rem)] leading-[0.95] text-balance ${display} text-stone-900`}
+            class={`max-w-[20ch] text-[clamp(2.75rem,4vw,4.5rem)] leading-[1] text-balance ${display} text-stone-900`}
           >
             Run your community like it runs itself.
           </h1>
@@ -654,7 +651,7 @@ const signupPerks = [
             class="mt-8 max-w-[52ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
           >
             Memberships, reservations, payments, classes, comms, and front-desk
-            check-ins — in one calm workspace built for the person actually
+            check-ins, in one calm workspace built for the person actually
             running the club.
           </p>
 
@@ -667,10 +664,10 @@ const signupPerks = [
               <span class="transition group-hover:translate-x-0.5">→</span>
             </a>
             <a
-              href="#features"
+              href={DEMO_URL}
               class={`inline-flex items-center gap-2 rounded-sm py-2.5 pr-5 pl-5 text-[0.875rem] font-medium transition ${secondaryBtn}`}
             >
-              See how it works
+              Explore the live demo
             </a>
           </div>
 
@@ -678,7 +675,7 @@ const signupPerks = [
             class="mt-12 flex items-center gap-6 text-[0.75rem] text-stone-600"
           >
             <div class="flex items-center gap-2">
-              <span class="size-1.5 rounded-full bg-amber-600"></span>
+              <span class="size-1.5 rounded-full bg-brand-600"></span>
               Built for swim clubs, HOAs &amp; private clubs
             </div>
           </div>
@@ -690,7 +687,7 @@ const signupPerks = [
         >
           <div
             aria-hidden="true"
-            class="pointer-events-none absolute -inset-8 -z-10 halo-amber"
+            class="pointer-events-none absolute -inset-8 -z-10 halo-brand"
           >
           </div>
           <picture class="block w-full">
@@ -711,14 +708,14 @@ const signupPerks = [
 
     <!-- Purpose-built vs plugin stacks -->
     <section id="platform" class="paper-dark text-stone-50">
-      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+      <div class="mx-auto max-w-[80rem] px-6 py-20 lg:px-8">
         <div
           data-reveal
           class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16"
         >
           <div class="lg:col-span-5">
             <div
-              class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-400 uppercase"
+              class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
             >
               Platform
             </div>
@@ -731,12 +728,11 @@ const signupPerks = [
               class="mt-6 max-w-[52ch] text-[1rem] leading-relaxed text-pretty text-stone-300"
             >
               Some competitors stitch memberships, calendars, and payments
-              together from loosely connected plugins and themes. This makes it
-              harder for you to make changes or add new features to your
-              website. Memberley is a single application written for the job —
-              memberships, bookings, dues, white-label branding and embedding
-              means each feature works together seamlessly and easy to
-              customize.
+              together from loosely connected plugins and themes, which makes
+              every change to your website a small project. Memberley is a
+              single application written for the job: memberships, bookings,
+              dues, branding, and embedding are designed together, so each
+              piece works with the rest and stays easy to customize.
             </p>
             <p
               class="mt-4 max-w-[52ch] text-[1rem] leading-relaxed text-pretty text-stone-300"
@@ -754,7 +750,7 @@ const signupPerks = [
             >
               <li class="flex gap-4 p-6 md:p-8">
                 <span
-                  class="mt-0.5 font-mono text-[0.75rem] font-medium tracking-wide text-amber-400"
+                  class="mt-0.5 font-mono text-[0.75rem] font-medium tracking-wide text-brand-400"
                   aria-hidden="true"
                 >
                   →
@@ -773,7 +769,7 @@ const signupPerks = [
               </li>
               <li class="flex gap-4 p-6 md:p-8">
                 <span
-                  class="mt-0.5 font-mono text-[0.75rem] font-medium tracking-wide text-amber-400"
+                  class="mt-0.5 font-mono text-[0.75rem] font-medium tracking-wide text-brand-400"
                   aria-hidden="true"
                 >
                   →
@@ -793,7 +789,7 @@ const signupPerks = [
               </li>
               <li class="flex gap-4 p-6 md:p-8">
                 <span
-                  class="mt-0.5 font-mono text-[0.75rem] font-medium tracking-wide text-amber-400"
+                  class="mt-0.5 font-mono text-[0.75rem] font-medium tracking-wide text-brand-400"
                   aria-hidden="true"
                 >
                   →
@@ -829,8 +825,13 @@ const signupPerks = [
           <p
             class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
           >
-            Tons of tools. Zero spreadsheets. All in one place, so your board,
-            your staff, and your members all see the same truth.
+            One workspace, zero spreadsheets: your board, your staff, and your
+            members all see the same truth. The essentials come with every
+            plan; features marked as add-ons are <a
+              href="#pricing"
+              class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
+              >flat-priced modules</a
+            > you switch on only if your club needs them.
           </p>
         </div>
 
@@ -850,7 +851,7 @@ const signupPerks = [
                 >
                   {f.n}
                 </span>
-                <div class="flex size-10 items-center justify-center rounded-lg bg-amber-700/10 text-amber-700 ring-1 ring-amber-700/15">
+                <div class="flex size-10 items-center justify-center rounded-lg bg-brand-700/10 text-brand-700 ring-1 ring-brand-700/15">
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
@@ -863,8 +864,18 @@ const signupPerks = [
                     set:html={f.icon}
                   />
                 </div>
-                <dt class={`mt-5 text-[1.375rem] ${display} text-stone-900`}>
+                <dt
+                  class={`mt-5 flex flex-wrap items-center gap-2.5 text-[1.375rem] ${display} text-stone-900`}
+                >
                   {f.title}
+                  {f.addon && (
+                    <a
+                      href="#pricing"
+                      class="rounded-sm border border-stone-950/15 bg-stone-100 px-1.5 py-0.5 font-mono text-[0.6875rem] font-medium tracking-wide text-stone-600 uppercase transition hover:border-stone-950/30 hover:text-stone-900"
+                    >
+                      {f.addon}
+                    </a>
+                  )}
                 </dt>
                 <dd class="mt-3 max-w-[46ch] text-[0.9375rem] leading-relaxed text-stone-600">
                   {f.desc}
@@ -880,36 +891,44 @@ const signupPerks = [
           </h3>
           <div class="h-px flex-1 bg-stone-950/10"></div>
         </div>
-        <!-- secondary features grid -->
-        <ul
-          role="list"
+        <!-- secondary features, grouped by the job they do -->
+        <div
           data-reveal
-          class="mt-10 grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-3 lg:grid-cols-4"
+          class="mt-10 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
         >
           {
-            secondaryFeatures.map((f) => (
-              <li class="flex items-center gap-2.5 text-[0.9375rem] text-stone-700">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="size-5 shrink-0 text-amber-700"
-                  aria-hidden="true"
-                  set:html={f.icon}
-                />
-                <span>{f.title}</span>
-                {f.badge && (
-                  <span class="rounded-sm border border-amber-700/30 bg-amber-700/10 px-1.5 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-amber-800 uppercase">
-                    {f.badge}
-                  </span>
-                )}
-              </li>
+            featureGroups.map((g) => (
+              <div>
+                <div class="font-mono text-[0.6875rem] font-medium tracking-wide text-stone-500 uppercase">
+                  {g.title}
+                </div>
+                <ul role="list" class="mt-4 space-y-3">
+                  {g.items.map((f) => (
+                    <li class="flex items-center gap-2.5 text-[0.9375rem] text-stone-700">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="size-5 shrink-0 text-brand-700"
+                        aria-hidden="true"
+                        set:html={f.icon}
+                      />
+                      <span>{f.title}</span>
+                      {f.badge && (
+                        <span class="rounded-sm border border-brand-700/30 bg-brand-700/10 px-1.5 py-0.5 font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase">
+                          {f.badge}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))
           }
-        </ul>
+        </div>
       </div>
     </section>
 
@@ -926,7 +945,7 @@ const signupPerks = [
           <p
             class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
           >
-            Built for neighborhood pools, courts, and community swim clubs — so
+            Built for neighborhood pools, courts, and community swim clubs, so
             the comparison that matters is against the tools you&rsquo;ve already
             tried.
           </p>
@@ -944,7 +963,7 @@ const signupPerks = [
                 {
                   compareColumns.map((c, i) => (
                     <th
-                      class={`p-4 text-center ${i === 0 ? "bg-amber-700/10" : ""}`}
+                      class={`p-4 text-center ${i === 0 ? "bg-brand-700/10" : ""}`}
                     >
                       <img
                         src={c.logo}
@@ -967,7 +986,7 @@ const signupPerks = [
                     </th>
                     {row.cells.map((cell, i) => (
                       <td
-                        class={`p-4 text-center align-middle ${i === 0 ? "bg-amber-700/5" : ""}`}
+                        class={`p-4 text-center align-middle ${i === 0 ? "bg-brand-700/5" : ""}`}
                       >
                         {typeof cell === "string" ? (
                           <span class="text-[0.8125rem] text-stone-700">
@@ -975,7 +994,7 @@ const signupPerks = [
                           </span>
                         ) : cell === true ? (
                           <svg
-                            class="mx-auto size-4 text-amber-700"
+                            class="mx-auto size-4 text-brand-700"
                             viewBox="0 0 16 16"
                             fill="none"
                             aria-label="Yes"
@@ -1008,7 +1027,14 @@ const signupPerks = [
             </tbody>
           </table>
         </div>
-        <p class="mt-4 font-mono text-[0.6875rem] tracking-wide text-stone-500">
+        <p
+          class="mt-3 font-mono text-[0.75rem] tracking-wide text-stone-500 md:hidden"
+        >
+          Swipe sideways to compare →
+        </p>
+        <p
+          class="mt-4 max-w-[75ch] font-mono text-[0.75rem] tracking-wide text-stone-500"
+        >
           * Competitor pricing &amp; features as published on their own sites
           (2026).
         </p>
@@ -1038,9 +1064,16 @@ const signupPerks = [
                   ))}
                 </ul>
                 <p class="mt-5 border-t border-stone-950/10 pt-5 text-[0.8125rem] leading-relaxed text-stone-700">
-                  <span class="font-semibold text-amber-800">Memberley:</span>{" "}
+                  <span class="font-semibold text-brand-800">Memberley:</span>{" "}
                   {c.win}
                 </p>
+                <a
+                  href={c.href}
+                  class="mt-5 inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-stone-900 transition hover:text-brand-800"
+                >
+                  Read the full {c.name} comparison
+                  <span aria-hidden="true">→</span>
+                </a>
               </div>
             ))
           }
@@ -1048,17 +1081,17 @@ const signupPerks = [
 
         <!-- SwimTopia complement -->
         <div
-          class="mt-10 flex flex-col gap-3 rounded-lg bg-amber-700/5 p-6 ring-1 ring-amber-700/25 md:flex-row md:items-center md:gap-6"
+          class="mt-10 flex flex-col gap-3 rounded-lg bg-brand-700/5 p-6 ring-1 ring-brand-700/25 md:flex-row md:items-center md:gap-6"
         >
           <div
-            class="font-mono text-[0.6875rem] tracking-wide text-amber-800 uppercase md:w-44 md:shrink-0"
+            class="font-mono text-[0.6875rem] tracking-wide text-brand-800 uppercase md:w-44 md:shrink-0"
           >
             On a swim team?
           </div>
           <p class="text-[0.875rem] leading-relaxed text-stone-700">
             Keep your team on <strong>SwimTopia</strong> — now NVSL&rsquo;s official
             platform for meets and registration. Memberley runs the
-            <em>pool</em>: memberships, dues, guest passes, and the front gate —
+            <em>pool</em>: memberships, dues, guest passes, and the front gate:
             the side SwimTopia doesn&rsquo;t cover. The two work side by side.
           </p>
         </div>
@@ -1070,7 +1103,7 @@ const signupPerks = [
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
         <div data-reveal class="mb-14 max-w-[48ch]">
           <div
-            class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-400 uppercase"
+            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
           >
             § Built for
           </div>
@@ -1087,13 +1120,13 @@ const signupPerks = [
           {
             useCases.map((c) => (
               <div class="flex flex-col gap-6 p-8">
-                <div class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-400 uppercase">
+                <div class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase">
                   {c.tag}
                 </div>
                 <ul role="list" class="space-y-3">
                   {c.bullets.map((b) => (
                     <li class="flex items-start gap-3 text-[0.9375rem] text-stone-300">
-                      <span class="mt-0.5 font-mono text-amber-400">→</span>
+                      <span class="mt-0.5 font-mono text-brand-400">→</span>
                       {b}
                     </li>
                   ))}
@@ -1107,7 +1140,7 @@ const signupPerks = [
 
     <!-- Pricing -->
     <section id="pricing" class="border-b border-stone-950/10 bg-stone-50">
-      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+      <div class="mx-auto max-w-[80rem] px-6 py-28 lg:px-8">
         <div data-reveal class="mb-14 max-w-[52ch]">
           <div class={eyebrow}>§ Pricing</div>
           <h2
@@ -1119,8 +1152,8 @@ const signupPerks = [
             class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
           >
             Every plan starts with unlimited members and the essentials to run
-            your club. Add modules only when you need them — and try everything
-            free for 14 days, no card required.
+            your club. Add modules only when you need them, and try everything free
+            for 14 days, no card required.
           </p>
         </div>
 
@@ -1135,15 +1168,15 @@ const signupPerks = [
             {
               plans.map((p) => (
                 <div
-                  class={`relative flex flex-col justify-between gap-8 p-8 ${p.featured ? "bg-amber-700/6" : ""}`}
+                  class={`relative flex flex-col justify-between gap-8 p-8 ${p.featured ? "bg-brand-700/6" : ""}`}
                 >
                   {p.featured && (
                     <>
                       <span
                         aria-hidden="true"
-                        class="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-amber-500 to-amber-700"
+                        class="absolute inset-x-0 top-0 h-1 bg-brand-600"
                       />
-                      <span class="absolute top-6 right-6 rounded-sm bg-amber-700 px-2 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-white uppercase">
+                      <span class="absolute top-6 right-6 rounded-sm bg-brand-700 px-2 py-0.5 font-mono text-[0.6875rem] font-medium tracking-wide text-white uppercase">
                         Recommended
                       </span>
                     </>
@@ -1167,7 +1200,7 @@ const signupPerks = [
                     </div>
                     <div class="mt-3 font-mono text-[0.6875rem] tracking-wide uppercase">
                       {p.platformFeePercentage === 0 ? (
-                        <span class="font-bold text-amber-800">
+                        <span class="font-bold text-brand-800">
                           {feeLabel(p.platformFeePercentage)}
                         </span>
                       ) : (
@@ -1188,9 +1221,17 @@ const signupPerks = [
             }
           </div>
 
+          <div
+            class="border-t border-stone-950/10 px-8 py-4 text-[0.8125rem] leading-relaxed text-stone-600"
+          >
+            Rule of thumb: collecting more than about $17,000 a year through
+            Memberley? <strong class="text-stone-900">Base</strong> costs less
+            than Starter&rsquo;s 3%, and you keep 100% of your dues.
+          </div>
+
           <div class="border-t border-stone-950/10 bg-stone-100 px-8 py-7">
             <div
-              class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase"
+              class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase"
             >
               Every plan includes
             </div>
@@ -1202,7 +1243,7 @@ const signupPerks = [
                 baseFeatures.map((f) => (
                   <li class="flex items-start gap-2.5 text-[0.875rem] text-stone-700">
                     <svg
-                      class="mt-0.5 size-4 shrink-0 text-amber-700"
+                      class="mt-0.5 size-4 shrink-0 text-brand-700"
                       viewBox="0 0 16 16"
                       fill="none"
                     >
@@ -1235,19 +1276,21 @@ const signupPerks = [
               class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
             >
               Reservations, the front gate, point of sale, member broadcasts, a
-              branded portal — turn each module on when you need it and off when
+              branded portal: turn each module on when you need it and off when
               you don&rsquo;t. Every one is free to try during your trial.
             </p>
           </div>
 
           <div
             data-reveal
-            class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            class="grid grid-cols-1 divide-y divide-stone-950/10 border-y border-stone-950/10 md:grid-cols-2 md:divide-x md:divide-y-0"
           >
             {
-              modules.map((m) => (
-                <div class="flex flex-col rounded-lg bg-white p-6 ring-1 ring-stone-950/10">
-                  <div class="mb-4 flex size-9 items-center justify-center rounded-md bg-stone-100 text-amber-700 ring-1 ring-stone-950/10">
+              modules.map((m, i) => (
+                <div
+                  class={`flex gap-5 p-6 md:p-7 ${i >= 2 ? "md:border-t md:border-stone-950/10" : ""}`}
+                >
+                  <div class="flex size-9 shrink-0 items-center justify-center rounded-md bg-stone-100 text-brand-700 ring-1 ring-stone-950/10">
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
@@ -1260,33 +1303,39 @@ const signupPerks = [
                       set:html={m.icon}
                     />
                   </div>
-                  <div class="flex items-baseline justify-between gap-3">
-                    <h4 class="text-[0.9375rem] font-semibold text-stone-900">
-                      {m.name}
-                    </h4>
-                    <span class="shrink-0 font-mono text-[0.875rem] text-stone-900 tabular-nums">
-                      {m.price}
-                      <span class="text-stone-500">
-                        {perInterval(m.interval)}
+                  <div class="min-w-0 flex-1">
+                    <div class="flex items-baseline justify-between gap-3">
+                      <h4 class="text-[0.9375rem] font-semibold text-stone-900">
+                        {m.name}
+                      </h4>
+                      <span class="shrink-0 font-mono text-[0.875rem] text-stone-900 tabular-nums">
+                        {m.price}
+                        <span class="text-stone-500">
+                          {perInterval(m.interval)}
+                        </span>
                       </span>
-                    </span>
-                  </div>
-                  <p class="mt-2 text-[0.8125rem] leading-relaxed text-stone-600">
-                    {m.desc}
-                  </p>
-                  {m.note && (
-                    <p class="mt-3 font-mono text-[0.625rem] tracking-wide text-amber-800 uppercase">
-                      {m.note}
+                    </div>
+                    <p class="mt-2 max-w-[52ch] text-[0.8125rem] leading-relaxed text-stone-600">
+                      {m.desc}
                     </p>
-                  )}
+                    {m.note && (
+                      <p class="mt-2 font-mono text-[0.6875rem] tracking-wide text-brand-800 uppercase">
+                        {m.note}
+                      </p>
+                    )}
+                  </div>
                 </div>
               ))
             }
           </div>
         </div>
 
-        <p class="mt-10 font-mono text-[0.75rem] tracking-wide text-stone-600">
-          * 14-day free trial on every plan. No card required. Cancel anytime.
+        <p
+          class="mt-10 max-w-[75ch] font-mono text-[0.75rem] leading-relaxed tracking-wide text-stone-600"
+        >
+          * 14-day free trial on every plan; no card required, cancel anytime.
+          Standard Stripe processing fees apply on all plans, as with any
+          provider.
         </p>
       </div>
     </section>
@@ -1298,7 +1347,7 @@ const signupPerks = [
       >
         <div data-reveal class="col-span-5">
           <div
-            class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-400 uppercase"
+            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
           >
             § Start
           </div>
@@ -1321,7 +1370,7 @@ const signupPerks = [
             {
               signupPerks.map((i) => (
                 <li class="flex items-center gap-3 text-[0.875rem] text-stone-300">
-                  <span class="font-mono text-amber-400">→</span>
+                  <span class="font-mono text-brand-400">→</span>
                   {i}
                 </li>
               ))
@@ -1349,87 +1398,60 @@ const signupPerks = [
                 </span>
               </span>
               <span
-                class="rounded-sm bg-amber-400/15 px-2 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-amber-400 uppercase"
+                class="rounded-sm bg-brand-400/15 px-2 py-0.5 font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
               >
                 Free trial
               </span>
             </div>
 
             <p class="mb-8 text-[0.875rem] leading-relaxed text-stone-400">
-              Get started in under a minute — we&rsquo;ll walk you through
+              Get started in under a minute; we&rsquo;ll walk you through
               organization setup, tiers, and your first signup link.
             </p>
 
             <a
               href={SIGNUP_URL}
-              class="block w-full rounded-sm bg-amber-700 py-3 text-center text-[0.875rem] font-semibold text-white shadow-btn transition hover:bg-amber-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
+              class="block w-full rounded-sm bg-brand-700 py-3 text-center text-[0.875rem] font-semibold text-white shadow-btn transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
             >
               Create my organization →
             </a>
 
             <p class="mt-6 text-center font-mono text-[0.75rem] text-stone-500">
               Already have an account?{" "}
-              <a href={LOGIN_URL} class="text-amber-400 hover:text-amber-300">
+              <a href={LOGIN_URL} class="text-brand-400 hover:text-brand-300">
                 sign in
               </a>
             </p>
           </div>
+
+          <p
+            class="mt-6 text-center text-[0.875rem] leading-relaxed text-stone-400"
+          >
+            Want to poke around first?{" "}
+            <a
+              href={DEMO_URL}
+              class="font-medium text-stone-200 underline decoration-stone-500 underline-offset-2 transition hover:decoration-stone-200"
+            >
+              Explore the live demo
+            </a>
+            {" "}— or write{" "}
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              class="font-medium text-stone-200 underline decoration-stone-500 underline-offset-2 transition hover:decoration-stone-200"
+            >
+              {CONTACT_EMAIL}
+            </a>
+            {" "}and we&rsquo;ll walk your board through it.
+          </p>
         </div>
       </div>
     </section>
 
-    <footer class="border-t border-stone-950/10 bg-stone-50">
-      <div
-        class="mx-auto flex max-w-[80rem] items-center justify-between px-6 py-6 text-[0.75rem] text-stone-600 lg:px-8"
-      >
-        <span>© 2026 Memberley, Inc.</span>
-        <div class="flex items-center gap-5">
-          <a href="/privacy" class="transition hover:text-stone-900"
-            >Privacy</a
-          >
-          <a href="/terms" class="transition hover:text-stone-900"
-            >Terms of use</a
-          >
-        </div>
-      </div>
-    </footer>
+    <SiteFooter />
   </div>
-
-  <script is:inline define:vars={{ appUrl: APP_URL }}>
-    (function () {
-      function applyAuthenticatedNav() {
-        var signin = document.getElementById("nav-signin");
-        var cta = document.getElementById("nav-cta");
-        if (!signin || !cta || window.__ML_AUTHENTICATED !== true) {
-          return;
-        }
-        signin.remove();
-        cta.textContent = "Dashboard";
-        cta.setAttribute("href", appUrl + "/dashboard");
-      }
-
-      window.__ML_AUTHENTICATED = false;
-      var probe = document.createElement("script");
-      probe.src = appUrl + "/marketing/session.js";
-      probe.async = true;
-      probe.onload = applyAuthenticatedNav;
-      probe.onerror = function () {};
-      document.head.appendChild(probe);
-    })();
-  </script>
 
   <script is:inline>
     (function () {
-      // Sticky header lifts onto a soft shadow once the page scrolls.
-      var header = document.getElementById("site-header");
-      if (header) {
-        var onScroll = function () {
-          header.toggleAttribute("data-scrolled", window.scrollY > 8);
-        };
-        onScroll();
-        window.addEventListener("scroll", onScroll, { passive: true });
-      }
-
       // Gentle scroll-in reveals; show everything if IO is unsupported.
       var reveals = document.querySelectorAll("[data-reveal]");
       if (!reveals.length) return;
@@ -1453,6 +1475,26 @@ const signupPerks = [
       reveals.forEach(function (el) {
         io.observe(el);
       });
+
+      // Anchor navigation should never land on invisible content: reveal the
+      // target section immediately instead of waiting for the observer.
+      var revealHashTarget = function () {
+        var id = decodeURIComponent(location.hash.slice(1));
+        if (!id) return;
+        var target = document.getElementById(id);
+        if (!target) return;
+        var els = target.querySelectorAll("[data-reveal]");
+        els.forEach(function (el) {
+          el.classList.add("is-visible");
+          io.unobserve(el);
+        });
+        if (target.hasAttribute("data-reveal")) {
+          target.classList.add("is-visible");
+          io.unobserve(target);
+        }
+      };
+      window.addEventListener("hashchange", revealHashTarget);
+      revealHashTarget();
     })();
   </script>
 </Layout>

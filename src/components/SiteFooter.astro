@@ -1,0 +1,98 @@
+---
+// Shared footer: contact path, product links, and the comparison pages —
+// so no page is a dead end and the alternatives pages aren't orphaned.
+const DEMO_URL = "https://demo.memberley.com";
+const CONTACT_EMAIL = "hello@memberley.com";
+
+const groups: { title: string; links: { href: string; label: string }[] }[] = [
+  {
+    title: "Product",
+    links: [
+      { href: "/#features", label: "Features" },
+      { href: "/#pricing", label: "Pricing" },
+      { href: DEMO_URL, label: "Live demo" },
+      { href: "/help", label: "Help & FAQ" },
+    ],
+  },
+  {
+    title: "Compare",
+    links: [
+      { href: "/alternatives/member-splash", label: "Member Splash alternative" },
+      { href: "/alternatives/pooldues", label: "PoolDues alternative" },
+      { href: "/alternatives/courtreserve", label: "CourtReserve alternative" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { href: `mailto:${CONTACT_EMAIL}`, label: CONTACT_EMAIL },
+      { href: "/privacy", label: "Privacy" },
+      { href: "/terms", label: "Terms of use" },
+    ],
+  },
+];
+---
+
+<footer class="border-t border-stone-950/10 bg-stone-50">
+  <div class="mx-auto max-w-[80rem] px-6 py-14 lg:px-8">
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="max-w-[36ch]">
+        <a href="/" aria-label="Homepage" class="flex items-center gap-2">
+          <img
+            src="/memberley-amper-light.svg"
+            alt=""
+            width="24"
+            height="24"
+            class="size-6"
+            loading="lazy"
+            decoding="async"
+          />
+          <span
+            class="text-[0.9375rem] font-semibold tracking-tight text-stone-900"
+          >
+            Memberley
+          </span>
+        </a>
+        <p class="mt-4 text-[0.8125rem] leading-relaxed text-stone-600">
+          Memberships, reservations, payments, and check-ins for community
+          organizations — built in Northern Virginia.
+        </p>
+        <p class="mt-4 text-[0.8125rem] leading-relaxed text-stone-600">
+          Questions? Write
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
+          >
+            {CONTACT_EMAIL}</a
+          > — we're happy to walk your board through it.
+        </p>
+      </div>
+      {
+        groups.map((g) => (
+          <div>
+            <div class="font-mono text-[0.6875rem] font-medium tracking-wide text-stone-500 uppercase">
+              {g.title}
+            </div>
+            <ul role="list" class="mt-4 space-y-2.5">
+              {g.links.map((l) => (
+                <li>
+                  <a
+                    href={l.href}
+                    class="text-[0.8125rem] text-stone-600 transition hover:text-stone-900"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div
+      class="mt-12 border-t border-stone-950/10 pt-6 text-[0.75rem] text-stone-500"
+    >
+      © 2026 Memberley, Inc.
+    </div>
+  </div>
+</footer>

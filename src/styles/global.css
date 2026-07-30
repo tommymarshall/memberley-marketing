@@ -2,16 +2,36 @@
 
 /*
  * Memberley marketing site — design tokens
- * Stone neutrals · amber accent · Fraunces display · Geist body · IBM Plex Mono accents
+ * Stone neutrals · terracotta brand accent (from the amper mark, #c0633b)
+ * Besley display · Geist body · Spline Sans Mono accents
  */
 
 @theme {
     --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
-    --font-serif: 'Fraunces', ui-serif, Georgia, serif;
-    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --font-serif: 'Besley', ui-serif, Georgia, serif;
+    --font-mono: 'Spline Sans Mono', ui-monospace, monospace;
 
     /*
-     * Warm, layered elevation tuned for the stone/amber paper palette —
+     * Brand accent scale derived from the logo ampersand's terracotta,
+     * #c0633b = oklch(0.60 0.131 42.9). Hue is pinned to the mark; chroma
+     * tapers toward the light and dark ends so extremes stay calm.
+     * brand-600 IS the logo color. brand-700+ carry enough contrast for
+     * text and white-on-fill (AA at 14px).
+     */
+    --color-brand-50: oklch(0.972 0.012 43);
+    --color-brand-100: oklch(0.943 0.028 43);
+    --color-brand-200: oklch(0.883 0.055 43);
+    --color-brand-300: oklch(0.8 0.09 43);
+    --color-brand-400: oklch(0.75 0.105 43);
+    --color-brand-500: oklch(0.68 0.125 43);
+    --color-brand-600: oklch(0.6019 0.131 42.9);
+    --color-brand-700: oklch(0.53 0.125 43);
+    --color-brand-800: oklch(0.45 0.108 43);
+    --color-brand-900: oklch(0.39 0.09 43);
+    --color-brand-950: oklch(0.3 0.07 43);
+
+    /*
+     * Warm, layered elevation tuned for the stone/terracotta paper palette —
      * softer and a touch warmer than Tailwind's default neutral shadows, so
      * lifted surfaces feel printed onto the page rather than stuck on top.
      */
@@ -33,19 +53,21 @@ html {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Let Fraunces' optical-size axis track the font size — big display
-       headings get the high-contrast cut, body-size serif stays readable. */
-    font-optical-sizing: auto;
 }
 
-/* Warm text selection — a small, premium tell that ties to the amber accent. */
+/* Anchored sections land clear of the sticky h-14 header. */
+[id] {
+    scroll-margin-top: 4.5rem;
+}
+
+/* Warm text selection — a small, premium tell that ties to the brand accent. */
 ::selection {
-    background-color: rgb(180 83 9 / 0.16);
+    background-color: oklch(0.6019 0.131 42.9 / 0.16);
 }
 
 /*
- * Warm overhead light for the light "paper" canvas — a faint amber wash from
- * the very top that gives the otherwise-flat stone background gentle
+ * Warm overhead light for the light "paper" canvas — a faint terracotta wash
+ * from the very top that gives the otherwise-flat stone background gentle
  * dimension. Anchored once on the page root so it lives behind the hero and
  * fades out before the content sections (no per-section banding).
  */
@@ -53,13 +75,13 @@ html {
     background-color: var(--color-stone-50);
     background-image: radial-gradient(
         72rem 46rem at 50% -18%,
-        rgb(180 83 9 / 0.06),
+        oklch(0.6019 0.131 42.9 / 0.06),
         transparent 62%
     );
 }
 
 /*
- * Depth for the dark sections instead of a flat fill: a soft amber glow from
+ * Depth for the dark sections instead of a flat fill: a soft brand glow from
  * the top and a warmer pool drifting up from the lower corner.
  */
 @utility paper-dark {
@@ -67,12 +89,12 @@ html {
     background-image:
         radial-gradient(
             64rem 42rem at 50% -14%,
-            rgb(251 191 36 / 0.08),
+            oklch(0.75 0.105 43 / 0.08),
             transparent 56%
         ),
         radial-gradient(
             96rem 64rem at 108% 116%,
-            rgb(180 83 9 / 0.07),
+            oklch(0.6019 0.131 42.9 / 0.07),
             transparent 60%
         );
 }
@@ -95,10 +117,10 @@ html {
 }
 
 /* Soft warm halo placed behind elevated media (the hero screenshot). */
-@utility halo-amber {
+@utility halo-brand {
     background-image: radial-gradient(
         46rem 34rem at 52% 40%,
-        rgb(217 119 6 / 0.16),
+        oklch(0.66 0.125 43 / 0.16),
         transparent 68%
     );
 }

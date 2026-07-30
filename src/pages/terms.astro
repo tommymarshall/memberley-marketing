@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 
 const eyebrow =
-    'font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase';
+    'font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase';
 const display = 'font-serif font-semibold tracking-tight';
 
 const lastUpdated = 'April 24, 2026';
@@ -104,7 +104,7 @@ const sections = [
     <div class="min-h-dvh bg-stone-50 font-sans text-stone-900 antialiased">
         <!-- Nav -->
         <header
-            class="sticky top-0 z-50 border-b border-stone-300 bg-stone-50/90 backdrop-blur-sm"
+            class="sticky top-0 z-50 border-b border-stone-950/10 bg-stone-50/90 backdrop-blur-sm"
         >
             <div
                 class="mx-auto flex h-14 max-w-[80rem] items-center justify-between px-6 lg:px-8"
@@ -140,7 +140,7 @@ const sections = [
         </header>
 
         <!-- Header -->
-        <section class="border-b border-stone-300">
+        <section class="border-b border-stone-950/10">
             <div class="mx-auto max-w-[80rem] px-6 py-20 lg:px-8 lg:py-24">
                 <div class={eyebrow}>§ Legal</div>
                 <h1
@@ -165,7 +165,7 @@ const sections = [
         </section>
 
         <!-- Body -->
-        <section class="border-b border-stone-300 bg-stone-50">
+        <section class="border-b border-stone-950/10 bg-stone-50">
             <div
                 class="mx-auto grid max-w-[80rem] grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:px-8"
             >
@@ -174,7 +174,7 @@ const sections = [
                         <div class={eyebrow}>§ Contents</div>
                         <ol
                             role="list"
-                            class="mt-5 space-y-2.5 border-t border-stone-300 pt-5"
+                            class="mt-5 space-y-2.5 border-t border-stone-950/10 pt-5"
                         >
                             {
                                 sections.map((s) => (
@@ -197,7 +197,7 @@ const sections = [
 
                 <div class="col-span-8">
                     <div
-                        class="divide-y divide-stone-300 border-y border-stone-300"
+                        class="divide-y divide-stone-950/10 border-y border-stone-950/10"
                     >
                         {
                             sections.map((s) => (
@@ -210,7 +210,7 @@ const sections = [
                                     >
                                         {s.title}
                                     </h2>
-                                    <div class="mt-4 space-y-4 text-[0.9375rem] leading-relaxed text-stone-600">
+                                    <div class="mt-4 max-w-[70ch] space-y-4 text-[0.9375rem] leading-relaxed text-stone-600">
                                         {s.body.map((p) => (
                                             <p>{p}</p>
                                         ))}

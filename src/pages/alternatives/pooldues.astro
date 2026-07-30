@@ -1,5 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
 
 // ── App URLs (mirrors index.astro) ──────────────────────────────────────────
 const fromEnv = (import.meta.env.PUBLIC_MEMBERLEY_APP_URL as string | undefined)
@@ -16,12 +18,12 @@ const LOGIN_URL = `${APP_URL}/login`;
 
 // ── Class tokens (inlined paper theme, matches index.astro) ──────────────────
 const eyebrow =
-  "font-mono text-[0.6875rem] font-medium tracking-wide text-amber-800 uppercase";
+  "font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase";
 const display = "font-serif font-semibold tracking-tight";
 const primaryBtn =
-  "bg-stone-900 text-stone-50 hover:bg-stone-800 focus-visible:outline-amber-600";
+  "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800 focus-visible:outline-brand-600";
 const secondaryBtn =
-  "border border-stone-300 bg-white text-stone-900 hover:border-stone-400 hover:bg-stone-100";
+  "border border-stone-950/15 bg-white text-stone-900 hover:border-stone-950/30 hover:bg-stone-100";
 
 // ── Head-to-head ─────────────────────────────────────────────────────────────
 // Competitor details as published on pooldues.com (2026). Re-verify before
@@ -30,9 +32,9 @@ const secondaryBtn =
 type Cell = string | boolean | null;
 
 const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
-  { label: "Starting price", memberley: "$500/yr OR 3% per payment", competitor: "$1,999 / year (flat)" },
+  { label: "Starting price", memberley: "$0/yr + 3%, or $500/yr with no payment fees", competitor: "$1,999 / year (flat)" },
   { label: "Pay for only the add-on modules you use", memberley: true, competitor: false },
-  { label: "Payments", memberley: "Your own Stripe · next-day payout", competitor: "PayPal" },
+  { label: "Payments", memberley: "Your own Stripe · 1–2 day payouts", competitor: "PayPal" },
   { label: "Keep the website you already have (portal embeds)", memberley: true, competitor: false },
   { label: "White-label branding on portal & emails", memberley: true, competitor: null },
   { label: "Built-in email broadcasts & member segments", memberley: true, competitor: true },
@@ -49,7 +51,7 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
 const reasons = [
   {
     title: "Your own Stripe — not PayPal",
-    body: "PoolDues runs payments through PayPal. With Memberley you connect your own Stripe account; members check out with any card, Apple Pay, or Google Pay, and dues land in your bank the next business day.",
+    body: "PoolDues runs payments through PayPal. With Memberley you connect your own Stripe account; members check out with any card, Apple Pay, or Google Pay, and payouts typically reach your bank in 1–2 business days.",
   },
   {
     title: "Keep the website you already have",
@@ -71,26 +73,32 @@ const builtInExtras = [
     title: "SMS member texts",
     desc: "Reach members where they actually reply: broadcasts and one-to-one texts, right alongside everything else.",
     badge: "Beta",
+    icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
   },
   {
     title: "QuickBooks & Mailchimp",
     desc: "Native sync of dues and members — not just a PayPal export or optional Mailchimp push.",
+    icon: '<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/>',
   },
   {
     title: "Waivers & documents",
     desc: "E-sign reusable waiver templates with annual expiration and share a document library, exportable as signed PDFs.",
+    icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/>',
   },
   {
     title: "Embedded white-label portal",
     desc: "Drop the full member portal into your own website, themed to your colors, fonts, and logo.",
+    icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
   },
   {
     title: "Modern, mobile-ready UI",
     desc: "Run the front desk from a phone or tablet at the gate — fast, clean, nothing to install.",
+    icon: '<rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/>',
   },
   {
     title: "Family & household accounts",
     desc: "Link a household under one roof and keep billing and guest passes straight.",
+    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   },
 ];
 
@@ -101,7 +109,7 @@ const faqs = [
   },
   {
     q: "Do members have to pay through PayPal?",
-    a: "No. Memberley uses Stripe Connect — you link your own Stripe account and members pay with any card, Apple Pay, or Google Pay. Funds deposit to your bank the next business day, with no middleman holding your dues.",
+    a: "No. Memberley uses Stripe Connect — you link your own Stripe account and members pay with any card, Apple Pay, or Google Pay. Payouts typically deposit to your bank in 1–2 business days, with no middleman holding your dues.",
   },
   {
     q: "Do we have to move our website to Memberley?",
@@ -109,7 +117,7 @@ const faqs = [
   },
   {
     q: "How does pricing compare to PoolDues?",
-    a: "PoolDues is a flat $1,999/yr for the whole bundle. Memberley starts at $0/yr with unlimited members and a 3% payment fee — or a $500/yr Base plan with zero payment fees — and you pay for only the add-on modules you use, so most neighborhood pools come out well under what PoolDues charges.",
+    a: "PoolDues is a flat $1,999/yr for the whole bundle. Memberley starts at $0/yr with unlimited members and a 3% payment fee — or a $500/yr Base plan with zero payment fees — and you pay for only the add-on modules you use, so most neighborhood pools come out well under what PoolDues charges. Standard Stripe processing fees apply, as with any provider.",
   },
   {
     q: "Can we switch in the middle of the season?",
@@ -126,73 +134,24 @@ const faqs = [
   title="PoolDues Alternative for Swim & Tennis Clubs | Memberley"
   description="Looking for a PoolDues alternative? Memberley runs memberships, dues, reservations, guest passes, and check-in — with payments to your own Stripe account (not PayPal), your existing website, built-in email & SMS, and free migration."
 >
-  <div class="min-h-dvh bg-stone-50 font-sans text-stone-900 antialiased">
-    <!-- Nav -->
-    <header
-      class="sticky top-0 z-50 border-b border-stone-300 bg-stone-50/90 backdrop-blur-sm"
-    >
-      <div
-        class="mx-auto flex h-14 max-w-[80rem] items-center justify-between px-6 lg:px-8"
-      >
-        <a href="/" aria-label="Homepage" class="flex items-center gap-2">
-          <img
-            src="/memberley-amper-light.svg"
-            alt=""
-            width="24"
-            height="24"
-            class="size-6"
-            loading="eager"
-            decoding="async"
-          />
-          <span
-            class="text-[0.9375rem] font-semibold tracking-tight text-stone-900"
-          >
-            Memberley
-          </span>
-        </a>
-
-        <nav
-          class="hidden items-center gap-7 text-[0.8125rem] text-stone-600 md:flex"
-        >
-          <a href="/#features" class="transition hover:text-stone-900"
-            >Features</a
-          >
-          <a href="/#compare" class="transition hover:text-stone-900">Compare</a
-          >
-          <a href="/#pricing" class="transition hover:text-stone-900">Pricing</a
-          >
-        </nav>
-
-        <div class="flex items-center gap-4">
-          <a
-            href={LOGIN_URL}
-            class="text-[0.8125rem] text-stone-600 transition hover:text-stone-900"
-            >Sign in</a
-          >
-          <a
-            href={SIGNUP_URL}
-            class={`inline-flex items-center gap-2 rounded-sm px-4 py-2 text-[0.8125rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
-            >Start free trial</a
-          >
-        </div>
-      </div>
-    </header>
+  <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased">
+    <SiteHeader />
 
     <!-- Hero -->
-    <section class="border-b border-stone-300">
+    <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8 lg:py-20">
         <div class="max-w-[60ch]">
           <div class={eyebrow}>§ PoolDues alternative</div>
           <h1
-            class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.98] text-balance ${display} text-stone-900`}
+            class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4.5vw,4rem)] leading-[1] text-balance ${display} text-stone-900`}
           >
             A PoolDues alternative that pays out to your own bank.
           </h1>
           <p
             class="mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
           >
-            Everything swim & tennis clubs need — dues, reservations, guest
-            passes, check-in — but members pay into <strong>your</strong> Stripe
+            Everything swim & tennis clubs need (dues, reservations, guest
+            passes, check-in), but members pay into <strong>your</strong> Stripe
             account instead of PayPal, the portal lives on the website you
             <strong>already</strong> have, and email, SMS, and accounting
             sync come built in.
@@ -220,7 +179,7 @@ const faqs = [
     </section>
 
     <!-- Reasons -->
-    <section class="border-b border-stone-300">
+    <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
           <div class={eyebrow}>§ Why clubs switch</div>
@@ -231,12 +190,12 @@ const faqs = [
           </h2>
         </div>
         <dl
-          class="grid grid-cols-1 divide-y divide-stone-300 border-y border-stone-300 md:grid-cols-2 md:divide-x md:divide-y-0"
+          class="grid grid-cols-1 divide-y divide-stone-950/10 border-y border-stone-950/10 md:grid-cols-2 md:divide-x md:divide-y-0"
         >
           {
             reasons.map((r, i) => (
               <div
-                class={`p-8 ${i >= 2 ? "md:border-t md:border-stone-300" : ""}`}
+                class={`p-8 ${i >= 2 ? "md:border-t md:border-stone-950/10" : ""}`}
               >
                 <dt class={`text-[1.375rem] ${display} text-stone-900`}>
                   {r.title}
@@ -252,7 +211,7 @@ const faqs = [
     </section>
 
     <!-- Head-to-head comparison -->
-    <section id="compare" class="border-b border-stone-300 bg-stone-50">
+    <section id="compare" class="border-b border-stone-950/10 bg-stone-50">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
         <div class="mb-12 max-w-[44ch]">
           <div class={eyebrow}>§ Head to head</div>
@@ -263,13 +222,13 @@ const faqs = [
           </h2>
         </div>
 
-        <div class="overflow-x-auto rounded-lg border border-stone-300 bg-white">
+        <div class="overflow-x-auto rounded-lg border border-stone-950/15 bg-white">
           <table class="w-full min-w-[40rem] border-collapse text-left">
             <thead>
-              <tr class="border-b border-stone-300 bg-stone-100">
+              <tr class="border-b border-stone-950/10 bg-stone-100">
                 <th class="w-[44%] p-4"></th>
                 <th
-                  class="bg-amber-700/[0.06] p-4 text-center text-[0.8125rem] font-semibold text-amber-800"
+                  class="bg-brand-700/[0.06] p-4 text-center text-[0.8125rem] font-semibold text-brand-800"
                   >Memberley</th
                 >
                 <th
@@ -281,13 +240,13 @@ const faqs = [
             <tbody>
               {
                 rows.map((row) => (
-                  <tr class="border-b border-stone-200 last:border-0">
+                  <tr class="border-b border-stone-950/5 last:border-0">
                     <th class="p-4 align-middle text-[0.8125rem] font-medium text-stone-700">
                       {row.label}
                     </th>
                     {[row.memberley, row.competitor].map((cell, i) => (
                       <td
-                        class={`p-4 text-center align-middle ${i === 0 ? "bg-amber-700/[0.04]" : ""}`}
+                        class={`p-4 text-center align-middle ${i === 0 ? "bg-brand-700/[0.04]" : ""}`}
                       >
                         {typeof cell === "string" ? (
                           <span class="text-[0.8125rem] text-stone-700">
@@ -295,7 +254,7 @@ const faqs = [
                           </span>
                         ) : cell === true ? (
                           <svg
-                            class="mx-auto size-4 text-amber-700"
+                            class="mx-auto size-4 text-brand-700"
                             viewBox="0 0 16 16"
                             fill="none"
                             aria-label="Yes"
@@ -328,7 +287,14 @@ const faqs = [
             </tbody>
           </table>
         </div>
-        <p class="mt-4 font-mono text-[0.6875rem] tracking-wide text-stone-500">
+        <p
+          class="mt-3 font-mono text-[0.75rem] tracking-wide text-stone-500 md:hidden"
+        >
+          Swipe sideways to compare →
+        </p>
+        <p
+          class="mt-4 max-w-[75ch] font-mono text-[0.75rem] tracking-wide text-stone-500"
+        >
           * PoolDues pricing &amp; features as published on pooldues.com (2026).
           “—” means not advertised by PoolDues; verify current terms before
           relying on them.
@@ -336,7 +302,7 @@ const faqs = [
 
         <!-- Fair-play note -->
         <div
-          class="mt-10 flex flex-col gap-3 rounded-lg border border-stone-300 bg-white p-6 md:flex-row md:gap-6"
+          class="mt-10 flex flex-col gap-3 rounded-lg border border-stone-950/15 bg-white p-6 md:flex-row md:gap-6"
         >
           <div
             class="font-mono text-[0.6875rem] tracking-wide text-stone-500 uppercase md:w-44 md:shrink-0"
@@ -356,7 +322,7 @@ const faqs = [
     </section>
 
     <!-- More built in -->
-    <section class="border-b border-stone-300">
+    <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
           <div class={eyebrow}>§ Beyond the basics</div>
@@ -374,13 +340,25 @@ const faqs = [
           {
             builtInExtras.map((f) => (
               <div>
-                <div class="mb-3 size-8 rounded-sm border border-stone-300 bg-stone-100" />
+                <div class="mb-3 flex size-8 items-center justify-center rounded-sm bg-stone-100 text-brand-700 ring-1 ring-stone-950/10">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="size-4"
+                    aria-hidden="true"
+                    set:html={f.icon}
+                  />
+                </div>
                 <div class="flex flex-wrap items-center gap-2">
                   <span class="text-[0.9375rem] font-semibold text-stone-900">
                     {f.title}
                   </span>
                   {f.badge && (
-                    <span class="rounded-sm border border-amber-700/30 bg-amber-700/10 px-1.5 py-0.5 font-mono text-[0.625rem] font-medium tracking-wide text-amber-800 uppercase">
+                    <span class="rounded-sm border border-brand-700/30 bg-brand-700/10 px-1.5 py-0.5 font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase">
                       {f.badge}
                     </span>
                   )}
@@ -396,7 +374,7 @@ const faqs = [
     </section>
 
     <!-- FAQ -->
-    <section class="border-b border-stone-300">
+    <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
         <div class="mb-12 max-w-[44ch]">
           <div class={eyebrow}>§ FAQ</div>
@@ -406,7 +384,7 @@ const faqs = [
             Switching questions, answered.
           </h2>
         </div>
-        <dl class="divide-y divide-stone-300 border-y border-stone-300">
+        <dl class="divide-y divide-stone-950/10 border-y border-stone-950/10">
           {
             faqs.map((f) => (
               <div class="grid grid-cols-1 gap-3 py-8 md:grid-cols-12 md:gap-8">
@@ -424,11 +402,11 @@ const faqs = [
     </section>
 
     <!-- CTA -->
-    <section class="bg-stone-900 text-stone-50">
+    <section class="paper-dark text-stone-50">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
         <div class="max-w-[40ch]">
           <div
-            class="font-mono text-[0.6875rem] font-medium tracking-wide text-amber-400 uppercase"
+            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
           >
             § Make the switch
           </div>
@@ -438,14 +416,14 @@ const faqs = [
             Keep your dues. Keep your site.
           </h2>
           <p class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400">
-            Start a free trial and see your club in Memberley in minutes — or
+            Start a free trial and see your club in Memberley in minutes, or
             send us your PoolDues roster and we'll set everything up for you,
             free, before next season.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
             <a
               href={SIGNUP_URL}
-              class="inline-flex items-center gap-2 rounded-sm bg-amber-700 px-5 py-3 text-[0.875rem] font-semibold text-white transition hover:bg-amber-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
+              class="inline-flex items-center gap-2 rounded-sm bg-brand-700 px-5 py-3 text-[0.875rem] font-semibold text-white transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
             >
               Start free trial →
             </a>
@@ -460,14 +438,7 @@ const faqs = [
       </div>
     </section>
 
-    <footer class="border-t border-stone-300 bg-stone-50">
-      <div
-        class="mx-auto flex max-w-[80rem] items-center justify-between px-6 py-6 text-[0.75rem] text-stone-600 lg:px-8"
-      >
-        <span>© 2026 Memberley, Inc.</span>
-        <a href="/" class="transition hover:text-stone-900">Home</a>
-      </div>
-    </footer>
+    <SiteFooter />
   </div>
 
   <!-- FAQ structured data for rich results -->

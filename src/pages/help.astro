@@ -1,0 +1,231 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+const fromEnv = (import.meta.env.PUBLIC_MEMBERLEY_APP_URL as string | undefined)
+  ?.trim()
+  .replace(/\/$/, "");
+const APP_URL =
+  fromEnv && fromEnv.length > 0
+    ? fromEnv
+    : import.meta.env.DEV
+      ? "http://memberley-app.test"
+      : "https://app.memberley.com";
+const SIGNUP_URL = `${APP_URL}/register`;
+const DEMO_URL = "https://demo.memberley.com";
+const CONTACT_EMAIL = "hello@memberley.com";
+
+// ── Class tokens (paper theme, matches index.astro) ──────────────────────────
+const eyebrow =
+  "font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase";
+const display = "font-serif font-semibold tracking-tight";
+
+type Faq = { q: string; a: string };
+type FaqGroup = { title: string; faqs: Faq[] };
+
+const faqGroups: FaqGroup[] = [
+  {
+    title: "Getting started",
+    faqs: [
+      {
+        q: "What is Memberley?",
+        a: "Memberley runs the day-to-day of community organizations — memberships and dues, facility reservations, front-desk check-in, classes and programs, and member communications, in one workspace. It's built first for neighborhood pools, swim & tennis clubs, HOAs with amenities, and private clubs.",
+      },
+      {
+        q: "How long does setup take?",
+        a: "Creating your organization takes about a minute. Connecting your own Stripe account takes about ten. Most clubs set up tiers, import their roster, and share their signup link within an hour. Every plan starts with a 14-day free trial — no card required.",
+      },
+      {
+        q: "Can I see it before signing up?",
+        a: "Yes — explore the live demo at demo.memberley.com. It's a full working organization you can click through, no account needed.",
+      },
+      {
+        q: "How do I get my members in?",
+        a: "Three ways: import your whole roster from a CSV in one upload, share a single invite link that drops new members onto your default tier, or hand out join codes. Most clubs are fully migrated in an afternoon.",
+      },
+    ],
+  },
+  {
+    title: "Pricing & billing",
+    faqs: [
+      {
+        q: "What does Memberley cost?",
+        a: "Two plans, both with unlimited members: Starter is $0/yr with a 3% fee per payment processed through Memberley. Base is $500/yr with zero payment fees. Add-on modules (reservations, front desk & check-in, point of sale, communications, branded site & embed, classes & events) are flat-priced at $100–$250 per year each. Standard Stripe processing fees apply on every plan, as with any provider.",
+      },
+      {
+        q: "Which plan should we pick?",
+        a: "A rule of thumb: if your club collects more than about $17,000 a year through Memberley, Base's flat $500 costs less than Starter's 3%, and you keep 100% of your dues. Smaller clubs usually start on Starter and upgrade when the math flips.",
+      },
+      {
+        q: "What are add-on modules?",
+        a: "Optional features billed flat per year, so you pay for only what your club uses. Every module is free to try during your trial, and you can switch modules on or off as your needs change.",
+      },
+      {
+        q: "Can we cancel?",
+        a: "Anytime. The trial requires no card, and there are no long-term contracts or cancellation fees.",
+      },
+    ],
+  },
+  {
+    title: "Payments",
+    faqs: [
+      {
+        q: "Where does members' money go?",
+        a: "Into your own Stripe account, connected through Stripe Connect. Members pay your club directly, and payouts typically reach your bank in 1–2 business days — no middleman holding your funds.",
+      },
+      {
+        q: "Do you support ACH bank payments?",
+        a: "Yes. Members can pay dues by card or ACH bank transfer, and receipts go out automatically on every charge.",
+      },
+      {
+        q: "Can members pay automatically or in installments?",
+        a: "Both. Members can opt into autopay for renewals, and clubs can offer installment payment plans. Discount codes handle early-bird or promotional pricing, and automatic late fees can be applied to overdue dues.",
+      },
+    ],
+  },
+  {
+    title: "Switching & support",
+    faqs: [
+      {
+        q: "We're on Member Splash, PoolDues, or CourtReserve — how hard is switching?",
+        a: "We migrate you for free: send us your current roster and we'll import it, set up your branded portal, and have you live before registration opens. Most clubs switch in the off-season so everything is ready for next year.",
+      },
+      {
+        q: "Can we keep our existing website?",
+        a: "Yes. Memberley's member portal embeds into the website you already have, themed to your colors, fonts, and logo — you don't move your web presence onto our servers.",
+      },
+      {
+        q: "How do we reach a human?",
+        a: "Write hello@memberley.com. Memberley is based in Northern Virginia, and we'll happily meet your board in person to walk through setup and migration.",
+      },
+    ],
+  },
+];
+
+const allFaqs = faqGroups.flatMap((g) => g.faqs);
+---
+
+<Layout
+  title="Help & FAQ | Memberley"
+  description="Answers about Memberley pricing, plans and modules, Stripe payments and payouts, ACH, migrations from Member Splash or PoolDues, and how to reach us."
+>
+  <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased">
+    <SiteHeader />
+
+    <!-- Hero -->
+    <section class="border-b border-stone-950/10">
+      <div class="mx-auto max-w-[80rem] px-6 py-20 lg:px-8">
+        <div class="max-w-[60ch]">
+          <div class={eyebrow}>§ Help</div>
+          <h1
+            class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4.5vw,4rem)] leading-[1] text-balance ${display} text-stone-900`}
+          >
+            Questions, answered plainly.
+          </h1>
+          <p
+            class="mt-6 max-w-[54ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
+          >
+            Everything boards ask before they switch: pricing, payments,
+            migration, and what happens to the website you already have. Can't
+            find your answer? Write
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
+              >{CONTACT_EMAIL}</a
+            >.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ groups -->
+    {
+      faqGroups.map((g) => (
+        <section class="border-b border-stone-950/10">
+          <div class="mx-auto max-w-[80rem] px-6 py-16 lg:px-8">
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+              <div class="lg:col-span-3">
+                <h2 class={`text-[1.375rem] ${display} text-stone-900`}>
+                  {g.title}
+                </h2>
+              </div>
+              <dl class="divide-y divide-stone-950/10 lg:col-span-9">
+                {g.faqs.map((f) => (
+                  <div class="py-6 first:pt-0 last:pb-0">
+                    <dt class="text-[1rem] font-semibold text-stone-900">
+                      {f.q}
+                    </dt>
+                    <dd class="mt-2.5 max-w-[65ch] text-[0.9375rem] leading-relaxed text-stone-600">
+                      {f.a}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+        </section>
+      ))
+    }
+
+    <!-- Contact / CTA -->
+    <section class="paper-dark text-stone-50">
+      <div class="mx-auto max-w-[80rem] px-6 py-20 lg:px-8">
+        <div class="max-w-[44ch]">
+          <div
+            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
+          >
+            § Still deciding?
+          </div>
+          <h2
+            class={`mt-5 text-[clamp(2rem,3.5vw,3rem)] leading-[1.05] text-balance ${display} text-stone-50`}
+          >
+            Talk to a person, or just try it.
+          </h2>
+          <p class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400">
+            Write us and we&rsquo;ll walk your board through setup and
+            migration, or explore the live demo and start a free trial
+            whenever you&rsquo;re ready.
+          </p>
+          <div class="mt-10 flex flex-wrap items-center gap-3">
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              class="inline-flex items-center gap-2 rounded-sm bg-brand-700 px-5 py-3 text-[0.875rem] font-semibold text-white shadow-btn transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+            >
+              Email {CONTACT_EMAIL}
+            </a>
+            <a
+              href={DEMO_URL}
+              class="inline-flex items-center gap-2 rounded-sm border border-stone-700 px-5 py-3 text-[0.875rem] font-medium text-stone-200 transition hover:bg-stone-800"
+            >
+              Explore the live demo
+            </a>
+            <a
+              href={SIGNUP_URL}
+              class="inline-flex items-center gap-2 rounded-sm px-5 py-3 text-[0.875rem] font-medium text-stone-300 transition hover:text-stone-50"
+            >
+              Start free trial →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <SiteFooter />
+  </div>
+
+  <!-- FAQ structured data for rich results -->
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: allFaqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    })}
+  />
+</Layout>

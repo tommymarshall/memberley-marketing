@@ -1,0 +1,188 @@
+---
+// Shared sticky header: desktop nav, mobile disclosure menu, and the
+// signed-in probe that swaps the CTA to "Dashboard" when an app session
+// exists. Used by every page so nav items and tokens can't drift.
+const fromEnv = (import.meta.env.PUBLIC_MEMBERLEY_APP_URL as string | undefined)
+  ?.trim()
+  .replace(/\/$/, "");
+const APP_URL =
+  fromEnv && fromEnv.length > 0
+    ? fromEnv
+    : import.meta.env.DEV
+      ? "http://memberley-app.test"
+      : "https://app.memberley.com";
+const SIGNUP_URL = `${APP_URL}/register`;
+const LOGIN_URL = `${APP_URL}/login`;
+
+const navLinks = [
+  { href: "/#features", label: "Features" },
+  { href: "/#compare", label: "Compare" },
+  { href: "/#pricing", label: "Pricing" },
+  { href: "/help", label: "Help" },
+];
+
+const primaryBtn =
+  "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800 focus-visible:outline-brand-600";
+---
+
+<header
+  id="site-header"
+  class="sticky top-0 z-50 border-b border-stone-950/10 bg-stone-50/80 backdrop-blur-md"
+>
+  <div
+    class="mx-auto flex h-14 max-w-[80rem] items-center justify-between px-6 lg:px-8"
+  >
+    <a href="/" aria-label="Homepage" class="flex items-center gap-2">
+      <img
+        src="/memberley-amper-light.svg"
+        alt=""
+        width="24"
+        height="24"
+        class="size-6"
+        loading="eager"
+        decoding="async"
+      />
+      <span
+        class="text-[0.9375rem] font-semibold tracking-tight text-stone-900"
+      >
+        Memberley
+      </span>
+    </a>
+
+    <nav
+      class="hidden items-center gap-7 text-[0.8125rem] text-stone-600 md:flex"
+    >
+      {
+        navLinks.map((l) => (
+          <a href={l.href} class="transition hover:text-stone-900">
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a
+        id="nav-signin"
+        href={LOGIN_URL}
+        class="hidden text-[0.8125rem] text-stone-600 transition hover:text-stone-900 sm:block"
+      >
+        Sign in
+      </a>
+      <a
+        id="nav-cta"
+        href={SIGNUP_URL}
+        class={`inline-flex items-center gap-2 rounded-sm px-4 py-2 text-[0.8125rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
+      >
+        Start free trial
+      </a>
+      <button
+        id="nav-menu-button"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+        aria-label="Open menu"
+        class="-mr-2 flex size-9 items-center justify-center rounded-sm text-stone-700 transition hover:bg-stone-100 md:hidden"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          class="size-5"
+          aria-hidden="true"
+        >
+          <path class="nav-icon-open" d="M4 7h16M4 12h16M4 17h16"></path>
+          <path class="nav-icon-close hidden" d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    id="nav-menu"
+    hidden
+    class="border-t border-stone-950/10 bg-stone-50 px-6 py-4 md:hidden"
+  >
+    <nav class="flex flex-col gap-1 text-[0.9375rem] text-stone-700">
+      {
+        navLinks.map((l) => (
+          <a
+            href={l.href}
+            class="rounded-sm px-2 py-2.5 transition hover:bg-stone-100 hover:text-stone-900"
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      <a
+        id="nav-signin-mobile"
+        href={LOGIN_URL}
+        class="rounded-sm px-2 py-2.5 transition hover:bg-stone-100 hover:text-stone-900 sm:hidden"
+      >
+        Sign in
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script is:inline define:vars={{ appUrl: APP_URL }}>
+  (function () {
+    // Sticky header lifts onto a soft shadow once the page scrolls.
+    var header = document.getElementById("site-header");
+    if (header) {
+      var onScroll = function () {
+        header.toggleAttribute("data-scrolled", window.scrollY > 8);
+      };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
+
+    // Mobile disclosure menu.
+    var button = document.getElementById("nav-menu-button");
+    var menu = document.getElementById("nav-menu");
+    if (button && menu) {
+      var setOpen = function (open) {
+        menu.hidden = !open;
+        button.setAttribute("aria-expanded", String(open));
+        button.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        button
+          .querySelector(".nav-icon-open")
+          .classList.toggle("hidden", open);
+        button
+          .querySelector(".nav-icon-close")
+          .classList.toggle("hidden", !open);
+      };
+      button.addEventListener("click", function () {
+        setOpen(menu.hidden);
+      });
+      menu.addEventListener("click", function (e) {
+        if (e.target.closest("a")) setOpen(false);
+      });
+    }
+
+    // Swap the CTA to "Dashboard" when an app session exists.
+    function applyAuthenticatedNav() {
+      if (window.__ML_AUTHENTICATED !== true) return;
+      var signin = document.getElementById("nav-signin");
+      var signinMobile = document.getElementById("nav-signin-mobile");
+      var cta = document.getElementById("nav-cta");
+      if (signin) signin.remove();
+      if (signinMobile) signinMobile.remove();
+      if (cta) {
+        cta.textContent = "Dashboard";
+        cta.setAttribute("href", appUrl + "/dashboard");
+      }
+    }
+
+    window.__ML_AUTHENTICATED = false;
+    var probe = document.createElement("script");
+    probe.src = appUrl + "/marketing/session.js";
+    probe.async = true;
+    probe.onload = applyAuthenticatedNav;
+    probe.onerror = function () {};
+    document.head.appendChild(probe);
+  })();
+</script>
