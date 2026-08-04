@@ -131,6 +131,7 @@ const baseFeatures: string[] = [
   "Unlimited members",
   "Online dues & payments",
   "Member portal & online signup",
+  "Custom member fields",
   "Email announcements & reminders",
   "Waitlist with auto-promotion",
   "Reports with scheduled email delivery",
@@ -276,7 +277,7 @@ const primaryFeatures: PrimaryFeature[] = [
   {
     n: "01",
     title: "Memberships",
-    desc: "Tiers, pricing, guest pass allocations, renewals, and waitlists with auto-promotion, plus bulk CSV import and a shareable invite link so you can move your whole roster over in an afternoon.",
+    desc: "Tiers, pricing, guest pass allocations, renewals, and waitlists with auto-promotion, plus bulk CSV import and a shareable invite link so you can move your whole roster over in an afternoon. Custom member fields track the details your club actually cares about — shirt sizes, parking stickers, gate tags — at signup, on profiles, and in roster filters and exports.",
     icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   },
   {
@@ -302,14 +303,14 @@ const primaryFeatures: PrimaryFeature[] = [
   {
     n: "05",
     title: "Classes & programs",
-    desc: "Build a catalog of offerings, schedule sessions, publish a public signup page, and manage enrollments, without bolting on a second booking tool.",
+    desc: "Build a catalog of offerings, schedule sessions, publish a public signup page, and ask your own registration questions at enrollment. Members sign up themselves — and the whole family — without you bolting on a second booking tool.",
     icon: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
     addon: "Add-on module",
   },
   {
     n: "06",
     title: "Member comms",
-    desc: "Send email broadcasts with dynamic segments and per-recipient tracking. Opens, deliveries, and bounces are tracked alongside everything else, and SMS broadcasts and one-to-one texts are rolling out in beta. Everyday announcements and reminders are included on every plan.",
+    desc: "Send email campaigns, SMS broadcasts, and one-to-one texts with dynamic segments built on tier, status, or any custom field, with per-recipient tracking. Opens, deliveries, and bounces are logged alongside everything else, and everyday announcements and reminders are included on every plan.",
     icon: '<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
     addon: "Campaigns & SMS add-on",
   },
@@ -372,6 +373,10 @@ const featureGroups: FeatureGroup[] = [
         icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
       },
       {
+        title: "Custom member fields",
+        icon: '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
+      },
+      {
         title: "Waitlist automation",
         icon: '<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>',
       },
@@ -398,7 +403,6 @@ const featureGroups: FeatureGroup[] = [
       },
       {
         title: "SMS broadcast",
-        badge: "Beta",
         icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
       },
       {
@@ -643,7 +647,8 @@ const signupPerks = [
               New
             </span>
             <span class="text-[0.75rem] text-stone-700">
-              Classes, email campaigns, and waivers are live · SMS in beta →
+              Custom member fields, enrollment questions &amp; SMS texts are
+              live →
             </span>
           </a>
 
@@ -1341,7 +1346,8 @@ const signupPerks = [
         >
           * 14-day free trial on every plan; no card required, cancel anytime.
           Standard Stripe processing fees apply on all plans, as with any
-          provider.
+          provider. Pay your Memberley subscription by card or ACH bank
+          transfer.
         </p>
       </div>
     </section>
@@ -1351,7 +1357,7 @@ const signupPerks = [
       <div
         class="mx-auto grid max-w-[80rem] grid-cols-1 gap-16 px-6 py-24 lg:grid-cols-12 lg:px-8"
       >
-        <div data-reveal class="col-span-5">
+        <div data-reveal class="lg:col-span-5">
           <div
             class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
           >
@@ -1381,7 +1387,7 @@ const signupPerks = [
           </ul>
         </div>
 
-        <div class="col-span-7">
+        <div class="lg:col-span-7">
           <div
             data-reveal
             class="rounded-lg bg-stone-950 p-8 ring-1 ring-white/10"

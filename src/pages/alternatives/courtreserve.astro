@@ -273,16 +273,16 @@ const faqs = [
         <div
           class="overflow-x-auto rounded-lg bg-white shadow-paper ring-1 ring-stone-950/5"
         >
-          <table class="w-full min-w-[40rem] border-collapse text-left">
+          <table class="w-full border-collapse text-left">
             <thead>
               <tr class="border-b border-stone-950/10 bg-stone-100">
-                <th class="w-[44%] p-4"></th>
+                <th class="w-[38%] p-3 sm:w-[44%] sm:p-4"></th>
                 <th
-                  class="bg-brand-700/[0.06] p-4 text-center text-[0.8125rem] font-semibold text-brand-800"
+                  class="bg-brand-700/[0.06] p-3 text-center sm:p-4 text-[0.8125rem] font-semibold text-brand-800"
                   >Memberley</th
                 >
                 <th
-                  class="p-4 text-center text-[0.8125rem] font-semibold text-stone-700"
+                  class="p-3 text-center text-[0.8125rem] font-semibold text-stone-700 sm:p-4"
                   >CourtReserve</th
                 >
               </tr>
@@ -291,12 +291,12 @@ const faqs = [
               {
                 rows.map((row) => (
                   <tr class="border-b border-stone-950/5 last:border-0">
-                    <th class="p-4 align-middle text-[0.8125rem] font-medium text-stone-700">
+                    <th class="p-3 align-middle text-[0.8125rem] font-medium text-stone-700 sm:p-4">
                       {row.label}
                     </th>
                     {[row.memberley, row.competitor].map((cell, i) => (
                       <td
-                        class={`p-4 text-center align-middle ${i === 0 ? "bg-brand-700/[0.04]" : ""}`}
+                        class={`p-3 text-center align-middle sm:p-4 ${i === 0 ? "bg-brand-700/[0.04]" : ""}`}
                       >
                         {typeof cell === "string" ? (
                           <span class="text-[0.8125rem] text-stone-700">
@@ -340,11 +340,6 @@ const faqs = [
             </tbody>
           </table>
         </div>
-        <p
-          class="mt-3 font-mono text-[0.75rem] tracking-wide text-stone-500 md:hidden"
-        >
-          Swipe sideways to compare →
-        </p>
         <p
           class="mt-4 max-w-[75ch] font-mono text-[0.75rem] tracking-wide text-stone-500"
         >
