@@ -943,6 +943,76 @@ const signupPerks = [
       </div>
     </section>
 
+    <!-- Live demo -->
+    <section id="demo" class="border-b border-stone-950/10 bg-brand-700/5">
+      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+        <div
+          class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center lg:gap-16"
+        >
+          <div data-reveal class="lg:col-span-6">
+            <div class={eyebrow}>§ Live demo</div>
+            <h2
+              class={`mt-5 max-w-[20ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
+            >
+              Wander around a real club.
+            </h2>
+            <p
+              class="mt-4 max-w-[52ch] text-[1rem] leading-relaxed text-pretty text-stone-600"
+            >
+              The demo is Lakeside Swim &amp; Tennis Club, a fully built-out
+              organization in the middle of its season: families on the roster,
+              a front desk checking people in, a pool and four courts taking
+              reservations, classes with public signup, and campaigns going
+              out. Not a video tour — the actual product.
+            </p>
+            <div class="mt-8 flex flex-wrap items-center gap-4">
+              <a
+                href={DEMO_URL}
+                class={`group inline-flex items-center gap-2 rounded-sm py-2.5 pr-5 pl-5 text-[0.875rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
+              >
+                Open the live demo
+                <span class="transition group-hover:translate-x-0.5">→</span>
+              </a>
+              <span class="font-mono text-[0.75rem] tracking-wide text-stone-600"
+                >demo.memberley.com</span
+              >
+            </div>
+            <p
+              class="mt-5 font-mono text-[0.75rem] leading-relaxed tracking-wide text-stone-600"
+            >
+              One click signs you in as admin or member · no account needed ·
+              resets nightly
+            </p>
+          </div>
+          <div data-reveal class="lg:col-span-6">
+            <div class="rounded-lg bg-white p-8 shadow-paper ring-1 ring-stone-950/5">
+              <div
+                class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase"
+              >
+                Things to try
+              </div>
+              <ul role="list" class="mt-5 space-y-3.5">
+                {
+                  [
+                    "Check a family in at the front desk and watch a guest pass deduct",
+                    "Book a tennis court from the member portal",
+                    "Skim the season's dues and revenue reports",
+                    "Open a sent campaign and read its per-recipient tracking",
+                    "Sign in as a member and see the same club from their side",
+                  ].map((t) => (
+                    <li class="flex items-start gap-3 text-[0.9375rem] leading-relaxed text-stone-700">
+                      <span class="mt-0.5 font-mono text-brand-700">→</span>
+                      {t}
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Comparison -->
     <section id="compare" class="border-b border-stone-950/10 bg-stone-50">
       <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
@@ -958,7 +1028,11 @@ const signupPerks = [
           >
             Built for neighborhood pools, courts, and community swim clubs, so
             the comparison that matters is against the tools you&rsquo;ve
-            already tried.
+            already tried. Prefer to judge for yourself? <a
+              href="#demo"
+              class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
+              >Click through the live demo</a
+            >.
           </p>
         </div>
 
