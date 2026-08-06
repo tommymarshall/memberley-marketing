@@ -16,7 +16,7 @@ const LOGIN_URL = `${APP_URL}/login`;
 
 const navLinks = [
   { href: "/#features", label: "Features" },
-  { href: "/#demo", label: "Live demo" },
+  { href: "/#demo", label: "Live demo", highlight: true },
   { href: "/#compare", label: "Compare" },
   { href: "/#pricing", label: "Pricing" },
   { href: "/help", label: "Help" },
@@ -54,11 +54,21 @@ const primaryBtn =
       class="hidden items-center gap-7 text-[0.8125rem] text-stone-600 md:flex"
     >
       {
-        navLinks.map((l) => (
-          <a href={l.href} class="transition hover:text-stone-900">
-            {l.label}
-          </a>
-        ))
+        navLinks.map((l) =>
+          l.highlight ? (
+            <a
+              href={l.href}
+              class="flex items-center gap-1.5 font-medium text-brand-800 transition hover:text-brand-900"
+            >
+              <span class="size-1.5 rounded-full bg-brand-600" aria-hidden="true" />
+              {l.label}
+            </a>
+          ) : (
+            <a href={l.href} class="transition hover:text-stone-900">
+              {l.label}
+            </a>
+          ),
+        )
       }
     </nav>
 
@@ -112,8 +122,11 @@ const primaryBtn =
         navLinks.map((l) => (
           <a
             href={l.href}
-            class="rounded-sm px-2 py-2.5 transition hover:bg-stone-100 hover:text-stone-900"
+            class={`flex items-center gap-2 rounded-sm px-2 py-2.5 transition hover:bg-stone-100 ${l.highlight ? "font-medium text-brand-800 hover:text-brand-900" : "hover:text-stone-900"}`}
           >
+            {l.highlight && (
+              <span class="size-1.5 rounded-full bg-brand-600" aria-hidden="true" />
+            )}
             {l.label}
           </a>
         ))

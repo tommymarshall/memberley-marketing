@@ -14,6 +14,7 @@ const APP_URL =
       : "https://app.memberley.com";
 const SIGNUP_URL = `${APP_URL}/register`;
 const DEMO_URL = "https://demo.memberley.com";
+const DOCS_URL = "https://docs.memberley.com";
 const CONTACT_EMAIL = "hello@memberley.com";
 
 // ── Class tokens (paper theme, matches index.astro) ──────────────────────────
@@ -131,8 +132,13 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
             class="mt-6 max-w-[54ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
           >
             Everything boards ask before they switch: pricing, payments,
-            migration, and what happens to the website you already have. Can't
-            find your answer? Write
+            migration, and what happens to the website you already have.
+            Already using Memberley? The full product documentation lives at
+            <a
+              href={DOCS_URL}
+              class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
+              >docs.memberley.com</a
+            >. Can't find your answer? Write
             <a
               href={`mailto:${CONTACT_EMAIL}`}
               class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
