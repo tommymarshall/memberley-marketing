@@ -27,6 +27,15 @@ const POSTHOG_KEY =
 const POSTHOG_HOST =
     (import.meta.env.PUBLIC_POSTHOG_HOST as string | undefined) ??
     'https://us.i.posthog.com';
+
+// Meta (Facebook) Pixel for Memberley ads. Same pixel ID as the memberley-app
+// so marketing and product traffic land in one Events Manager funnel: ads point
+// here, but signup finishes on app.memberley.com. The `_fbp`/`_fbc` cookies are
+// scoped to the registrable domain, so click attribution survives that hop.
+// A pixel ID is public by design (it only identifies the ad account's pixel).
+const META_PIXEL_ID =
+    (import.meta.env.PUBLIC_META_PIXEL_ID as string | undefined) ??
+    '1538904127970855';
 ---
 
 <!doctype html>
@@ -97,8 +106,62 @@ const POSTHOG_HOST =
                 });
             }
         </script>
+
+        <!-- Meta Pixel Code -->
+        <script is:inline define:vars={{ metaPixelId: META_PIXEL_ID }}>
+            if (
+                metaPixelId &&
+                window.location.hostname !== 'localhost' &&
+                !window.location.hostname.endsWith('.test')
+            ) {
+                !function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', metaPixelId);
+                // Fired inline (unlike memberley-app, which defers to its Inertia
+                // router): this is a static MPA, so every page is a real document
+                // load and there are no client-side route changes to catch.
+                fbq('track', 'PageView');
+
+                // Lead = clicked through to signup. The signup CTAs are plain
+                // links to app.memberley.com/register, so a delegated listener
+                // covers every page without touching each CTA. Once per page
+                // load; the header CTA rewrites itself to /dashboard for signed-in
+                // visitors, which correctly stops matching.
+                var leadFired = false;
+                document.addEventListener('click', function (event) {
+                    if (leadFired) {
+                        return;
+                    }
+
+                    var link = event.target.closest && event.target.closest('a[href*="/register"]');
+
+                    if (!link) {
+                        return;
+                    }
+
+                    leadFired = true;
+                    fbq('track', 'Lead');
+                });
+            }
+        </script>
+        <!-- End Meta Pixel Code -->
     </head>
     <body>
+        <noscript
+            ><img
+                height="1"
+                width="1"
+                style="display:none"
+                src={`https://www.facebook.com/tr?id=${encodeURIComponent(META_PIXEL_ID)}&ev=PageView&noscript=1`}
+                alt=""
+            /></noscript
+        >
         <slot />
     </body>
 </html>
