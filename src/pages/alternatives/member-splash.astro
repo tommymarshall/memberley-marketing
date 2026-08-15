@@ -2,19 +2,8 @@
 import Layout from "../../layouts/Layout.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
-
-// ── App URLs (mirrors index.astro) ──────────────────────────────────────────
-const fromEnv = (import.meta.env.PUBLIC_MEMBERLEY_APP_URL as string | undefined)
-  ?.trim()
-  .replace(/\/$/, "");
-const APP_URL =
-  fromEnv && fromEnv.length > 0
-    ? fromEnv
-    : import.meta.env.DEV
-      ? "http://memberley-app.test"
-      : "https://app.memberley.com";
-const SIGNUP_URL = `${APP_URL}/register`;
-const DEMO_URL = "https://demo.memberley.com";
+import ComparisonHeroVisual from "../../components/ComparisonHeroVisual.astro";
+import { DEMO_URL, SIGNUP_URL } from "../../config/site";
 
 // ── Class tokens (inlined paper theme, matches index.astro) ──────────────────
 const eyebrow =
@@ -94,7 +83,12 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
 ];
 
 // Extras where Memberley goes further than Member Splash's published feature set.
-const builtInExtras = [
+const builtInExtras: {
+  title: string;
+  desc: string;
+  icon: string;
+  badge?: string;
+}[] = [
   {
     title: "SMS member texts",
     desc: "Reach members where they actually reply: broadcasts and one-to-one texts, right alongside everything else.",
@@ -187,12 +181,12 @@ const faqs = [
     <SiteHeader />
 
     <!-- Hero -->
-    <section class="border-b border-stone-950/10">
-      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8 lg:py-20">
+    <section class="hero-wash border-b border-stone-950/10">
+      <div class="mx-auto grid max-w-[74rem] items-center gap-12 px-6 py-20 lg:grid-cols-[0.84fr_1.16fr] lg:px-8 lg:py-24">
         <div class="max-w-[60ch]">
           <div class={eyebrow}>§ Member Splash alternative</div>
           <h1
-            class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4.5vw,4rem)] leading-[1] text-balance ${display} text-stone-900`}
+            class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] text-balance ${display} text-stone-900`}
           >
             The modern Member Splash alternative for neighborhood pools.
           </h1>
@@ -208,29 +202,35 @@ const faqs = [
           <div class="mt-10 flex flex-wrap items-center gap-3">
             <a
               href={SIGNUP_URL}
-              class={`group inline-flex items-center gap-2 rounded-sm py-2.5 pr-5 pl-5 text-[0.875rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
+              class={`group inline-flex items-center gap-2 rounded-full px-5 py-3 text-[0.875rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
             >
-              Start free trial
+              Start 45-day free trial
               <span class="transition group-hover:translate-x-0.5">→</span>
             </a>
             <a
               href="#compare"
-              class={`inline-flex items-center gap-2 rounded-sm py-2.5 pr-5 pl-5 text-[0.875rem] font-medium transition ${secondaryBtn}`}
+              class={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-[0.875rem] font-medium transition ${secondaryBtn}`}
             >
               See the comparison
             </a>
           </div>
           <p class="mt-6 font-mono text-[0.75rem] tracking-wide text-stone-600">
-            Free migration off Member Splash · No setup fee · 14-day trial, no
+            Free migration off Member Splash · No setup fee · 45-day trial, no
             card
           </p>
         </div>
+        <ComparisonHeroVisual
+          competitor="Member Splash"
+          competitorLogo="/competitors/member-splash.png"
+          screenshot="/product/check-in.webp"
+          screenshotAlt="Memberley front-desk check-in workspace"
+        />
       </div>
     </section>
 
     <!-- Reasons -->
     <section class="border-b border-stone-950/10">
-      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+      <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
           <div class={eyebrow}>§ Why pools switch</div>
           <h2
@@ -262,7 +262,7 @@ const faqs = [
 
     <!-- Head-to-head comparison -->
     <section id="compare" class="border-b border-stone-950/10 bg-stone-50">
-      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+      <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-12 max-w-[44ch]">
           <div class={eyebrow}>§ Head to head</div>
           <h2
@@ -370,7 +370,7 @@ const faqs = [
 
     <!-- More built in -->
     <section class="border-b border-stone-950/10">
-      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+      <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
           <div class={eyebrow}>§ Beyond the basics</div>
           <h2
@@ -424,7 +424,7 @@ const faqs = [
 
     <!-- FAQ -->
     <section class="border-b border-stone-950/10">
-      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+      <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-12 max-w-[44ch]">
           <div class={eyebrow}>§ FAQ</div>
           <h2
@@ -452,7 +452,7 @@ const faqs = [
 
     <!-- CTA -->
     <section class="paper-dark text-stone-50">
-      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
+      <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="max-w-[40ch]">
           <div
             class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
@@ -467,7 +467,7 @@ const faqs = [
           <p
             class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400"
           >
-            Start a free trial and see your club in Memberley in minutes, or
+            Start a 45-day free trial and see your club in Memberley in minutes, or
             send us your Member Splash roster and we'll set everything up for
             you, free, before next season.
           </p>
@@ -476,7 +476,7 @@ const faqs = [
               href={SIGNUP_URL}
               class="inline-flex items-center gap-2 rounded-sm bg-brand-700 px-5 py-3 text-[0.875rem] font-semibold text-white transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
             >
-              Start free trial →
+              Start 45-day free trial →
             </a>
             <a
               href={DEMO_URL}

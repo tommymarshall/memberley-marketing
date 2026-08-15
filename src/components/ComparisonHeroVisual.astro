@@ -1,0 +1,45 @@
+---
+interface Props {
+  competitor: string;
+  competitorLogo: string;
+  screenshot?: string;
+  screenshotAlt?: string;
+}
+
+const {
+  competitor,
+  competitorLogo,
+  screenshot = "/app-roster.webp",
+  screenshotAlt = "Memberley member management workspace",
+} = Astro.props;
+---
+
+<div class="relative mx-auto w-full max-w-[40rem] pt-8 lg:pt-0" aria-label={`Memberley compared with ${competitor}`}>
+  <div class="absolute -inset-8 rounded-full bg-brand-300/24 blur-3xl" aria-hidden="true"></div>
+  <div class="browser-frame relative rotate-[0.45deg]">
+    <div class="browser-chrome"><span></span></div>
+    <img
+      src={screenshot}
+      alt={screenshotAlt}
+      width="2880"
+      height="1800"
+      loading="eager"
+      decoding="async"
+      class="block aspect-[16/10] w-full object-cover object-left-top"
+    />
+  </div>
+
+  <div class="absolute -bottom-5 left-4 flex items-center gap-3 rounded-[0.9rem] border border-stone-950/10 bg-white/94 px-4 py-3 shadow-paper backdrop-blur-sm sm:left-8">
+    <span class="grid size-9 place-items-center overflow-hidden rounded-[0.6rem] border border-stone-950/8 bg-stone-50 p-1.5">
+      <img src={competitorLogo} alt="" class="max-h-full max-w-full object-contain" loading="eager" decoding="async" />
+    </span>
+    <span>
+      <span class="block font-mono text-[0.5625rem] font-semibold tracking-[0.12em] text-stone-400 uppercase">Moving from</span>
+      <span class="mt-0.5 block text-[0.75rem] font-semibold text-stone-800">{competitor}</span>
+    </span>
+    <span class="px-1 text-brand-700" aria-hidden="true">→</span>
+    <span class="grid size-9 place-items-center rounded-[0.6rem] bg-stone-950">
+      <img src="/memberley-amper-dark.svg" alt="" class="size-6" loading="eager" decoding="async" />
+    </span>
+  </div>
+</div>

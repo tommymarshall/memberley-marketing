@@ -7,6 +7,9 @@
         "dev": "astro dev",
         "start": "astro dev",
         "build": "astro build",
+        "check": "astro check",
+        "test:site": "node tests/marketing-smoke.mjs",
+        "verify": "npm run check && npm run build && npm run test:site",
         "preview": "astro preview",
         "astro": "astro"
     },

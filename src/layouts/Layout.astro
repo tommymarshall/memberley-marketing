@@ -46,7 +46,7 @@ const META_PIXEL_ID =
         <script is:inline>
             // Enable scroll-reveal start states before first paint so revealed
             // elements never flash in. No-JS visitors keep everything visible.
-            document.documentElement.classList.add("js-reveal");
+            document.documentElement.classList.add('js-reveal');
         </script>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -54,7 +54,7 @@ const META_PIXEL_ID =
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="canonical" href={canonicalUrl} />
-        <meta name="theme-color" content="#0f1419" />
+        <meta name="theme-color" content="#faf9f7" />
         <meta name="application-name" content="Memberley" />
         <meta name="apple-mobile-web-app-title" content="Memberley" />
         <meta name="generator" content={Astro.generator} />
@@ -152,7 +152,7 @@ const META_PIXEL_ID =
         </script>
         <!-- End Meta Pixel Code -->
     </head>
-    <body>
+    <body class="bg-[#faf9f7] text-stone-900">
         <noscript
             ><img
                 height="1"
@@ -163,5 +163,50 @@ const META_PIXEL_ID =
             /></noscript
         >
         <slot />
+        <script is:inline>
+            // One delegated event contract keeps CTA attribution consistent
+            // across the homepage, comparison pages, and shared shell.
+            document.addEventListener('click', function (event) {
+                var target = event.target.closest && event.target.closest('[data-marketing-event]');
+
+                if (!target) {
+                    return;
+                }
+
+                var eventName = target.getAttribute('data-marketing-event');
+                var location = target.getAttribute('data-marketing-location') || 'unknown';
+
+                if (eventName && window.posthog && typeof window.posthog.capture === 'function') {
+                    window.posthog.capture(eventName, {
+                        location: location,
+                        destination: target.getAttribute('href') || null,
+                    });
+                }
+            });
+
+            // Reveal motion remains progressive enhancement: content is visible
+            // without JS, and reduced-motion visitors skip the transition.
+            var revealItems = document.querySelectorAll('[data-reveal]');
+            if ('IntersectionObserver' in window) {
+                var revealObserver = new IntersectionObserver(function (entries, observer) {
+                    entries.forEach(function (entry) {
+                        if (!entry.isIntersecting) {
+                            return;
+                        }
+
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    });
+                }, { rootMargin: '0px 0px -7% 0px', threshold: 0.08 });
+
+                revealItems.forEach(function (item) {
+                    revealObserver.observe(item);
+                });
+            } else {
+                revealItems.forEach(function (item) {
+                    item.classList.add('is-visible');
+                });
+            }
+        </script>
     </body>
 </html>

@@ -2,32 +2,20 @@
 import Layout from "../layouts/Layout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import Testimonials from "../components/Testimonials.astro";
+import {
+  APP_URL,
+  CONTACT_EMAIL,
+  DEMO_URL,
+  SIGNUP_URL,
+  alternatives,
+} from "../config/site";
 
 declare const process: {
   env: {
     NODE_TLS_REJECT_UNAUTHORIZED?: string;
   };
 };
-
-const fromEnv = (import.meta.env.PUBLIC_MEMBERLEY_APP_URL as string | undefined)
-  ?.trim()
-  .replace(/\/$/, "");
-const APP_URL =
-  fromEnv && fromEnv.length > 0
-    ? fromEnv
-    : import.meta.env.DEV
-      ? "http://memberley-app.test"
-      : "https://app.memberley.com";
-const SIGNUP_URL = `${APP_URL}/register`;
-const LOGIN_URL = `${APP_URL}/login`;
-const DEMO_URL = "https://demo.memberley.com";
-const CONTACT_EMAIL = "tommy@memberley.com";
-
-// ── Plans ──────────────────────────────────────────────────────────────────
-// Pricing data is sourced from the app's public /api/v1/plans endpoint at
-// build time so prices and limits stay in sync. Marketing-only flair
-// (featured flag, CTA copy, extra differentiator bullets) is layered on top
-// via the lookup below, keyed by plan slug.
 
 type ApiPlan = {
   id: number;
@@ -39,21 +27,6 @@ type ApiPlan = {
   billing_interval: "month" | "year";
   trial_days: number;
   platform_fee_percentage: number;
-  limits: {
-    max_users: number | null;
-    max_facilities: number | null;
-    max_staff_users: number | null;
-    max_membership_tiers: number | null;
-    max_guests: number | null;
-  };
-  capabilities: {
-    facility_reservations: boolean;
-    checkins: boolean;
-    waitlist: boolean;
-    payments_and_billing: boolean;
-    activity_log: boolean;
-    public_registration: boolean;
-  };
 };
 
 type MarketingPlan = {
@@ -63,111 +36,26 @@ type MarketingPlan = {
   interval: "month" | "year";
   tagline: string;
   featured: boolean;
-  cta: string;
   platformFeePercentage: number;
 };
 
-// À la carte add-on modules. Marketing-only mirror of the app's module
-// catalog (database/seeders/ModulesSeeder.php) — there is no public modules
-// API, so prices are kept in sync here by hand. Keep this list aligned.
 type AddOnModule = {
   name: string;
   price: string;
-  interval: "month" | "year";
-  desc: string;
-  icon: string;
-  note?: string;
+  description: string;
 };
-
-const modules: AddOnModule[] = [
-  {
-    name: "Facilities & Reservations",
-    price: "$250",
-    interval: "year",
-    desc: "Let members book courts, lanes, and rooms, with operating hours, slots, and conflict checks.",
-    icon: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>',
-  },
-  {
-    name: "Front Desk & Check-in",
-    price: "$250",
-    interval: "year",
-    desc: "Check members and guests in at the gate, with guest-pass deduction and QR scanning.",
-    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/>',
-  },
-  {
-    name: "Point of Sale",
-    price: "$250",
-    interval: "year",
-    desc: "Sell at the snack bar or pro shop, with products, registers, and sales reporting, plus daily sales sync to QuickBooks.",
-    icon: '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
-  },
-  {
-    name: "Communications",
-    price: "$150",
-    interval: "year",
-    desc: "Reach members proactively with custom email campaigns and SMS broadcasts.",
-    note: "Includes 1,000 SMS/mo · email unlimited",
-    icon: '<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
-  },
-  {
-    name: "Branded Site & Embed",
-    price: "$100",
-    interval: "year",
-    desc: "Embed the fully branded member portal on your own website with drop-in widgets; your logo, colors, and typography carry across the admin, manager, and member dashboards too.",
-    icon: '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>',
-  },
-  {
-    name: "Classes & Events",
-    price: "$200",
-    interval: "year",
-    desc: "Sell classes, lessons, camps, leagues, and events, with online registration, rosters, and session scheduling.",
-    icon: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
-  },
-];
-
-// Features included in the flat base subscription, on every plan. Mirrors the
-// app's base capabilities (config/billing.php → base_capabilities).
-const baseFeatures: string[] = [
-  "Unlimited members",
-  "Online dues & payments",
-  "Member portal & online signup",
-  "Custom member fields",
-  "Email announcements & reminders",
-  "Waitlist with auto-promotion",
-  "Reports with scheduled email delivery",
-  "QuickBooks & Mailchimp integrations",
-  "Activity log & exports",
-];
-
-function perInterval(interval: "month" | "year"): string {
-  return interval === "year" ? "/yr" : "/mo";
-}
-
-function formatPercent(value: number): string {
-  return Number.isInteger(value)
-    ? `${value}%`
-    : `${value.toFixed(2).replace(/\.?0+$/, "")}%`;
-}
-
-function feeLabel(value: number): string {
-  return value > 0 ? `${formatPercent(value)} per payment` : "No platform fees";
-}
 
 const marketingMeta: Record<
   string,
-  { featured: boolean; cta: string; tagline: string }
+  { featured: boolean; tagline: string }
 > = {
   starter: {
     featured: false,
-    cta: "Start free trial",
-    tagline:
-      "Everything you need to run the club online: no annual fee, 3% per payment.",
+    tagline: "Start small with every membership essential. Pay only when members pay.",
   },
   community: {
     featured: true,
-    cta: "Start free trial",
-    tagline:
-      "Everything in Starter with zero payment fees. Keep 100% of your dues.",
+    tagline: "A flat annual price for established clubs that want to keep every dollar of dues.",
   },
 };
 
@@ -179,7 +67,6 @@ const fallbackPlans: MarketingPlan[] = [
     interval: "year",
     tagline: marketingMeta.starter.tagline,
     featured: false,
-    cta: "Start free trial",
     platformFeePercentage: 3,
   },
   {
@@ -189,15 +76,12 @@ const fallbackPlans: MarketingPlan[] = [
     interval: "year",
     tagline: marketingMeta.community.tagline,
     featured: true,
-    cta: "Start free trial",
     platformFeePercentage: 0,
   },
 ];
 
 let plans: MarketingPlan[] = fallbackPlans;
 
-// Herd serves *.test on a self-signed cert; relax TLS verification only when
-// targeting a local Herd URL so devs can preview live pricing during build.
 const previousTlsReject = process.env.NODE_TLS_REJECT_UNAUTHORIZED;
 const isLocalHerd = APP_URL.includes(".test");
 if (isLocalHerd) {
@@ -205,46 +89,35 @@ if (isLocalHerd) {
 }
 
 try {
-  const res = await fetch(`${APP_URL}/api/v1/plans`, {
+  const response = await fetch(`${APP_URL}/api/v1/plans`, {
     headers: { Accept: "application/json" },
   });
-  if (res.ok) {
-    const json = (await res.json()) as { data: ApiPlan[] };
-    // Only trust the API when it actually returns plans — an empty array
-    // (e.g. before the app is deployed with the new catalog) should fall back
-    // to the hardcoded plans below rather than render an empty pricing grid.
+
+  if (response.ok) {
+    const json = (await response.json()) as { data: ApiPlan[] };
     if (Array.isArray(json.data) && json.data.length > 0) {
-      plans = json.data.map((p): MarketingPlan => {
-        // The Community plan was named "Base" until 2026-07. The API derives
-        // the slug from the name, so a build against a not-yet-redeployed app
-        // still returns base/Base — normalize so this page renders the new
-        // name and keeps the plan's featured styling either way.
-        const slug = p.slug === "base" ? "community" : p.slug;
-        const name = p.name === "Base" ? "Community" : p.name;
+      plans = json.data.map((plan): MarketingPlan => {
+        const slug = plan.slug === "base" ? "community" : plan.slug;
+        const name = plan.name === "Base" ? "Community" : plan.name;
         const meta = marketingMeta[slug] ?? {
           featured: false,
-          cta: "Start free trial",
-          tagline: p.description ?? "",
+          tagline: plan.description ?? "",
         };
+
         return {
           slug,
           name,
-          price: p.price_formatted,
-          interval: p.billing_interval,
+          price: plan.price_formatted,
+          interval: plan.billing_interval,
           tagline: meta.tagline,
           featured: meta.featured,
-          cta: meta.cta,
-          platformFeePercentage: Number(p.platform_fee_percentage ?? 0),
+          platformFeePercentage: Number(plan.platform_fee_percentage ?? 0),
         };
       });
-    } else {
-      console.warn("Plans API returned no plans; using fallback pricing.");
     }
-  } else {
-    console.warn(`Plans API returned ${res.status}; using fallback pricing.`);
   }
-} catch (err) {
-  console.warn("Plans API fetch failed; using fallback pricing.", err);
+} catch (error) {
+  console.warn("Plans API fetch failed; using fallback pricing.", error);
 } finally {
   if (isLocalHerd) {
     if (previousTlsReject === undefined) {
@@ -255,1332 +128,571 @@ try {
   }
 }
 
-// Class tokens (inlined from the original paperTheme)
+const modules: AddOnModule[] = [
+  {
+    name: "Facilities & reservations",
+    price: "$250/yr",
+    description: "Courts, lanes, rooms, approvals, and conflict checks.",
+  },
+  {
+    name: "Front desk & check-in",
+    price: "$250/yr",
+    description: "Gate check-in, QR scanning, and guest-pass tracking.",
+  },
+  {
+    name: "Point of sale",
+    price: "$250/yr",
+    description: "Snack bar and pro shop sales with daily reporting.",
+  },
+  {
+    name: "Classes & events",
+    price: "$200/yr",
+    description: "Registration, rosters, sessions, camps, and lessons.",
+  },
+  {
+    name: "Communications",
+    price: "$150/yr",
+    description: "Email campaigns and SMS broadcasts to member segments.",
+  },
+  {
+    name: "Branded site & embed",
+    price: "$100/yr",
+    description: "A member portal that fits the website you already have.",
+  },
+];
+
+const baseFeatures = [
+  "Unlimited members",
+  "Online dues, ACH, and card payments",
+  "Member portal and online signup",
+  "Household and per-person family pricing",
+  "Custom member fields",
+  "Waitlists with auto-promotion",
+  "Reports, exports, and activity history",
+  "QuickBooks and Mailchimp integrations",
+];
+
+const outcomes = [
+  {
+    number: "01",
+    title: "Memberships stay current.",
+    body: "Families join, renew, update their household, and pay without a board member moving data between forms and spreadsheets.",
+    detail: "Tiers · household pricing · waitlists",
+  },
+  {
+    number: "02",
+    title: "Money reconciles itself.",
+    body: "Dues, payment plans, late fees, discounts, and receipts flow through your own Stripe account with a clean audit trail.",
+    detail: "Card + ACH · payouts · reporting",
+  },
+  {
+    number: "03",
+    title: "The front desk keeps moving.",
+    body: "Staff find a member, scan a QR code, deduct guest passes, and handle the next family without slowing the line.",
+    detail: "Check-in · guests · point of sale",
+  },
+];
+
+const moreCapabilities = [
+  "Facility reservations",
+  "Classes, camps & lessons",
+  "Email and SMS campaigns",
+  "Waivers & documents",
+  "Branded member portal",
+  "Season-by-season reporting",
+];
+
+const primaryButton =
+  "inline-flex items-center justify-center gap-2 rounded-full bg-stone-950 px-5 py-3 text-[0.875rem] font-semibold text-white shadow-btn transition hover:-translate-y-px hover:bg-stone-800 motion-reduce:transform-none";
+const secondaryButton =
+  "inline-flex items-center justify-center gap-2 rounded-full border border-stone-950/14 bg-white/72 px-5 py-3 text-[0.875rem] font-semibold text-stone-800 shadow-[0_1px_0_rgb(255_255_255/.8)_inset] transition hover:-translate-y-px hover:border-stone-950/24 hover:bg-white motion-reduce:transform-none";
 const eyebrow =
-  "font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase";
-const display = "font-serif font-semibold tracking-tight";
-const primaryBtn =
-  "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800 focus-visible:outline-brand-600";
-const secondaryBtn =
-  "border border-stone-950/15 bg-white text-stone-900 hover:border-stone-950/30 hover:bg-stone-100";
+  "font-mono text-[0.625rem] font-semibold tracking-[0.14em] text-brand-800 uppercase";
 
-type PrimaryFeature = {
-  n: string;
-  title: string;
-  desc: string;
-  icon: string;
-  /** Label shown when the feature is powered by a paid add-on module. */
-  addon?: string;
-};
-
-const primaryFeatures: PrimaryFeature[] = [
-  {
-    n: "01",
-    title: "Memberships",
-    desc: "Tiers, pricing, guest pass allocations, renewals, and waitlists with auto-promotion, plus bulk CSV import and a shareable invite link so you can move your whole roster over in an afternoon. Custom member fields track the details your club actually cares about — shirt sizes, parking stickers, gate tags — at signup, on profiles, and in roster filters and exports.",
-    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
-  },
-  {
-    n: "02",
-    title: "Reservations",
-    desc: "A clean calendar for members to book lanes, courts, or rooms online. Conflict checks, operating hours, approvals, and confirmation emails are handled for you.",
-    icon: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>',
-    addon: "Add-on module",
-  },
-  {
-    n: "03",
-    title: "Payments",
-    desc: "Members pay dues by card or ACH bank transfer through your own Stripe account. Payouts typically reach your bank in 1–2 business days, with no middleman holding your funds. Autopay, installment plans, discount codes, and automatic late fees are built in, and receipts go out on every charge. Connect Stripe in under 10 minutes.",
-    icon: '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
-  },
-  {
-    n: "04",
-    title: "Front desk & check-in",
-    desc: "Front-desk search by name, QR-code scanning at the gate, guest passes deducted and charged automatically, and a built-in point-of-sale for snack-bar and pro-shop purchases, with every action written to an activity log. A line that actually moves.",
-    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/>',
-    addon: "Add-on module",
-  },
-  {
-    n: "05",
-    title: "Classes & programs",
-    desc: "Build a catalog of offerings, schedule sessions, publish a public signup page, and ask your own registration questions at enrollment. Members sign up themselves — and the whole family — without you bolting on a second booking tool.",
-    icon: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
-    addon: "Add-on module",
-  },
-  {
-    n: "06",
-    title: "Member comms",
-    desc: "Send email campaigns, SMS broadcasts, and one-to-one texts with dynamic segments built on tier, status, or any custom field, with per-recipient tracking. Opens, deliveries, and bounces are logged alongside everything else, and everyday announcements and reminders are included on every plan.",
-    icon: '<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
-    addon: "Campaigns & SMS add-on",
-  },
-];
-
-type SecondaryFeature = {
-  title: string;
-  icon: string;
-  badge?: string;
-};
-
-type FeatureGroup = {
-  title: string;
-  items: SecondaryFeature[];
-};
-
-const featureGroups: FeatureGroup[] = [
-  {
-    title: "Money & billing",
-    items: [
-      {
-        title: "Stripe Connect",
-        icon: '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
-      },
-      {
-        title: "ACH bank payments",
-        icon: '<line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',
-      },
-      {
-        title: "Autopay & renewals",
-        icon: '<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',
-      },
-      {
-        title: "Installment plans",
-        icon: '<circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/>',
-      },
-      {
-        title: "Discount codes",
-        icon: '<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M9 9h.01"/><path d="m15 9-6 6"/><path d="M15 15h.01"/>',
-      },
-      {
-        title: "Automatic late fees",
-        icon: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/>',
-      },
-    ],
-  },
-  {
-    title: "Members & front desk",
-    items: [
-      {
-        title: "Bulk CSV import",
-        icon: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/>',
-      },
-      {
-        title: "Invite link & join codes",
-        icon: '<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/>',
-      },
-      {
-        title: "Family accounts",
-        icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
-      },
-      {
-        title: "Custom member fields",
-        icon: '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
-      },
-      {
-        title: "Waitlist automation",
-        icon: '<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>',
-      },
-      {
-        title: "Waivers & documents",
-        icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/>',
-      },
-      {
-        title: "View as member",
-        icon: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
-      },
-    ],
-  },
-  {
-    title: "Comms & brand",
-    items: [
-      {
-        title: "Email campaigns",
-        icon: '<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
-      },
-      {
-        title: "Email reminders",
-        icon: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
-      },
-      {
-        title: "SMS broadcast",
-        icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
-      },
-      {
-        title: "Embedded member portal",
-        icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
-      },
-      {
-        title: "White-label branding",
-        icon: '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>',
-      },
-    ],
-  },
-  {
-    title: "Operations",
-    items: [
-      {
-        title: "Reports, delivered on a schedule",
-        icon: '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
-      },
-      {
-        title: "Activity log",
-        icon: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
-      },
-      {
-        title: "Multi-org switcher",
-        icon: '<path d="m17 3 4 4-4 4"/><path d="M3 7h18"/><path d="m7 21-4-4 4-4"/><path d="M21 17H3"/>',
-      },
-      {
-        title: "Mobile-ready",
-        icon: '<rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/>',
-      },
-    ],
-  },
-];
-
-const useCases = [
-  {
-    tag: "Swim Clubs",
-    bullets: [
-      "Seasonal memberships",
-      "Lane and room reservations",
-      "Guest-pass deduction",
-      "Peak-season waitlists",
-    ],
-  },
-  {
-    tag: "HOAs",
-    bullets: [
-      "Annual assessments",
-      "Amenity booking",
-      "Court reservations",
-      "Automatic late fees",
-    ],
-  },
-  {
-    tag: "Private Clubs",
-    bullets: [
-      "Multi-tier categories",
-      "Event reservations",
-      "Check-ins and check-outs",
-      "Automated renewals",
-    ],
-  },
-];
-
-// ── Competitor comparison ───────────────────────────────────────────────────
-// Pricing & feature claims sourced from each vendor's public site (last
-// verified July 2026). Re-verify before publishing — comparative claims must
-// stay truthful.
-// Cell types: string = literal value · true = ✓ · false = ✕ · null = — (n/a).
-type CompareCell = string | boolean | null;
-
-const compareColumns: { name: string; logo: string; isOwn: boolean }[] = [
-  { name: "Memberley", logo: "/memberley-amper-light.svg", isOwn: true },
-  {
-    name: "Member Splash",
-    logo: "/competitors/member-splash.png",
-    isOwn: false,
-  },
-  { name: "PoolDues", logo: "/competitors/pooldues.png", isOwn: false },
-  { name: "CourtReserve", logo: "/competitors/courtreserve.svg", isOwn: false },
-];
-
-const compareRows: { label: string; cells: CompareCell[] }[] = [
-  {
-    label: "Focus",
-    cells: [
-      "Pools, courts & neighborhood communities",
-      "Pools / HOA / swim & tennis",
-      "Swim & tennis / HOA pools",
-      "Tennis, pickleball & padel",
-    ],
-  },
-  {
-    label: "Published starting price",
-    cells: [
-      "$0/yr + 3%, or $500/yr with no payment fees",
-      "$2,000–$3,500/yr",
-      "$1,999/yr",
-      "From $159/mo (annual billing, 8 courts)",
-    ],
-  },
-  {
-    label: "One-time setup fee",
-    cells: ["None", "Optional $500–$1,000", "Included", null],
-  },
-  {
-    label: "Payment processor",
-    cells: ["Your own Stripe", "ECRYPT", "PayPal", "Stripe or SafeSave"],
-  },
-  {
-    label: "Member portal embeds in the website you already have",
-    cells: [true, "Keep-your-site option", false, null],
-  },
-  {
-    label: "White-label branding (portal + emails)",
-    cells: [true, null, null, "Top tier only"],
-  },
-  {
-    label: "Free white-glove migration",
-    cells: [true, true, true, null],
-  },
-  {
-    label: "Built-in email & SMS broadcasts",
-    cells: [true, "SMS on top tier only", "SMS opt-in alerts only", "Metered"],
-  },
-  {
-    label: "QuickBooks & Mailchimp integrations",
-    cells: [true, "Mailchimp · QB via CSV", "Mailchimp · QB export", null],
-  },
-  {
-    label: "Dues, POS & credits in one revenue report",
-    cells: [true, null, null, null],
-  },
-  {
-    label: "POS inventory tracking (stock counts)",
-    cells: [true, null, true, true],
-  },
-  {
-    label: "Digital waivers & document library",
-    cells: [true, "Waivers only", null, "Waivers only"],
-  },
-  {
-    label: "Installment payment plans",
-    cells: [true, "Future release", true, null],
-  },
-  {
-    label: "ACH bank payments for dues",
-    cells: [true, true, null, null],
-  },
-  {
-    label: "Classes, lessons & programs",
-    cells: [true, true, true, true],
-  },
-  {
-    label: "Online dues & auto-renewal",
-    cells: [true, "Auto-renew: future release", true, true],
-  },
-  {
-    label: "Guest passes, check-in & waitlist",
-    cells: [true, true, true, true],
-  },
-  {
-    label: "Reservations (lanes / courts / rooms)",
-    cells: [true, true, true, true],
-  },
-];
-
-const switchCards = [
-  {
-    name: "Member Splash",
-    href: "/alternatives/member-splash",
-    strong:
-      "The long-time incumbent for neighborhood pools — proven since 2010 with deep pool features and responsive support.",
-    cons: [
-      "$2,000–$3,500/yr before your first member pays — plus $500–$1,000 more if you want hands-on setup.",
-      "Payments run through their ECRYPT gateway — you can't bring your own Stripe account.",
-      "Reporting that some admins describe as clunky.",
-    ],
-    win: "Memberley starts at $0/yr + 3% per payment (or $500/yr with zero payment fees), with no setup fee, payouts to your own Stripe in 1–2 business days, a portal and emails branded as your club, and free migration.",
-  },
-  {
-    name: "PoolDues",
-    href: "/alternatives/pooldues",
-    strong:
-      "Purpose-built for swim & tennis clubs with one simple flat annual price.",
-    cons: [
-      "$1,999/yr for the whole bundle, used or not.",
-      "Payments run through PayPal rather than your own Stripe account.",
-      "They host your website on their servers, so you never fully own it.",
-    ],
-    win: "Memberley starts at $0/yr + 3% per payment (or $500/yr with zero payment fees), you pay for only the modules you need, payouts land in your own Stripe account, and the portal embeds into the website you already have.",
-  },
-  {
-    name: "CourtReserve",
-    href: "/alternatives/courtreserve",
-    strong: "Strong court scheduling built for tennis & pickleball clubs.",
-    cons: [
-      "Designed around courts — not seasonal pool memberships, guest passes, and front-gate check-in.",
-      "SMS and email broadcasts are metered — 500 texts and 5,000 marketing emails a month, then you pay per bundle.",
-      "The branded club app is gated to the top tier, with a $499 setup fee and a one-year contract.",
-    ],
-    win: "Memberley is pool-first: seasonal tiers, guest-pass auto-charge at the gate, and a check-in line that actually moves, with flat-priced modules instead of metered SMS and email.",
-  },
-];
-
-const signupPerks = [
-  "14-day free trial, no card",
-  "Setup in under 10 minutes",
-  "Import members via CSV",
-  "Cancel anytime",
-];
+function formatFee(value: number): string {
+  return value > 0 ? `${value}% per payment` : "No Memberley payment fee";
+}
 ---
 
-<Layout>
-  <div
-    class="min-h-dvh paper-light font-sans text-stone-900 antialiased isolate"
-  >
+<Layout
+  title="Memberley — Membership Software for Pool & Swim-Tennis Clubs"
+  description="Run memberships, dues, reservations, classes, communications, and front-desk check-in in one calm workspace. Explore the live demo or start a 45-day free trial."
+>
+  <div class="min-h-dvh overflow-clip paper-light font-sans text-stone-900">
     <SiteHeader />
 
-    <!-- Hero -->
-    <section
-      class="relative isolate overflow-hidden border-b border-stone-950/10"
-    >
-      <div
-        aria-hidden="true"
-        class="pointer-events-none absolute inset-0 -z-10 grid-veil"
-      >
-      </div>
-      <div
-        class="mx-auto grid max-w-[80rem] grid-cols-1 gap-16 px-6 pt-10 pb-24 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-20"
-      >
-        <div class="lg:col-span-5">
-          <a
-            href="#features"
-            class="mb-8 inline-flex items-center gap-2 rounded-full bg-stone-100 py-1 pr-3 pl-1 ring-1 ring-stone-950/10 transition hover:ring-stone-950/20"
-          >
-            <span
-              class="flex items-center gap-1.5 rounded-full bg-brand-700 px-2 py-0.5 text-[0.6875rem] font-medium tracking-wide text-white uppercase"
-            >
-              <span class="size-1.5 rounded-full bg-white"></span>
-              New
-            </span>
-            <span class="text-[0.75rem] text-stone-700">
-              Custom member fields, enrollment questions &amp; SMS texts are
-              live →
-            </span>
-          </a>
-
-          <h1
-            class={`max-w-[20ch] text-[clamp(2.75rem,4vw,4.5rem)] leading-[1] text-balance ${display} text-stone-900`}
-          >
-            Run your community like it runs itself.
-          </h1>
-
-          <p
-            class="mt-8 max-w-[52ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
-          >
-            Memberships, reservations, payments, classes, comms, and front-desk
-            check-ins, in one calm workspace built for the person actually
-            running the club.
-          </p>
-
-          <div class="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href={SIGNUP_URL}
-              class={`group inline-flex items-center gap-2 rounded-sm py-2.5 pr-5 pl-5 text-[0.875rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
-            >
-              Start free trial
-              <span class="transition group-hover:translate-x-0.5">→</span>
-            </a>
-            <a
-              href={DEMO_URL}
-              class={`inline-flex items-center gap-2 rounded-sm py-2.5 pr-5 pl-5 text-[0.875rem] font-medium transition ${secondaryBtn}`}
-            >
-              Explore the live demo
-            </a>
-          </div>
-
-          <div
-            class="mt-12 flex items-center gap-6 text-[0.75rem] text-stone-600"
-          >
-            <div class="flex items-center gap-2">
+    <main>
+      <section class="relative hero-wash">
+        <div class="pointer-events-none absolute inset-0 hairline-grid opacity-55" aria-hidden="true"></div>
+        <div class="relative mx-auto grid max-w-[74rem] items-center gap-12 px-5 pt-16 pb-12 sm:px-7 sm:pt-20 lg:grid-cols-[0.88fr_1.12fr] lg:gap-10 lg:px-8 lg:pt-24 lg:pb-16">
+          <div class="relative z-10 max-w-[34rem]">
+            <div class="inline-flex items-center gap-2 rounded-full border border-brand-900/10 bg-white/58 px-3 py-1.5 shadow-[0_1px_0_rgb(255_255_255/.8)_inset] backdrop-blur-sm">
               <span class="size-1.5 rounded-full bg-brand-600"></span>
-              Built for swim clubs, HOAs &amp; private clubs
+              <span class={eyebrow}>Built for pool & swim-tennis clubs</span>
             </div>
-          </div>
-        </div>
-
-        <!-- Right — product screenshot -->
-        <div
-          class="relative isolate flex items-center lg:col-span-7 lg:-mr-12 xl:-mr-24"
-        >
-          <div
-            aria-hidden="true"
-            class="pointer-events-none absolute -inset-8 -z-10 halo-brand"
-          >
-          </div>
-          <picture class="block w-full">
-            <source srcset="/app-roster.webp" type="image/webp" />
-            <img
-              src="/app-roster.png"
-              alt="Memberley member roster with share links, status and tier filters, and the full member table"
-              width="1440"
-              height="900"
-              class="w-full rounded-lg bg-white shadow-paper ring-1 ring-stone-950/5"
-              loading="eager"
-              decoding="async"
-            />
-          </picture>
-        </div>
-      </div>
-    </section>
-
-    <!-- Purpose-built vs plugin stacks -->
-    <section id="platform" class="paper-dark text-stone-50">
-      <div class="mx-auto max-w-[80rem] px-6 py-20 lg:px-8">
-        <div
-          data-reveal
-          class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16"
-        >
-          <div class="lg:col-span-5">
-            <div
-              class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
-            >
-              Platform
-            </div>
-            <h2
-              class={`mt-5 max-w-[20ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
-            >
-              Not a pile of WordPress plugins.
-            </h2>
-            <p
-              class="mt-6 max-w-[52ch] text-[1rem] leading-relaxed text-pretty text-stone-300"
-            >
-              Some competitors stitch memberships, calendars, and payments
-              together from loosely connected plugins and themes, which makes
-              every change to your website a small project. Memberley is a
-              single application written for the job: memberships, bookings,
-              dues, branding, and embedding are designed together, so each piece
-              works with the rest and stays easy to customize.
+            <h1 class="mt-6 max-w-[12ch] font-serif text-[clamp(3.1rem,6.5vw,5.8rem)] leading-[0.93] font-semibold tracking-[-0.055em] text-balance text-stone-950">
+              Run your community like it runs itself.
+            </h1>
+            <p class="mt-7 max-w-[47ch] text-[1.0625rem] leading-[1.65] text-pretty text-stone-600 sm:text-[1.125rem]">
+              Memberships, payments, check-in, reservations, classes, and
+              communications in one calm workspace—so your board can spend
+              less time administering the club and more time enjoying it.
             </p>
-            <p
-              class="mt-4 max-w-[52ch] text-[1rem] leading-relaxed text-pretty text-stone-300"
-            >
-              We tuned it first for pools, courts, and tight-knit neighborhood
-              communities, then invested in depth so it can stretch with you
-              into HOAs, larger clubs, and more complex operations without
-              ripping out the stack underneath.
-            </p>
-          </div>
-          <div class="flex flex-col justify-center lg:col-span-7">
-            <ul
-              role="list"
-              class="divide-y divide-white/10 rounded-lg bg-stone-950 ring-1 ring-white/10"
-            >
-              <li class="flex gap-4 p-6 md:p-8">
-                <span
-                  class="mt-0.5 font-mono text-[0.75rem] font-medium tracking-wide text-brand-400"
-                  aria-hidden="true"
-                >
-                  →
-                </span>
-                <div>
-                  <div class="text-[0.9375rem] font-semibold text-stone-50">
-                    Designed as one product
-                  </div>
-                  <p
-                    class="mt-2 max-w-[48ch] text-[0.875rem] leading-relaxed text-stone-400"
-                  >
-                    Flows fit together intentionally — no fragile glue between
-                    unrelated extensions.
-                  </p>
-                </div>
-              </li>
-              <li class="flex gap-4 p-6 md:p-8">
-                <span
-                  class="mt-0.5 font-mono text-[0.75rem] font-medium tracking-wide text-brand-400"
-                  aria-hidden="true"
-                >
-                  →
-                </span>
-                <div>
-                  <div class="text-[0.9375rem] font-semibold text-stone-50">
-                    Fits today, grows tomorrow
-                  </div>
-                  <p
-                    class="mt-2 max-w-[48ch] text-[0.875rem] leading-relaxed text-stone-400"
-                  >
-                    Ready for modest communities now, with room to expand
-                    billing, facilities, and staff workflows as you approach HOA
-                    or country-club scale.
-                  </p>
-                </div>
-              </li>
-              <li class="flex gap-4 p-6 md:p-8">
-                <span
-                  class="mt-0.5 font-mono text-[0.75rem] font-medium tracking-wide text-brand-400"
-                  aria-hidden="true"
-                >
-                  →
-                </span>
-                <div>
-                  <div class="text-[0.9375rem] font-semibold text-stone-50">
-                    Ownership of your stack
-                  </div>
-                  <p
-                    class="mt-2 max-w-[48ch] text-[0.875rem] leading-relaxed text-stone-400"
-                  >
-                    Fewer surprises from plugin conflicts, discontinued add-ons,
-                    or someone else’s generic site builder.
-                  </p>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Features -->
-    <section id="features" class="border-b border-stone-950/10">
-      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
-        <div data-reveal class="mb-16 max-w-[44ch]">
-          <div class={eyebrow}>§ Features</div>
-          <h2
-            class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
-          >
-            Everything your club actually needs.
-          </h2>
-          <p
-            class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
-          >
-            One workspace, zero spreadsheets: your board, your staff, and your
-            members all see the same truth. The essentials come with every plan;
-            features marked as add-ons are <a
-              href="#pricing"
-              class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
-              >flat-priced modules</a
-            > you switch on only if your club needs them.
-          </p>
-        </div>
-
-        <dl
-          class="grid grid-cols-1 divide-y divide-stone-950/10 border-y border-stone-950/10 md:grid-cols-2 md:divide-x md:divide-y-0"
-        >
-          {
-            primaryFeatures.map((f, i) => (
-              <div
-                data-reveal
-                style={`--reveal-delay:${(i % 2) * 70}ms`}
-                class={`relative p-8 md:p-10 ${i >= 2 ? "md:border-t md:border-stone-950/10" : ""}`}
-              >
-                <span
-                  aria-hidden="true"
-                  class="pointer-events-none absolute top-7 right-7 font-serif text-[3.5rem] leading-none font-semibold text-stone-950/6 tabular-nums select-none"
-                >
-                  {f.n}
-                </span>
-                <div class="flex size-10 items-center justify-center rounded-lg bg-brand-700/10 text-brand-700 ring-1 ring-brand-700/15">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="size-5"
-                    aria-hidden="true"
-                    set:html={f.icon}
-                  />
-                </div>
-                <dt
-                  class={`mt-5 flex flex-wrap items-center gap-2.5 text-[1.375rem] ${display} text-stone-900`}
-                >
-                  {f.title}
-                  {f.addon && (
-                    <a
-                      href="#pricing"
-                      class="rounded-sm border border-stone-950/15 bg-stone-100 px-1.5 py-0.5 font-mono text-[0.6875rem] font-medium tracking-wide text-stone-600 uppercase transition hover:border-stone-950/30 hover:text-stone-900"
-                    >
-                      {f.addon}
-                    </a>
-                  )}
-                </dt>
-                <dd class="mt-3 max-w-[46ch] text-[0.9375rem] leading-relaxed text-stone-600">
-                  {f.desc}
-                </dd>
-              </div>
-            ))
-          }
-        </dl>
-
-        <div data-reveal class="mt-16 flex items-center gap-5">
-          <h3 class={`shrink-0 text-[1.375rem] ${display} text-stone-900`}>
-            and many more
-          </h3>
-          <div class="h-px flex-1 bg-stone-950/10"></div>
-        </div>
-        <!-- secondary features, grouped by the job they do -->
-        <div
-          data-reveal
-          class="mt-10 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {
-            featureGroups.map((g) => (
-              <div>
-                <div class="font-mono text-[0.6875rem] font-medium tracking-wide text-stone-500 uppercase">
-                  {g.title}
-                </div>
-                <ul role="list" class="mt-4 space-y-3">
-                  {g.items.map((f) => (
-                    <li class="flex items-center gap-2.5 text-[0.9375rem] text-stone-700">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="size-5 shrink-0 text-brand-700"
-                        aria-hidden="true"
-                        set:html={f.icon}
-                      />
-                      <span>{f.title}</span>
-                      {f.badge && (
-                        <span class="rounded-sm border border-brand-700/30 bg-brand-700/10 px-1.5 py-0.5 font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase">
-                          {f.badge}
-                        </span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <!-- Live demo -->
-    <section id="demo" class="border-b border-stone-950/10 bg-brand-700/5">
-      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
-        <div
-          class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center lg:gap-16"
-        >
-          <div data-reveal class="lg:col-span-6">
-            <div class={eyebrow}>§ Live demo</div>
-            <h2
-              class={`mt-5 max-w-[20ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
-            >
-              Wander around a real club.
-            </h2>
-            <p
-              class="mt-4 max-w-[52ch] text-[1rem] leading-relaxed text-pretty text-stone-600"
-            >
-              The demo is Lakeside Swim &amp; Tennis Club, a fully built-out
-              organization in the middle of its season: families on the roster,
-              a front desk checking people in, a pool and four courts taking
-              reservations, classes with public signup, and campaigns going
-              out. Not a video tour — the actual product.
-            </p>
-            <div class="mt-8 flex flex-wrap items-center gap-4">
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href={DEMO_URL}
-                class={`group inline-flex items-center gap-2 rounded-sm py-2.5 pr-5 pl-5 text-[0.875rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
+                data-marketing-event="live_demo_clicked"
+                data-marketing-location="hero"
+                class={primaryButton}
               >
-                Open the live demo
-                <span class="transition group-hover:translate-x-0.5">→</span>
+                Explore the live demo <span aria-hidden="true">→</span>
               </a>
-              <span class="font-mono text-[0.75rem] tracking-wide text-stone-600"
-                >demo.memberley.com</span
+              <a
+                href={SIGNUP_URL}
+                data-marketing-event="trial_started"
+                data-marketing-location="hero"
+                class={secondaryButton}
               >
+                Start a 45-day free trial
+              </a>
             </div>
-            <p
-              class="mt-5 font-mono text-[0.75rem] leading-relaxed tracking-wide text-stone-600"
-            >
-              One click signs you in as admin or member · no account needed ·
-              resets nightly
+            <p class="mt-5 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[0.6875rem] tracking-[0.04em] text-stone-500">
+              <span>No card required</span>
+              <span aria-hidden="true">·</span>
+              <span>Unlimited members</span>
+              <span aria-hidden="true">·</span>
+              <span>Free roster migration</span>
             </p>
           </div>
-          <div data-reveal class="lg:col-span-6">
-            <div class="rounded-lg bg-white p-8 shadow-paper ring-1 ring-stone-950/5">
-              <div
-                class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase"
-              >
-                Things to try
-              </div>
-              <ul role="list" class="mt-5 space-y-3.5">
-                {
-                  [
-                    "Check a family in at the front desk and watch a guest pass deduct",
-                    "Book a tennis court from the member portal",
-                    "Skim the season's dues and revenue reports",
-                    "Open a sent campaign and read its per-recipient tracking",
-                    "Sign in as a member and see the same club from their side",
-                  ].map((t) => (
-                    <li class="flex items-start gap-3 text-[0.9375rem] leading-relaxed text-stone-700">
-                      <span class="mt-0.5 font-mono text-brand-700">→</span>
-                      {t}
-                    </li>
-                  ))
-                }
+
+          <div class="relative -mx-5 min-w-0 sm:-mx-7 lg:mr-[-8rem] lg:ml-[-3rem] xl:mr-[-10rem]">
+            <img
+              src="/hero-macbook-ember.webp"
+              alt="A dark aluminum MacBook displaying Memberley's member roster"
+              width="1536"
+              height="1024"
+              class="hero-product-photo block w-full"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
+        </div>
+
+        <div class="relative mx-auto max-w-[74rem] px-5 pb-10 sm:px-7 lg:px-8 lg:pb-14">
+          <div class="flex flex-wrap items-center justify-between gap-5 border-y border-stone-950/8 py-5">
+            <span class="font-mono text-[0.625rem] font-semibold tracking-[0.14em] text-stone-400 uppercase">
+              One workspace for the whole season
+            </span>
+            <div class="flex flex-wrap gap-x-7 gap-y-2 text-[0.75rem] font-medium text-stone-500">
+              <span>Families</span><span>Board members</span><span>Gate staff</span><span>Program leads</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="border-t border-stone-950/8 bg-[#faf9f7]">
+        <div class="mx-auto max-w-[74rem] px-5 py-20 sm:px-7 lg:px-8 lg:py-28">
+          <div class="max-w-[40rem]" data-reveal>
+            <div class={eyebrow}>One workspace</div>
+            <h2 class="mt-5 max-w-[17ch] font-serif text-[clamp(2.5rem,5vw,4.35rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-balance text-stone-950">
+              Three jobs your club can stop stitching together.
+            </h2>
+          </div>
+
+          <div class="mt-14 grid border-y border-stone-950/9 lg:grid-cols-3 lg:divide-x lg:divide-stone-950/9">
+            {
+              outcomes.map((outcome, index) => (
+                <article
+                  data-reveal
+                  style={`--reveal-delay:${index * 80}ms`}
+                  class="border-b border-stone-950/9 py-8 last:border-b-0 lg:border-b-0 lg:px-8 lg:first:pl-0 lg:last:pr-0"
+                >
+                  <div class="font-mono text-[0.625rem] font-semibold tracking-[0.14em] text-brand-700">
+                    {outcome.number}
+                  </div>
+                  <h3 class="mt-8 max-w-[18ch] font-serif text-[1.65rem] leading-[1.08] font-semibold tracking-[-0.035em] text-stone-950">
+                    {outcome.title}
+                  </h3>
+                  <p class="mt-4 max-w-[39ch] text-[0.9375rem] leading-[1.65] text-stone-600">
+                    {outcome.body}
+                  </p>
+                  <p class="mt-8 font-mono text-[0.625rem] tracking-[0.1em] text-stone-400 uppercase">
+                    {outcome.detail}
+                  </p>
+                </article>
+              ))
+            }
+          </div>
+
+          <aside
+            data-reveal
+            class="mt-6 grid gap-6 rounded-[1.15rem] border border-brand-800/12 bg-brand-100/42 p-6 sm:grid-cols-[auto_1fr] sm:items-start sm:p-8"
+          >
+            <span class="inline-flex w-fit rounded-full border border-brand-800/16 bg-white/72 px-2.5 py-1 font-mono text-[0.5625rem] font-semibold tracking-[0.12em] text-brand-800 uppercase">
+              New
+            </span>
+            <div class="grid gap-4 lg:grid-cols-[0.72fr_1.28fr] lg:gap-10">
+              <h3 class="max-w-[18ch] font-serif text-[1.6rem] leading-[1.08] font-semibold tracking-[-0.035em] text-stone-950">
+                Household pricing that follows your club’s rules.
+              </h3>
+              <p class="max-w-[70ch] text-[0.875rem] leading-[1.7] text-stone-600">
+                Make a tier individual-only, include a fixed family size, or add
+                a per-person rate after the people covered by the base price.
+                Minimum ages, household caps, capacity counting, renewals,
+                payment plans, and mid-season proration all follow the same setup.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="border-t border-stone-950/8 bg-white/62">
+        <div class="mx-auto max-w-[74rem] px-5 py-20 sm:px-7 lg:px-8 lg:py-28">
+          <div class="grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+            <div data-reveal>
+              <div class={eyebrow}>Money without the mystery</div>
+              <h2 class="mt-5 max-w-[13ch] font-serif text-[clamp(2.3rem,4.5vw,3.9rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950">
+                Know what came in. Know what happens next.
+              </h2>
+              <p class="mt-6 max-w-[44ch] text-[1rem] leading-[1.7] text-stone-600">
+                Every payment, payout, fee, discount, and balance is visible in
+                one place. Funds settle into your club’s own Stripe account—never
+                a black box controlled by your software vendor.
+              </p>
+              <ul class="mt-7 grid gap-3 text-[0.875rem] text-stone-700">
+                {[
+                  "Card and ACH bank payments",
+                  "Autopay, installments, and late fees",
+                  "Receipts, exports, and QuickBooks sync",
+                ].map((item) => (
+                  <li class="flex items-center gap-3">
+                    <span class="grid size-5 place-items-center rounded-full bg-brand-100 text-[0.6875rem] font-bold text-brand-800">✓</span>
+                    {item}
+                  </li>
+                ))}
               </ul>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Comparison -->
-    <section id="compare" class="border-b border-stone-950/10 bg-stone-50">
-      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
-        <div data-reveal class="mb-12 max-w-[52ch]">
-          <div class={eyebrow}>§ Compare</div>
-          <h2
-            class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
-          >
-            How Memberley stacks up.
-          </h2>
-          <p
-            class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
-          >
-            Built for neighborhood pools, courts, and community swim clubs, so
-            the comparison that matters is against the tools you&rsquo;ve
-            already tried. Prefer to judge for yourself? <a
-              href="#demo"
-              class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
-              >Click through the live demo</a
-            >.
-          </p>
-        </div>
-
-        <!-- Comparison table -->
-        <div
-          data-reveal
-          class="overflow-x-auto rounded-lg bg-white shadow-paper ring-1 ring-stone-950/5"
-        >
-          <table class="w-full min-w-[46rem] border-collapse text-left">
-            <thead>
-              <tr class="border-b border-stone-950/10 bg-stone-100">
-                <th class="w-[32%] p-4"></th>
-                {
-                  compareColumns.map((c, i) => (
-                    <th
-                      class={`p-4 text-center ${i === 0 ? "bg-brand-700/10" : ""}`}
-                    >
-                      <img
-                        src={c.logo}
-                        alt={c.name}
-                        class={`mx-auto block h-7 w-auto object-contain ${c.isOwn ? "" : "opacity-60 grayscale"}`}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </th>
-                  ))
-                }
-              </tr>
-            </thead>
-            <tbody>
-              {
-                compareRows.map((row) => (
-                  <tr class="border-b border-stone-950/5 last:border-0">
-                    <th class="p-4 align-middle text-[0.8125rem] font-medium text-stone-700">
-                      {row.label}
-                    </th>
-                    {row.cells.map((cell, i) => (
-                      <td
-                        class={`p-4 text-center align-middle ${i === 0 ? "bg-brand-700/5" : ""}`}
-                      >
-                        {typeof cell === "string" ? (
-                          <span class="text-[0.8125rem] text-stone-700">
-                            {cell}
-                          </span>
-                        ) : cell === true ? (
-                          <svg
-                            class="mx-auto size-4 text-brand-700"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            aria-label="Yes"
-                          >
-                            <path
-                              d="M3 8.3l3 3 7-7"
-                              stroke="currentColor"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                        ) : cell === false ? (
-                          <span
-                            class="text-[0.875rem] text-stone-400"
-                            aria-label="No"
-                          >
-                            ✕
-                          </span>
-                        ) : (
-                          <span class="text-stone-300" aria-label="Not offered">
-                            —
-                          </span>
-                        )}
-                      </td>
-                    ))}
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
-        <p
-          class="mt-3 font-mono text-[0.75rem] tracking-wide text-stone-500 md:hidden"
-        >
-          Swipe sideways to compare →
-        </p>
-        <p
-          class="mt-4 max-w-[75ch] font-mono text-[0.75rem] tracking-wide text-stone-500"
-        >
-          * Competitor pricing &amp; features as published on their own sites
-          (2026).
-        </p>
-
-        <!-- Why clubs switch -->
-        <div
-          class="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-lg bg-stone-950/10 ring-1 ring-stone-950/10 md:grid-cols-3"
-        >
-          {
-            switchCards.map((c) => (
-              <div class="flex flex-col bg-stone-50 p-8">
-                <div class="font-mono text-[0.6875rem] tracking-wide text-stone-500 uppercase">
-                  Switching from
-                </div>
-                <h3 class={`mt-2 text-[1.375rem] ${display} text-stone-900`}>
-                  {c.name}
-                </h3>
-                <p class="mt-3 text-[0.8125rem] leading-relaxed text-stone-500">
-                  {c.strong}
-                </p>
-                <ul class="mt-5 space-y-2.5 border-t border-stone-950/10 pt-5">
-                  {c.cons.map((s) => (
-                    <li class="flex gap-2.5 text-[0.8125rem] leading-relaxed text-stone-600">
-                      <span class="mt-0.5 shrink-0 text-stone-400">−</span>
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-                <p class="mt-5 border-t border-stone-950/10 pt-5 text-[0.8125rem] leading-relaxed text-stone-700">
-                  <span class="font-semibold text-brand-800">Memberley:</span>{" "}
-                  {c.win}
-                </p>
-                <a
-                  href={c.href}
-                  class="mt-5 inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-stone-900 transition hover:text-brand-800"
-                >
-                  Read the full {c.name} comparison
-                  <span aria-hidden="true">→</span>
-                </a>
-              </div>
-            ))
-          }
-        </div>
-
-        <!-- SwimTopia complement -->
-        <div
-          class="mt-10 flex flex-col gap-3 rounded-lg bg-brand-700/5 p-6 ring-1 ring-brand-700/25 md:flex-row md:items-center md:gap-6"
-        >
-          <div
-            class="font-mono text-[0.6875rem] tracking-wide text-brand-800 uppercase md:w-44 md:shrink-0"
-          >
-            On a swim team?
-          </div>
-          <p class="text-[0.875rem] leading-relaxed text-stone-700">
-            Keep your team on <strong>SwimTopia</strong> — now NVSL&rsquo;s official
-            platform for meets and registration. Memberley runs the
-            <em>pool</em>: memberships, dues, guest passes, and the front gate:
-            the side SwimTopia doesn&rsquo;t cover. The two work side by side.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Inverse section: use cases -->
-    <section class="paper-dark text-stone-50">
-      <div class="mx-auto max-w-[80rem] px-6 py-24 lg:px-8">
-        <div data-reveal class="mb-14 max-w-[48ch]">
-          <div
-            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
-          >
-            § Built for
-          </div>
-          <h2
-            class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
-          >
-            Whatever your community calls itself.
-          </h2>
-        </div>
-
-        <div
-          class="grid grid-cols-1 divide-y divide-white/10 border-y border-white/10 md:grid-cols-3 md:divide-x md:divide-y-0"
-        >
-          {
-            useCases.map((c) => (
-              <div class="flex flex-col gap-6 p-8">
-                <div class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase">
-                  {c.tag}
-                </div>
-                <ul role="list" class="space-y-3">
-                  {c.bullets.map((b) => (
-                    <li class="flex items-start gap-3 text-[0.9375rem] text-stone-300">
-                      <span class="mt-0.5 font-mono text-brand-400">→</span>
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <!-- Pricing -->
-    <section id="pricing" class="border-b border-stone-950/10 bg-stone-50">
-      <div class="mx-auto max-w-[80rem] px-6 py-28 lg:px-8">
-        <div data-reveal class="mb-14 max-w-[56ch]">
-          <div class={eyebrow}>§ Pricing</div>
-          <h2
-            class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
-          >
-            Unlimited members. Pay for what you need.
-          </h2>
-          <p
-            class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
-          >
-            Every plan starts with unlimited members and the essentials to run
-            your club. Add modules only when you need them, and try everything
-            free for 14 days, no card required.
-          </p>
-        </div>
-
-        <!-- Community plans + what every plan includes -->
-        <div
-          data-reveal
-          class="overflow-hidden rounded-lg bg-white shadow-paper ring-1 ring-stone-950/5"
-        >
-          <div
-            class="grid grid-cols-1 divide-y divide-stone-950/10 md:grid-cols-2 md:divide-x md:divide-y-0"
-          >
-            {
-              plans.map((p) => (
-                <div
-                  class={`relative flex flex-col justify-between gap-8 p-8 ${p.featured ? "bg-brand-700/6" : ""}`}
-                >
-                  {p.featured && (
-                    <>
-                      <span
-                        aria-hidden="true"
-                        class="absolute inset-x-0 top-0 h-1 bg-brand-600"
-                      />
-                      <span class="absolute top-6 right-6 rounded-sm bg-brand-700 px-2 py-0.5 font-mono text-[0.6875rem] font-medium tracking-wide text-white uppercase">
-                        Recommended
-                      </span>
-                    </>
-                  )}
-                  <div>
-                    <div class="font-mono text-[0.6875rem] tracking-wide text-stone-600 uppercase">
-                      {p.name}
-                    </div>
-                    <p class="mt-3 max-w-[34ch] text-[0.8125rem] leading-relaxed text-stone-600">
-                      {p.tagline}
-                    </p>
-                    <div class="mt-5 flex items-baseline gap-1">
-                      <span
-                        class={`text-[3rem] leading-none ${display} text-stone-900 tabular-nums`}
-                      >
-                        {p.price}
-                      </span>
-                      <span class="text-[0.875rem] text-stone-600">
-                        {perInterval(p.interval)}
-                      </span>
-                    </div>
-                    <div class="mt-3 font-mono text-[0.6875rem] tracking-wide uppercase">
-                      {p.platformFeePercentage === 0 ? (
-                        <span class="font-bold text-brand-800">
-                          {feeLabel(p.platformFeePercentage)}
-                        </span>
-                      ) : (
-                        <span class="text-stone-600">
-                          {feeLabel(p.platformFeePercentage)}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <a
-                    href={`${SIGNUP_URL}?plan=${encodeURIComponent(p.slug)}`}
-                    class={`block rounded-sm py-2.5 text-center text-[0.875rem] font-medium transition ${p.featured ? "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800" : "border border-stone-950/15 text-stone-900 hover:border-stone-950/30 hover:bg-stone-100"}`}
-                  >
-                    {p.cta}
-                  </a>
-                </div>
-              ))
-            }
-          </div>
-
-          <div
-            class="border-t border-stone-950/10 px-8 py-4 text-[0.8125rem] leading-relaxed text-stone-600"
-          >
-            Rule of thumb: collecting more than about $17,000 a year through
-            Memberley? <strong class="text-stone-900">Community</strong> costs less
-            than Starter&rsquo;s 3%, and you keep 100% of your dues.
-          </div>
-
-          <div class="border-t border-stone-950/10 bg-stone-100 px-8 py-7">
-            <div
-              class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase"
-            >
-              Every plan includes
+            <div class="browser-frame" data-reveal style="--reveal-delay:90ms">
+              <div class="browser-chrome"><span></span></div>
+              <img
+                src="/product/payments.webp"
+                alt="Memberley payments dashboard with revenue trends and recent transactions"
+                width="2880"
+                height="1800"
+                loading="lazy"
+                decoding="async"
+                class="block aspect-[16/10] w-full object-cover object-left-top"
+              />
             </div>
-            <ul
-              role="list"
-              class="mt-5 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {
-                baseFeatures.map((f) => (
-                  <li class="flex items-start gap-2.5 text-[0.875rem] text-stone-700">
-                    <svg
-                      class="mt-0.5 size-4 shrink-0 text-brand-700"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                    >
-                      <path
-                        d="M3 8.3l3 3 7-7"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    {f}
-                  </li>
-                ))
-              }
-            </ul>
+          </div>
+
+          <div class="mt-24 grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
+            <div class="browser-frame lg:order-1" data-reveal>
+              <div class="browser-chrome"><span></span></div>
+              <img
+                src="/product/check-in.webp"
+                alt="Memberley front desk showing live member check-ins"
+                width="2880"
+                height="1800"
+                loading="lazy"
+                decoding="async"
+                class="block aspect-[16/10] w-full object-cover object-left-top"
+              />
+            </div>
+            <div class="lg:order-2" data-reveal style="--reveal-delay:90ms">
+              <div class={eyebrow}>Opening day, minus the scramble</div>
+              <h2 class="mt-5 max-w-[13ch] font-serif text-[clamp(2.3rem,4.5vw,3.9rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950">
+                A front desk the summer staff can learn in minutes.
+              </h2>
+              <p class="mt-6 max-w-[44ch] text-[1rem] leading-[1.7] text-stone-600">
+                Search by name or scan a member QR code. Guest passes deduct
+                automatically, every visit gets logged, and the next family is
+                already moving through the gate.
+              </p>
+            </div>
           </div>
         </div>
+      </section>
 
-        <!-- Pay for what you need — à la carte modules -->
-        <div class="mt-20">
-          <div data-reveal class="mb-10 max-w-[56ch]">
-            <div class={eyebrow}>§ Add-ons</div>
-            <h3
-              class={`mt-5 max-w-[24ch] text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.05] text-balance ${display} text-stone-900`}
-            >
-              Switch on only what your club uses.
-            </h3>
-            <p
-              class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
-            >
-              Reservations, the front gate, point of sale, member broadcasts, a
-              branded portal: turn each module on when you need it and off when
-              you don&rsquo;t. Every one is free to try during your trial.
-            </p>
-          </div>
+      <section class="border-t border-stone-950/8 bg-[#f1ede7]">
+        <div class="mx-auto max-w-[74rem] px-5 py-20 sm:px-7 lg:px-8 lg:py-28">
+          <div class="grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:gap-12">
+            <div class="lg:sticky lg:top-28 lg:self-start" data-reveal>
+              <div class={eyebrow}>The rest of the club, too</div>
+              <h2 class="mt-5 max-w-[14ch] font-serif text-[clamp(2.35rem,4.5vw,3.85rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950">
+                One login from registration to closing day.
+              </h2>
+              <p class="mt-6 max-w-[40ch] text-[0.9375rem] leading-[1.7] text-stone-600">
+                Turn on only the modules your club needs. They share the same
+                member records, permissions, payments, and activity history.
+              </p>
+              <div class="mt-7 flex flex-wrap gap-2">
+                {moreCapabilities.map((capability) => (
+                  <span class="rounded-full border border-stone-950/9 bg-white/70 px-3 py-1.5 text-[0.75rem] font-medium text-stone-600">
+                    {capability}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-          <div
-            data-reveal
-            class="grid grid-cols-1 divide-y divide-stone-950/10 border-y border-stone-950/10 md:grid-cols-2 md:divide-x md:divide-y-0"
-          >
-            {
-              modules.map((m, i) => (
-                <div
-                  class={`flex gap-5 p-6 md:p-7 ${i >= 2 ? "md:border-t md:border-stone-950/10" : ""}`}
-                >
-                  <div class="flex size-9 shrink-0 items-center justify-center rounded-md bg-stone-100 text-brand-700 ring-1 ring-stone-950/10">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="size-[1.125rem]"
-                      aria-hidden="true"
-                      set:html={m.icon}
-                    />
-                  </div>
-                  <div class="min-w-0 flex-1">
-                    <div class="flex items-baseline justify-between gap-3">
-                      <h4 class="text-[0.9375rem] font-semibold text-stone-900">
-                        {m.name}
-                      </h4>
-                      <span class="shrink-0 font-mono text-[0.875rem] text-stone-900 tabular-nums">
-                        {m.price}
-                        <span class="text-stone-500">
-                          {perInterval(m.interval)}
-                        </span>
-                      </span>
-                    </div>
-                    <p class="mt-2 max-w-[52ch] text-[0.8125rem] leading-relaxed text-stone-600">
-                      {m.desc}
-                    </p>
-                    {m.note && (
-                      <p class="mt-2 font-mono text-[0.6875rem] tracking-wide text-brand-800 uppercase">
-                        {m.note}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-
-        <p
-          class="mt-10 max-w-[75ch] font-mono text-[0.75rem] leading-relaxed tracking-wide text-stone-600"
-        >
-          * 14-day free trial on every plan; no card required, cancel anytime.
-          Standard Stripe processing fees apply on all plans, as with any
-          provider. Pay your Memberley subscription by card or ACH bank
-          transfer.
-        </p>
-      </div>
-    </section>
-
-    <!-- Signup CTA -->
-    <section class="paper-dark text-stone-50">
-      <div
-        class="mx-auto grid max-w-[80rem] grid-cols-1 gap-16 px-6 py-24 lg:grid-cols-12 lg:px-8"
-      >
-        <div data-reveal class="lg:col-span-5">
-          <div
-            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
-          >
-            § Start
-          </div>
-          <h2
-            class={`mt-5 max-w-[18ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
-          >
-            Open your doors in under an hour.
-          </h2>
-          <p
-            class="mt-6 max-w-[44ch] text-[1rem] leading-relaxed text-stone-400"
-          >
-            Create your organization, set up your membership tiers, and share
-            the signup link with your members. That&rsquo;s the whole thing.
-          </p>
-
-          <ul role="list" class="mt-10 space-y-3 border-t border-white/10 pt-8">
-            {
-              signupPerks.map((i) => (
-                <li class="flex items-center gap-3 text-[0.875rem] text-stone-300">
-                  <span class="font-mono text-brand-400">→</span>
-                  {i}
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-
-        <div class="lg:col-span-7">
-          <div
-            data-reveal
-            class="rounded-lg bg-stone-950 p-8 ring-1 ring-white/10"
-          >
-            <div class="mb-6 flex items-center justify-between">
-              <span class="flex items-center gap-2">
+            <div class="grid gap-5">
+              <figure class="browser-frame" data-reveal style="--reveal-delay:70ms">
+                <div class="browser-chrome"><span></span></div>
                 <img
-                  src="/memberley-amper-dark.svg"
-                  alt=""
-                  width="24"
-                  height="24"
-                  class="size-6"
+                  src="/product/reservations.webp"
+                  alt="Memberley facility reservations overview"
+                  width="2880"
+                  height="1800"
                   loading="lazy"
                   decoding="async"
+                  class="block aspect-[16/10] w-full object-cover object-left-top"
                 />
-                <span
-                  class="font-mono text-[0.75rem] tracking-wide text-stone-400 uppercase"
-                >
-                  Create organization
-                </span>
-              </span>
-              <span
-                class="rounded-sm bg-brand-400/15 px-2 py-0.5 font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
-              >
-                Free trial
-              </span>
+                <figcaption class="border-t border-stone-950/8 bg-white px-5 py-4 text-[0.8125rem] font-medium text-stone-600">
+                  Reservations with approvals, blocks, conflict checks, and a week at a glance.
+                </figcaption>
+              </figure>
+              <figure class="browser-frame ml-[8%]" data-reveal style="--reveal-delay:90ms">
+                <div class="browser-chrome"><span></span></div>
+                <img
+                  src="/product/programs.webp"
+                  alt="Memberley classes and events catalog"
+                  width="2880"
+                  height="1800"
+                  loading="lazy"
+                  decoding="async"
+                  class="block aspect-[16/10] w-full object-cover object-left-top"
+                />
+                <figcaption class="border-t border-stone-950/8 bg-white px-5 py-4 text-[0.8125rem] font-medium text-stone-600">
+                  Classes, clinics, camps, and events with registration and rosters built in.
+                </figcaption>
+              </figure>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <p class="mb-8 text-[0.875rem] leading-relaxed text-stone-400">
-              Get started in under a minute; we&rsquo;ll walk you through
-              organization setup, tiers, and your first signup link.
+      <section id="demo" class="paper-dark text-white">
+        <div class="mx-auto grid max-w-[74rem] items-center gap-12 px-5 py-20 sm:px-7 lg:grid-cols-[0.76fr_1.24fr] lg:gap-14 lg:px-8 lg:py-28">
+          <div data-reveal>
+            <div class="font-mono text-[0.625rem] font-semibold tracking-[0.14em] text-brand-300 uppercase">
+              No sales call required
+            </div>
+            <h2 class="mt-5 max-w-[12ch] font-serif text-[clamp(2.5rem,5vw,4.35rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-balance">
+              Click around before you commit to anything.
+            </h2>
+            <p class="mt-6 max-w-[42ch] text-[1rem] leading-[1.7] text-stone-400">
+              The live demo is a complete sample club—not a guided slideshow.
+              Open the roster, check someone in, review payments, and see how a
+              season actually fits together.
             </p>
-
             <a
-              href={SIGNUP_URL}
-              class="block w-full rounded-sm bg-brand-700 py-3 text-center text-[0.875rem] font-semibold text-white shadow-btn transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+              href={DEMO_URL}
+              data-marketing-event="live_demo_clicked"
+              data-marketing-location="demo_section"
+              class="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[0.875rem] font-semibold text-stone-950 shadow-btn transition hover:-translate-y-px hover:bg-stone-100 motion-reduce:transform-none"
             >
-              Create my organization →
+              Enter the live demo <span aria-hidden="true">→</span>
             </a>
+          </div>
 
-            <p class="mt-6 text-center font-mono text-[0.75rem] text-stone-500">
-              Already have an account?{" "}
-              <a href={LOGIN_URL} class="text-brand-400 hover:text-brand-300">
-                sign in
-              </a>
+          <div class="relative" data-reveal style="--reveal-delay:90ms">
+            <div class="absolute -inset-8 rounded-full bg-brand-600/10 blur-3xl" aria-hidden="true"></div>
+            <div class="browser-frame relative rotate-[0.35deg] shadow-[0_40px_100px_-34px_rgb(0_0_0/.75)]">
+              <div class="browser-chrome"><span></span></div>
+              <img
+                src="/app-roster.webp"
+                alt="Memberley live demo member roster"
+                width="2880"
+                height="1800"
+                loading="lazy"
+                decoding="async"
+                class="block aspect-[16/10] w-full object-cover object-left-top"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Testimonials />
+
+      <section id="compare" class="bg-[#faf9f7]">
+        <div class="mx-auto max-w-[74rem] px-5 py-20 sm:px-7 lg:px-8 lg:py-28">
+          <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between" data-reveal>
+            <div>
+              <div class={eyebrow}>Considering a switch?</div>
+              <h2 class="mt-5 max-w-[15ch] font-serif text-[clamp(2.35rem,4.5vw,3.85rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950">
+                Start with an honest comparison.
+              </h2>
+            </div>
+            <p class="max-w-[41ch] text-[0.875rem] leading-[1.65] text-stone-500">
+              We explain where Memberley is different, where each competitor is
+              strong, and what to verify before your board makes a decision.
             </p>
           </div>
 
-          <p
-            class="mt-6 text-center text-[0.875rem] leading-relaxed text-stone-400"
-          >
-            Want to poke around first?{" "}
+          <div class="mt-10 grid gap-3 lg:grid-cols-3">
+            {
+              alternatives.map((alternative, index) => (
+                <a
+                  href={alternative.href}
+                  data-reveal
+                  style={`--reveal-delay:${index * 70}ms`}
+                  class="group flex min-h-[15rem] flex-col justify-between rounded-[1.1rem] border border-stone-950/9 bg-white p-6 shadow-paper transition duration-300 hover:-translate-y-1 hover:border-brand-700/20 hover:shadow-paper-lg motion-reduce:transform-none"
+                >
+                  <div class="flex items-start justify-between">
+                    <span class="grid size-11 place-items-center rounded-[0.8rem] bg-brand-100 font-mono text-[0.6875rem] font-semibold text-brand-800">
+                      {alternative.monogram}
+                    </span>
+                    <span class="text-stone-300 transition group-hover:translate-x-0.5 group-hover:text-brand-700 motion-reduce:transform-none">→</span>
+                  </div>
+                  <div class="mt-10">
+                    <h3 class="font-serif text-[1.45rem] font-semibold tracking-[-0.03em] text-stone-950">
+                      Memberley vs. {alternative.name}
+                    </h3>
+                    <p class="mt-3 text-[0.8125rem] leading-[1.6] text-stone-500">
+                      {alternative.description}
+                    </p>
+                  </div>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing" class="border-t border-stone-950/8 bg-white/68">
+        <div class="mx-auto max-w-[74rem] px-5 py-20 sm:px-7 lg:px-8 lg:py-28">
+          <div class="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14">
+            <div data-reveal>
+              <div class={eyebrow}>Simple annual pricing</div>
+              <h2 class="mt-5 max-w-[13ch] font-serif text-[clamp(2.5rem,5vw,4.35rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-stone-950">
+                Unlimited members. No surprise tiers.
+              </h2>
+              <p class="mt-6 max-w-[42ch] text-[0.9375rem] leading-[1.7] text-stone-600">
+                Start with membership management, then add only what your club
+                uses. Every plan and module is available throughout the full
+                45-day trial.
+              </p>
+            </div>
+
+            <div class="grid gap-4 md:grid-cols-2">
+              {
+                plans.map((plan, index) => (
+                  <article
+                    data-reveal
+                    style={`--reveal-delay:${index * 80}ms`}
+                    class={`relative flex flex-col rounded-[1.2rem] border p-6 ${plan.featured ? "border-stone-950 bg-stone-950 text-white shadow-paper-lg" : "border-stone-950/10 bg-[#faf9f7] text-stone-950 shadow-paper"}`}
+                  >
+                    {plan.featured && (
+                      <span class="absolute top-4 right-4 rounded-full bg-brand-500/18 px-2.5 py-1 font-mono text-[0.5625rem] font-semibold tracking-[0.12em] text-brand-200 uppercase">
+                        Best value
+                      </span>
+                    )}
+                    <div class={`font-mono text-[0.625rem] font-semibold tracking-[0.12em] uppercase ${plan.featured ? "text-stone-400" : "text-stone-500"}`}>
+                      {plan.name}
+                    </div>
+                    <div class="mt-7 flex items-end gap-2">
+                      <span class="font-serif text-[3.5rem] leading-none font-semibold tracking-[-0.055em]">
+                        {plan.price}
+                      </span>
+                      <span class={`pb-1 text-[0.75rem] ${plan.featured ? "text-stone-400" : "text-stone-500"}`}>
+                        /{plan.interval === "year" ? "yr" : "mo"}
+                      </span>
+                    </div>
+                    <p class={`mt-5 min-h-[4.8rem] text-[0.875rem] leading-[1.6] ${plan.featured ? "text-stone-400" : "text-stone-600"}`}>
+                      {plan.tagline}
+                    </p>
+                    <div class={`mt-6 border-t pt-5 text-[0.8125rem] font-semibold ${plan.featured ? "border-white/12 text-white" : "border-stone-950/9 text-stone-800"}`}>
+                      {formatFee(plan.platformFeePercentage)}
+                    </div>
+                    <a
+                      href={`${SIGNUP_URL}?plan=${plan.slug}`}
+                      data-marketing-event="trial_started"
+                      data-marketing-location={`pricing_${plan.slug}`}
+                      class={`mt-6 inline-flex items-center justify-center rounded-full px-4 py-2.5 text-[0.8125rem] font-semibold transition hover:-translate-y-px motion-reduce:transform-none ${plan.featured ? "bg-white text-stone-950 hover:bg-stone-100" : "bg-stone-950 text-white hover:bg-stone-800"}`}
+                    >
+                      Start 45-day free trial
+                    </a>
+                  </article>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="mt-14 grid gap-8 border-t border-stone-950/9 pt-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14">
+            <div>
+              <h3 class="font-serif text-[1.5rem] font-semibold tracking-[-0.03em] text-stone-950">
+                Included in every plan
+              </h3>
+              <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                {baseFeatures.map((feature) => (
+                  <div class="flex gap-3 text-[0.8125rem] leading-snug text-stone-600">
+                    <span class="text-brand-700">✓</span><span>{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-baseline justify-between gap-4">
+                <h3 class="font-serif text-[1.5rem] font-semibold tracking-[-0.03em] text-stone-950">
+                  Add what your club needs
+                </h3>
+                <span class="font-mono text-[0.625rem] tracking-[0.1em] text-stone-400 uppercase">Flat annual prices</span>
+              </div>
+              <div class="mt-6 grid gap-x-8 gap-y-0 sm:grid-cols-2">
+                {modules.map((module) => (
+                  <div class="border-t border-stone-950/8 py-4">
+                    <div class="flex items-start justify-between gap-3">
+                      <span class="text-[0.8125rem] font-semibold text-stone-800">{module.name}</span>
+                      <span class="shrink-0 font-mono text-[0.6875rem] font-medium text-brand-800">{module.price}</span>
+                    </div>
+                    <p class="mt-1.5 text-[0.75rem] leading-[1.55] text-stone-500">{module.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="relative overflow-hidden border-t border-stone-950/8 bg-[#efe4d7]">
+        <div class="absolute inset-0 hero-wash opacity-70" aria-hidden="true"></div>
+        <div class="relative mx-auto max-w-[74rem] px-5 py-20 text-center sm:px-7 lg:px-8 lg:py-28">
+          <div class={eyebrow}>Your next season can be calmer</div>
+          <h2 class="mx-auto mt-5 max-w-[16ch] font-serif text-[clamp(2.6rem,5.5vw,4.8rem)] leading-[0.95] font-semibold tracking-[-0.05em] text-balance text-stone-950">
+            Bring the club together in one workspace.
+          </h2>
+          <p class="mx-auto mt-6 max-w-[46ch] text-[1rem] leading-[1.7] text-stone-600">
+            Explore a complete sample club now, or start with your own roster.
+            You’ll have 45 days to decide—no card and no pressure.
+          </p>
+          <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <a
               href={DEMO_URL}
-              class="font-medium text-stone-200 underline decoration-stone-500 underline-offset-2 transition hover:decoration-stone-200"
+              data-marketing-event="live_demo_clicked"
+              data-marketing-location="final_cta"
+              class={primaryButton}
             >
-              Explore the live demo
+              Explore the live demo <span aria-hidden="true">→</span>
             </a>
-            {" "}— or write{" "}
             <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              class="font-medium text-stone-200 underline decoration-stone-500 underline-offset-2 transition hover:decoration-stone-200"
+              href={SIGNUP_URL}
+              data-marketing-event="trial_started"
+              data-marketing-location="final_cta"
+              class={secondaryButton}
             >
-              {CONTACT_EMAIL}
+              Start a 45-day free trial
             </a>
-            {" "}and we&rsquo;ll walk your board through it.
+          </div>
+          <p class="mt-6 text-[0.75rem] text-stone-500">
+            Prefer a walkthrough? Email <a class="font-semibold text-stone-800 underline decoration-stone-400 underline-offset-4" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
           </p>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
     <SiteFooter />
   </div>
-
-  <script is:inline>
-    (function () {
-      // Gentle scroll-in reveals; show everything if IO is unsupported.
-      var reveals = document.querySelectorAll("[data-reveal]");
-      if (!reveals.length) return;
-      if (!("IntersectionObserver" in window)) {
-        reveals.forEach(function (el) {
-          el.classList.add("is-visible");
-        });
-        return;
-      }
-      var io = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              io.unobserve(entry.target);
-            }
-          });
-        },
-        { rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
-      );
-      reveals.forEach(function (el) {
-        io.observe(el);
-      });
-
-      // Anchor navigation should never land on invisible content: reveal the
-      // target section immediately instead of waiting for the observer.
-      var revealHashTarget = function () {
-        var id = decodeURIComponent(location.hash.slice(1));
-        if (!id) return;
-        var target = document.getElementById(id);
-        if (!target) return;
-        var els = target.querySelectorAll("[data-reveal]");
-        els.forEach(function (el) {
-          el.classList.add("is-visible");
-          io.unobserve(el);
-        });
-        if (target.hasAttribute("data-reveal")) {
-          target.classList.add("is-visible");
-          io.unobserve(target);
-        }
-      };
-      window.addEventListener("hashchange", revealHashTarget);
-      revealHashTarget();
-    })();
-  </script>
 </Layout>

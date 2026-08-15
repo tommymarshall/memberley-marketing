@@ -1,11 +1,13 @@
 ---
-// Shared footer: contact path, product links, and the comparison pages —
-// so no page is a dead end and the alternatives pages aren't orphaned.
-const DEMO_URL = "https://demo.memberley.com";
-const DOCS_URL = "https://docs.memberley.com";
-const CONTACT_EMAIL = "tommy@memberley.com";
+import {
+  CONTACT_EMAIL,
+  DEMO_URL,
+  DOCS_URL,
+  SIGNUP_URL,
+  alternatives,
+} from "../config/site";
 
-const groups: { title: string; links: { href: string; label: string }[] }[] = [
+const groups = [
   {
     title: "Product",
     links: [
@@ -18,16 +20,15 @@ const groups: { title: string; links: { href: string; label: string }[] }[] = [
   },
   {
     title: "Compare",
-    links: [
-      { href: "/alternatives/member-splash", label: "Member Splash alternative" },
-      { href: "/alternatives/pooldues", label: "PoolDues alternative" },
-      { href: "/alternatives/courtreserve", label: "CourtReserve alternative" },
-    ],
+    links: alternatives.map((alternative) => ({
+      href: alternative.href,
+      label: `${alternative.name} alternative`,
+    })),
   },
   {
     title: "Company",
     links: [
-      { href: `mailto:${CONTACT_EMAIL}`, label: CONTACT_EMAIL },
+      { href: `mailto:${CONTACT_EMAIL}`, label: "Contact" },
       { href: "/privacy", label: "Privacy" },
       { href: "/terms", label: "Terms of use" },
     ],
@@ -35,66 +36,68 @@ const groups: { title: string; links: { href: string; label: string }[] }[] = [
 ];
 ---
 
-<footer class="border-t border-stone-950/10 bg-stone-50">
-  <div class="mx-auto max-w-[80rem] px-6 py-14 lg:px-8">
-    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
-      <div class="max-w-[36ch]">
-        <a href="/" aria-label="Homepage" class="flex items-center gap-2">
-          <img
-            src="/memberley-amper-light.svg"
-            alt=""
-            width="24"
-            height="24"
-            class="size-6"
-            loading="lazy"
-            decoding="async"
-          />
-          <span
-            class="text-[0.9375rem] font-semibold tracking-tight text-stone-900"
-          >
+<footer class="border-t border-stone-950/8 bg-[#f4f1ed]">
+  <div class="mx-auto max-w-[74rem] px-5 py-16 sm:px-7 lg:px-8 lg:py-20">
+    <div class="grid gap-12 lg:grid-cols-[1.45fr_2fr] lg:gap-20">
+      <div class="max-w-[31rem]">
+        <a href="/" aria-label="Memberley homepage" class="inline-flex items-center gap-2.5">
+          <span class="grid size-8 place-items-center rounded-[0.7rem] bg-stone-950">
+            <img
+              src="/memberley-amper-dark.svg"
+              alt=""
+              width="22"
+              height="22"
+              class="size-[1.35rem]"
+              loading="lazy"
+              decoding="async"
+            />
+          </span>
+          <span class="text-[0.9375rem] font-semibold tracking-[-0.025em] text-stone-950">
             Memberley
           </span>
         </a>
-        <p class="mt-4 text-[0.8125rem] leading-relaxed text-stone-600">
-          Memberships, reservations, payments, and check-ins for community
-          organizations — built in Northern Virginia.
+        <p class="mt-5 max-w-[40ch] text-[0.9375rem] leading-relaxed text-stone-600">
+          The calm way to run memberships, payments, reservations, and the
+          front desk for pool and swim-tennis clubs.
         </p>
-        <p class="mt-4 text-[0.8125rem] leading-relaxed text-stone-600">
-          Questions? Write
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
-          >
-            {CONTACT_EMAIL}</a
-          > — we're happy to walk your board through it.
-        </p>
+        <a
+          href={SIGNUP_URL}
+          data-marketing-event="trial_started"
+          data-marketing-location="footer"
+          class="mt-7 inline-flex items-center gap-2 rounded-full bg-stone-950 px-4 py-2.5 text-[0.8125rem] font-semibold text-white shadow-btn transition hover:-translate-y-px hover:bg-stone-800 motion-reduce:transform-none"
+        >
+          Start your 45-day free trial <span aria-hidden="true">→</span>
+        </a>
       </div>
-      {
-        groups.map((g) => (
-          <div>
-            <div class="font-mono text-[0.6875rem] font-medium tracking-wide text-stone-500 uppercase">
-              {g.title}
+
+      <div class="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3">
+        {
+          groups.map((group) => (
+            <div>
+              <div class="font-mono text-[0.625rem] font-semibold tracking-[0.14em] text-stone-400 uppercase">
+                {group.title}
+              </div>
+              <ul role="list" class="mt-4 space-y-2.5">
+                {group.links.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      class="text-[0.8125rem] leading-snug text-stone-600 transition hover:text-stone-950"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul role="list" class="mt-4 space-y-2.5">
-              {g.links.map((l) => (
-                <li>
-                  <a
-                    href={l.href}
-                    class="text-[0.8125rem] text-stone-600 transition hover:text-stone-900"
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
-      }
+          ))
+        }
+      </div>
     </div>
-    <div
-      class="mt-12 border-t border-stone-950/10 pt-6 text-[0.75rem] text-stone-500"
-    >
-      © 2026 Memberley, Inc.
+
+    <div class="mt-14 flex flex-col gap-2 border-t border-stone-950/8 pt-6 text-[0.75rem] text-stone-500 sm:flex-row sm:items-center sm:justify-between">
+      <span>© 2026 Memberley, Inc.</span>
+      <span>Built in Northern Virginia for the clubs that bring neighbors together.</span>
     </div>
   </div>
 </footer>

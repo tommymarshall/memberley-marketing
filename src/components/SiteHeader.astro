@@ -1,91 +1,149 @@
 ---
-// Shared sticky header: desktop nav, mobile disclosure menu, and the
-// signed-in probe that swaps the CTA to "Dashboard" when an app session
-// exists. Used by every page so nav items and tokens can't drift.
-const fromEnv = (import.meta.env.PUBLIC_MEMBERLEY_APP_URL as string | undefined)
-  ?.trim()
-  .replace(/\/$/, "");
-const APP_URL =
-  fromEnv && fromEnv.length > 0
-    ? fromEnv
-    : import.meta.env.DEV
-      ? "http://memberley-app.test"
-      : "https://app.memberley.com";
-const SIGNUP_URL = `${APP_URL}/register`;
-const LOGIN_URL = `${APP_URL}/login`;
+import {
+  APP_URL,
+  DEMO_URL,
+  LOGIN_URL,
+  SIGNUP_URL,
+  alternatives,
+} from "../config/site";
 
 const navLinks = [
   { href: "/#features", label: "Features" },
-  { href: "/#demo", label: "Live demo", highlight: true },
-  { href: "/#compare", label: "Compare" },
   { href: "/#pricing", label: "Pricing" },
   { href: "/help", label: "Help" },
 ];
 
-const primaryBtn =
-  "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800 focus-visible:outline-brand-600";
+const linkClass =
+  "rounded-full px-3 py-2 text-[0.8125rem] font-medium text-stone-600 transition duration-200 hover:bg-white/70 hover:text-stone-950";
 ---
 
 <header
   id="site-header"
-  class="sticky top-0 z-50 border-b border-stone-950/10 bg-stone-50/80 backdrop-blur-md"
+  class="sticky top-2 z-50 px-2.5 sm:top-3 sm:px-4"
 >
   <div
-    class="mx-auto flex h-14 max-w-[80rem] items-center justify-between px-6 lg:px-8"
+    class="site-header-shell relative mx-auto max-w-[74rem] overflow-visible rounded-[1.15rem] border border-white/68 bg-white/58 shadow-[0_1px_0_rgb(255_255_255/.9)_inset,0_16px_42px_-34px_rgb(28_25_23/.42)] backdrop-blur-xl"
   >
-    <a href="/" aria-label="Homepage" class="flex items-center gap-2">
-      <img
-        src="/memberley-amper-light.svg"
-        alt=""
-        width="24"
-        height="24"
-        class="size-6"
-        loading="eager"
-        decoding="async"
-      />
+    <div class="flex h-[4.25rem] items-center justify-between gap-5 px-4 sm:px-5 lg:px-6">
+    <a
+      href="/"
+      aria-label="Memberley homepage"
+      class="group flex shrink-0 items-center gap-2.5"
+    >
       <span
-        class="text-[0.9375rem] font-semibold tracking-tight text-stone-900"
+        class="grid size-8 place-items-center rounded-[0.7rem] bg-stone-950 shadow-btn transition duration-200 group-hover:-rotate-2 group-hover:scale-[1.03] motion-reduce:transform-none"
       >
+        <img
+          src="/memberley-amper-dark.svg"
+          alt=""
+          width="22"
+          height="22"
+          class="size-[1.35rem]"
+          loading="eager"
+          decoding="async"
+        />
+      </span>
+      <span class="text-[0.9375rem] font-semibold tracking-[-0.025em] text-stone-950">
         Memberley
       </span>
     </a>
 
     <nav
-      class="hidden items-center gap-7 text-[0.8125rem] text-stone-600 md:flex"
+      aria-label="Primary navigation"
+      class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex"
     >
-      {
-        navLinks.map((l) =>
-          l.highlight ? (
-            <a
-              href={l.href}
-              class="flex items-center gap-1.5 font-medium text-brand-800 transition hover:text-brand-900"
-            >
-              <span class="size-1.5 rounded-full bg-brand-600" aria-hidden="true" />
-              {l.label}
-            </a>
-          ) : (
-            <a href={l.href} class="transition hover:text-stone-900">
-              {l.label}
-            </a>
-          ),
-        )
-      }
+      <a href="/#features" class={linkClass}>Features</a>
+      <a href="/#pricing" class={linkClass}>Pricing</a>
+
+      <div id="compare-nav" class="group relative">
+        <button
+          id="compare-nav-button"
+          type="button"
+          aria-expanded="false"
+          aria-controls="compare-nav-panel"
+          class={`${linkClass} flex items-center gap-1.5`}
+        >
+          Compare
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            class="size-3.5 transition duration-200 group-data-[open=true]:rotate-180"
+            aria-hidden="true"
+          >
+            <path d="m4 6 4 4 4-4"></path>
+          </svg>
+        </button>
+
+        <div
+          id="compare-nav-panel"
+          hidden
+          class="absolute top-full left-1/2 w-[31rem] -translate-x-1/2 pt-3"
+        >
+          <div class="rounded-[1.15rem] border border-stone-950/10 bg-white/96 p-2.5 shadow-paper-lg backdrop-blur-xl">
+            <div class="mb-1.5 flex items-center justify-between px-3 pt-2 pb-1">
+              <span class="font-mono text-[0.625rem] font-semibold tracking-[0.13em] text-stone-400 uppercase">
+                Memberley alternatives
+              </span>
+              <span class="text-[0.6875rem] text-stone-400">Honest, side-by-side guides</span>
+            </div>
+            <div class="grid gap-1">
+              {
+                alternatives.map((alternative) => (
+                  <a
+                    href={alternative.href}
+                    class="group/card grid grid-cols-[2.25rem_1fr_auto] items-center gap-3 rounded-[0.8rem] px-3 py-2.5 transition duration-200 hover:bg-stone-100/90"
+                  >
+                    <span class="grid size-9 place-items-center rounded-[0.65rem] border border-brand-700/12 bg-brand-100/70 font-mono text-[0.625rem] font-semibold text-brand-800">
+                      {alternative.monogram}
+                    </span>
+                    <span>
+                      <span class="block text-[0.8125rem] font-semibold text-stone-900">
+                        {alternative.name} alternative
+                      </span>
+                      <span class="mt-0.5 block text-[0.75rem] leading-snug text-stone-500">
+                        {alternative.description}
+                      </span>
+                    </span>
+                    <span class="text-stone-300 transition group-hover/card:translate-x-0.5 group-hover/card:text-brand-700 motion-reduce:transform-none">
+                      →
+                    </span>
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="/help" class={linkClass}>Help</a>
     </nav>
 
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-1.5 sm:gap-2">
       <a
         id="nav-signin"
         href={LOGIN_URL}
-        class="hidden text-[0.8125rem] text-stone-600 transition hover:text-stone-900 sm:block"
+        class="hidden rounded-full px-2.5 py-2 text-[0.8125rem] font-medium text-stone-600 transition hover:text-stone-950 sm:inline-flex"
       >
         Sign in
       </a>
       <a
+        href={DEMO_URL}
+        data-marketing-event="live_demo_clicked"
+        data-marketing-location="header"
+        class="hidden rounded-full px-3 py-2 text-[0.8125rem] font-semibold text-stone-700 transition hover:bg-white/70 hover:text-stone-950 md:inline-flex"
+      >
+        Live demo
+      </a>
+      <a
         id="nav-cta"
         href={SIGNUP_URL}
-        class={`inline-flex items-center gap-2 rounded-sm px-4 py-2 text-[0.8125rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
+        data-marketing-event="trial_started"
+        data-marketing-location="header"
+        class="hidden items-center rounded-full border border-stone-950/42 bg-white/38 px-4 py-2 text-[0.8125rem] font-semibold text-stone-900 shadow-[0_1px_0_rgb(255_255_255/.84)_inset] transition hover:-translate-y-px hover:border-stone-950/64 hover:bg-white/72 motion-reduce:transform-none md:inline-flex"
       >
-        Start free trial
+        45-day free trial
       </a>
       <button
         id="nav-menu-button"
@@ -93,102 +151,169 @@ const primaryBtn =
         aria-expanded="false"
         aria-controls="nav-menu"
         aria-label="Open menu"
-        class="-mr-2 flex size-9 items-center justify-center rounded-sm text-stone-700 transition hover:bg-stone-100 md:hidden"
+        class="-mr-1 grid size-10 place-items-center rounded-full text-stone-700 transition hover:bg-white/70 lg:hidden"
       >
         <svg
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="1.5"
+          stroke-width="1.6"
           stroke-linecap="round"
-          class="size-5"
           aria-hidden="true"
+          class="size-5"
         >
           <path class="nav-icon-open" d="M4 7h16M4 12h16M4 17h16"></path>
-          <path class="nav-icon-close hidden" d="M6 6l12 12M18 6L6 18"></path>
+          <path class="nav-icon-close hidden" d="M6 6l12 12M18 6 6 18"></path>
         </svg>
       </button>
     </div>
-  </div>
+    </div>
 
-  <!-- Mobile menu -->
   <div
     id="nav-menu"
     hidden
-    class="border-t border-stone-950/10 bg-stone-50 px-6 py-4 md:hidden"
+    class="rounded-b-[1.15rem] border-t border-stone-950/8 bg-white/62 px-4 py-4 backdrop-blur-xl lg:hidden sm:px-5"
   >
-    <nav class="flex flex-col gap-1 text-[0.9375rem] text-stone-700">
-      {
-        navLinks.map((l) => (
-          <a
-            href={l.href}
-            class={`flex items-center gap-2 rounded-sm px-2 py-2.5 transition hover:bg-stone-100 ${l.highlight ? "font-medium text-brand-800 hover:text-brand-900" : "hover:text-stone-900"}`}
-          >
-            {l.highlight && (
-              <span class="size-1.5 rounded-full bg-brand-600" aria-hidden="true" />
-            )}
-            {l.label}
-          </a>
-        ))
-      }
-      <a
-        id="nav-signin-mobile"
-        href={LOGIN_URL}
-        class="rounded-sm px-2 py-2.5 transition hover:bg-stone-100 hover:text-stone-900 sm:hidden"
-      >
-        Sign in
-      </a>
+    <nav aria-label="Mobile navigation" class="mx-auto max-w-[70rem]">
+      <div class="grid gap-1">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class="rounded-[0.7rem] px-3 py-3 text-[0.9375rem] font-medium text-stone-800 transition hover:bg-white"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+        <details class="group/mobile-compare">
+          <summary class="flex cursor-pointer list-none items-center justify-between rounded-[0.7rem] px-3 py-3 text-[0.9375rem] font-medium text-stone-800 transition hover:bg-white">
+            Compare
+            <span class="transition group-open/mobile-compare:rotate-45">+</span>
+          </summary>
+          <div class="mt-1 grid gap-1 border-l border-stone-950/10 pl-3">
+            {
+              alternatives.map((alternative) => (
+                <a
+                  href={alternative.href}
+                  class="rounded-[0.65rem] px-3 py-2.5 text-[0.875rem] text-stone-600 transition hover:bg-white hover:text-stone-950"
+                >
+                  {alternative.name} alternative
+                </a>
+              ))
+            }
+          </div>
+        </details>
+      </div>
+
+      <div class="mt-4 grid grid-cols-2 gap-2 border-t border-stone-950/8 pt-4 sm:grid-cols-3">
+        <a
+          id="nav-signin-mobile"
+          href={LOGIN_URL}
+          class="inline-flex items-center justify-center rounded-full border border-stone-950/12 bg-white px-4 py-2.5 text-[0.8125rem] font-semibold text-stone-800"
+        >
+          Sign in
+        </a>
+        <a
+          href={DEMO_URL}
+          data-marketing-event="live_demo_clicked"
+          data-marketing-location="mobile_header"
+          class="inline-flex items-center justify-center rounded-full border border-stone-950/12 bg-white px-4 py-2.5 text-[0.8125rem] font-semibold text-stone-800"
+        >
+          Live demo
+        </a>
+        <a
+          id="nav-cta-mobile"
+          href={SIGNUP_URL}
+          data-marketing-event="trial_started"
+          data-marketing-location="mobile_header"
+          class="col-span-2 inline-flex items-center justify-center rounded-full bg-stone-950 px-4 py-2.5 text-[0.8125rem] font-semibold text-white sm:col-span-1"
+        >
+          Start 45-day trial
+        </a>
+      </div>
     </nav>
+  </div>
   </div>
 </header>
 
 <script is:inline define:vars={{ appUrl: APP_URL }}>
   (function () {
-    // Sticky header lifts onto a soft shadow once the page scrolls.
     var header = document.getElementById("site-header");
-    if (header) {
-      var onScroll = function () {
-        header.toggleAttribute("data-scrolled", window.scrollY > 8);
-      };
-      onScroll();
-      window.addEventListener("scroll", onScroll, { passive: true });
-    }
+    var onScroll = function () {
+      if (header) header.toggleAttribute("data-scrolled", window.scrollY > 8);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
 
-    // Mobile disclosure menu.
-    var button = document.getElementById("nav-menu-button");
+    var menuButton = document.getElementById("nav-menu-button");
     var menu = document.getElementById("nav-menu");
-    if (button && menu) {
-      var setOpen = function (open) {
-        menu.hidden = !open;
-        button.setAttribute("aria-expanded", String(open));
-        button.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-        button
-          .querySelector(".nav-icon-open")
-          .classList.toggle("hidden", open);
-        button
-          .querySelector(".nav-icon-close")
-          .classList.toggle("hidden", !open);
-      };
-      button.addEventListener("click", function () {
-        setOpen(menu.hidden);
-      });
-      menu.addEventListener("click", function (e) {
-        if (e.target.closest("a")) setOpen(false);
-      });
-    }
+    var setMenuOpen = function (open) {
+      if (!menuButton || !menu) return;
+      menu.hidden = !open;
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      menuButton.querySelector(".nav-icon-open")?.classList.toggle("hidden", open);
+      menuButton.querySelector(".nav-icon-close")?.classList.toggle("hidden", !open);
+    };
+    menuButton?.addEventListener("click", function () {
+      setMenuOpen(menu ? menu.hidden : false);
+    });
+    menu?.addEventListener("click", function (event) {
+      if (event.target.closest("a")) setMenuOpen(false);
+    });
 
-    // Swap the CTA to "Dashboard" when an app session exists.
+    var compare = document.getElementById("compare-nav");
+    var compareButton = document.getElementById("compare-nav-button");
+    var comparePanel = document.getElementById("compare-nav-panel");
+    var closeTimer;
+    var setCompareOpen = function (open) {
+      if (!compare || !compareButton || !comparePanel) return;
+      window.clearTimeout(closeTimer);
+      compare.dataset.open = String(open);
+      compareButton.setAttribute("aria-expanded", String(open));
+      comparePanel.hidden = !open;
+    };
+    compareButton?.addEventListener("click", function () {
+      setCompareOpen(comparePanel ? comparePanel.hidden : false);
+    });
+    compare?.addEventListener("mouseenter", function () {
+      closeTimer = window.setTimeout(function () {
+        setCompareOpen(true);
+      }, 90);
+    });
+    compare?.addEventListener("mouseleave", function () {
+      closeTimer = window.setTimeout(function () {
+        setCompareOpen(false);
+      }, 180);
+    });
+    compare?.addEventListener("focusin", function (event) {
+      if (event.target !== compareButton) setCompareOpen(true);
+    });
+    compare?.addEventListener("focusout", function (event) {
+      if (!compare.contains(event.relatedTarget)) setCompareOpen(false);
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        setCompareOpen(false);
+        setMenuOpen(false);
+      }
+    });
+    document.addEventListener("click", function (event) {
+      if (compare && !compare.contains(event.target)) setCompareOpen(false);
+    });
+
     function applyAuthenticatedNav() {
       if (window.__ML_AUTHENTICATED !== true) return;
-      var signin = document.getElementById("nav-signin");
-      var signinMobile = document.getElementById("nav-signin-mobile");
-      var cta = document.getElementById("nav-cta");
-      if (signin) signin.remove();
-      if (signinMobile) signinMobile.remove();
-      if (cta) {
-        cta.textContent = "Dashboard";
-        cta.setAttribute("href", appUrl + "/dashboard");
-      }
+      document.getElementById("nav-signin")?.remove();
+      document.getElementById("nav-signin-mobile")?.remove();
+      [document.getElementById("nav-cta"), document.getElementById("nav-cta-mobile")]
+        .filter(Boolean)
+        .forEach(function (cta) {
+          cta.textContent = "Dashboard";
+          cta.setAttribute("href", appUrl + "/dashboard");
+          cta.removeAttribute("data-marketing-event");
+        });
     }
 
     window.__ML_AUTHENTICATED = false;

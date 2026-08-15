@@ -35,7 +35,7 @@ const faqGroups: FaqGroup[] = [
       },
       {
         q: "How long does setup take?",
-        a: "Creating your organization takes about a minute. Connecting your own Stripe account takes about ten. Most clubs set up tiers, import their roster, and share their signup link within an hour. Every plan starts with a 14-day free trial — no card required.",
+        a: "Creating your organization takes about a minute. Connecting your own Stripe account takes about ten. Most clubs set up tiers, import their roster, and share their signup link within an hour. Every plan starts with a 45-day free trial — no card required.",
       },
       {
         q: "Can I see it before signing up?",
@@ -119,8 +119,8 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
     <SiteHeader />
 
     <!-- Hero -->
-    <section class="border-b border-stone-950/10">
-      <div class="mx-auto max-w-[80rem] px-6 py-20 lg:px-8">
+    <section class="hero-wash border-b border-stone-950/10">
+      <div class="mx-auto max-w-[74rem] px-6 py-20 lg:px-8">
         <div class="max-w-[60ch]">
           <div class={eyebrow}>§ Help</div>
           <h1
@@ -153,7 +153,7 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
     {
       faqGroups.map((g) => (
         <section class="border-b border-stone-950/10">
-          <div class="mx-auto max-w-[80rem] px-6 py-16 lg:px-8">
+          <div class="mx-auto max-w-[74rem] px-6 py-16 lg:px-8">
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
               <div class="lg:col-span-3">
                 <h2 class={`text-[1.375rem] ${display} text-stone-900`}>
@@ -180,7 +180,7 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
 
     <!-- Contact / CTA -->
     <section class="paper-dark text-stone-50">
-      <div class="mx-auto max-w-[80rem] px-6 py-20 lg:px-8">
+      <div class="mx-auto max-w-[74rem] px-6 py-20 lg:px-8">
         <div class="max-w-[44ch]">
           <div
             class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
@@ -196,7 +196,7 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
             class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400"
           >
             Write us and we&rsquo;ll walk your board through setup and
-            migration, or explore the live demo and start a free trial whenever
+            migration, or explore the live demo and start a 45-day free trial whenever
             you&rsquo;re ready.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
@@ -216,7 +216,7 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
               href={SIGNUP_URL}
               class="inline-flex items-center gap-2 rounded-sm px-5 py-3 text-[0.875rem] font-medium text-stone-300 transition hover:text-stone-50"
             >
-              Start free trial →
+              Start 45-day free trial →
             </a>
           </div>
         </div>
