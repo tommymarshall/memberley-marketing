@@ -119,10 +119,14 @@ body {
 
 #site-header[data-scrolled] .site-header-shell {
     border-color: rgb(28 25 23 / 0.1);
-    background-color: rgb(255 253 250 / 0.88);
+    background-color: rgb(255 253 250 / 0.8);
     box-shadow:
         0 1px 0 rgb(255 255 255 / 0.72) inset,
         0 18px 46px -28px rgb(28 25 23 / 0.38);
+}
+
+.site-header-offset {
+    padding-top: 4.25rem;
 }
 
 .browser-frame {

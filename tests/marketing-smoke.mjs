@@ -23,6 +23,16 @@ for (const { pagePath, html } of pages) {
     assert.match(html, /id="site-header"/, `${pagePath} must use the shared header`);
     assert.match(
         html,
+        /id="site-header" class="fixed inset-x-0/,
+        `${pagePath} must keep the floating header out of document flow`,
+    );
+    assert.match(
+        html,
+        /site-header-offset/,
+        `${pagePath} must preserve content clearance behind the fixed header`,
+    );
+    assert.match(
+        html,
         /Built in Northern Virginia for the clubs that bring neighbors together\./,
         `${pagePath} must use the shared footer`,
     );
@@ -41,6 +51,16 @@ for (const path of [
 
 assert.match(homepage, /45-day free trial/, 'Homepage must emphasize the extended trial');
 assert.match(homepage, /https:\/\/demo\.memberley\.com/, 'Homepage must link to the live demo');
+assert.doesNotMatch(
+    homepage,
+    /One workspace for the whole season/,
+    'Homepage must not include the retired season audience strip',
+);
+assert.match(
+    homepage,
+    /min-h-\[3\.5rem\]/,
+    'Homepage comparison cards must reserve a consistent title row',
+);
 assert.match(
     homepage,
     /\/hero-macbook-transparent-42bf53ca\.webp/,
