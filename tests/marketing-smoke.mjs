@@ -58,4 +58,38 @@ assert.doesNotMatch(
     'Placeholder testimonials must never ship in a production build',
 );
 
+const courtReservePage =
+    pages.find(({ pagePath }) => pagePath === 'alternatives/courtreserve/index.html')?.html ?? '';
+
+assert.doesNotMatch(
+    courtReservePage,
+    /pool-first/i,
+    'CourtReserve comparison must not position Memberley as pool-first',
+);
+assert.match(
+    courtReservePage,
+    /Registration, payment, and every court block/,
+    'CourtReserve comparison must showcase the complete class and event workflow',
+);
+assert.match(
+    courtReservePage,
+    /Members \+ guests/,
+    'CourtReserve comparison must mention public and member registration',
+);
+assert.match(
+    courtReservePage,
+    /Automatic waitlist/,
+    'CourtReserve comparison must mention automatic waitlists',
+);
+assert.match(
+    courtReservePage,
+    /Runs beyond the season/,
+    'CourtReserve comparison must mention off-season programming',
+);
+assert.match(
+    courtReservePage,
+    /Point of sale &amp; inventory/,
+    'CourtReserve comparison must show how clubs can expand into additional modules',
+);
+
 console.log(`Marketing smoke checks passed for ${pages.length} pages.`);

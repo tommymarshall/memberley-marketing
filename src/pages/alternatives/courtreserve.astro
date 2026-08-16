@@ -23,7 +23,7 @@ type Cell = string | boolean | null;
 const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   {
     label: "Focus",
-    memberley: "Pools, courts & neighborhood communities",
+    memberley: "Court, field, pool & community clubs",
     competitor: "Tennis, pickleball & padel",
   },
   {
@@ -65,7 +65,11 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   { label: "Installment payment plans", memberley: true, competitor: null },
   { label: "ACH bank payments for dues", memberley: true, competitor: null },
   { label: "Free white-glove migration", memberley: true, competitor: null },
-  { label: "Classes, lessons & programs", memberley: true, competitor: true },
+  {
+    label: "Classes, events & paid registration",
+    memberley: "Members + guests · per-class fees · waitlists",
+    competitor: true,
+  },
   { label: "Online dues & auto-renewal", memberley: true, competitor: true },
   {
     label: "Guest passes, check-in & waitlist",
@@ -82,24 +86,47 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
 
 const reasons = [
   {
-    title: "Pool-first, not court-first",
-    body: "CourtReserve is designed around court scheduling. Memberley is built around the way community clubs actually run: seasonal membership tiers, guest passes auto-charged at the gate, a front-desk line that moves, with courts, lanes, and rooms covered by the same reservations module.",
+    title: "Court and field clubs fit naturally",
+    body: "Courts, fields, lanes, rooms, and other facilities are first-class bookable resources in Memberley. Layer in memberships, classes, events, payments, and communications without making your club work around a court-only operating model.",
+  },
+  {
+    title: "Programming and scheduling stay connected",
+    body: "A class or event can accept public and member registrations, collect a fee per class, manage capacity, and reserve every required facility block. Message the exact attendee list without exporting it somewhere else.",
   },
   {
     title: "Flat-priced comms, not metered",
     body: "CourtReserve meters broadcasts at 500 texts and 5,000 marketing emails a month, then you pay per bundle. Memberley's Communications module is $150/yr flat with 1,000 SMS a month included and unlimited email campaigns.",
   },
   {
-    title: "Your brand isn't a top-tier perk",
-    body: "CourtReserve gates its branded club experience to the top tier, with a $499 setup fee and a one-year contract. Memberley's Branded Site & Embed module is $100/yr — no setup fee, no contract — and covers the portal, sign-in pages, and every email.",
-  },
-  {
-    title: "Pricing that fits a seasonal club",
-    body: "From $159 a month, year-round, adds up fast for a pool that's open fourteen weeks. Memberley starts at $0/yr with a 3% payment fee — or $500/yr with none — and you turn modules on only when your club needs them.",
+    title: "Room to grow beyond reservations",
+    body: "Start with the modules your club needs today, then add front-desk check-in, point of sale, household memberships, waivers, branded portals, and reporting without migrating to another platform later.",
   },
 ];
 
-// Extras where Memberley goes further for pools & community clubs.
+const programCapabilities = [
+  {
+    title: "Open registration",
+    body: "Let members and guests register through the same offering, with the eligibility rules you choose.",
+  },
+  {
+    title: "Collect every fee",
+    body: "Charge once for the full offering or collect a per-class or per-event registration fee online.",
+  },
+  {
+    title: "Fill every opening",
+    body: "Capacity limits create an automatic waitlist, keeping oversubscribed classes and events organized.",
+  },
+  {
+    title: "Message the right people",
+    body: "Send updates directly to registrants and attendees instead of rebuilding a list for every announcement.",
+  },
+  {
+    title: "Keep programming in motion",
+    body: "Seasonal clubs can schedule classes and events before opening day, after closing day, or across seasons.",
+  },
+];
+
+// Modules a court or field club can add as its operation grows.
 const builtInExtras = [
   {
     title: "Guest-pass auto-charge",
@@ -107,8 +134,8 @@ const builtInExtras = [
     icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/>',
   },
   {
-    title: "QR-code check-in",
-    desc: "Members scan in at the front gate — no kiosk hardware, no app install.",
+    title: "Front-desk check-in",
+    desc: "Members scan in at the desk or gate — no kiosk hardware and no app install required.",
     icon: '<rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/>',
   },
   {
@@ -132,6 +159,11 @@ const builtInExtras = [
     icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
   },
   {
+    title: "Point of sale & inventory",
+    desc: "Sell merchandise, equipment, snacks, or drop-in items and keep daily sales tied to the same operation.",
+    icon: '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>',
+  },
+  {
     title: "ACH & installment plans",
     desc: "Members pay dues by bank transfer or on a payment plan, with autopay and automatic late fees built in.",
     icon: '<line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',
@@ -141,7 +173,7 @@ const builtInExtras = [
 const faqs = [
   {
     q: "Is Memberley a good CourtReserve alternative?",
-    a: "It depends on what you run. If you're a dedicated tennis, pickleball, or padel operation, CourtReserve's court scheduling is deep and purpose-built. If you're a pool, swim & tennis club, or HOA where courts are one amenity among many, Memberley is built around your actual season: memberships and dues, guest passes, front-gate check-in, and reservations for courts, lanes, and rooms together.",
+    a: "It depends on what you run. CourtReserve's court scheduling is deep and purpose-built for tennis, pickleball, and padel operations. Memberley is a strong fit for court and field clubs that want reservations alongside memberships, paid classes and events, attendee communications, and room to add front-desk or point-of-sale operations as they grow.",
   },
   {
     q: "How does pricing compare to CourtReserve?",
@@ -153,7 +185,15 @@ const faqs = [
   },
   {
     q: "Can we still run court reservations on Memberley?",
-    a: "Yes — the Facilities & Reservations module covers courts, lanes, and rooms with operating hours, booking slots, and conflict checks. Courts are a first-class amenity; they're just not the only thing the product is organized around.",
+    a: "Yes. The Facilities & Reservations module covers courts, fields, lanes, and rooms with operating hours, booking slots, approvals, and conflict checks. One-click block scheduling can reserve the same facility for every occurrence of a recurring class or event.",
+  },
+  {
+    q: "Can guests register and pay for classes or events?",
+    a: "Yes. Offer registration to members, guests, or both; charge for the full offering or per class; automatically waitlist people when capacity is reached; and send communications to the exact registrant or attendee list.",
+  },
+  {
+    q: "Can a seasonal club run programs outside its normal season?",
+    a: "Yes. Classes and events can run before, during, or after your club's membership season. Their registration dates, schedules, payments, communications, and facility reservations are not limited by the season's opening and closing dates.",
   },
   {
     q: "Do you offer white-label branding?",
@@ -167,8 +207,8 @@ const faqs = [
 ---
 
 <Layout
-  title="CourtReserve Alternative for Pools & Community Clubs | Memberley"
-  description="Looking for a CourtReserve alternative for a pool or community club? Memberley is pool-first — seasonal memberships, guest passes, front-gate check-in, and court reservations — with flat-priced modules instead of metered SMS and email."
+  title="CourtReserve Alternative for Court & Field Clubs | Memberley"
+  description="A CourtReserve alternative for court and field clubs that need reservations, memberships, paid classes and events, attendee communications, waitlists, and room to grow."
 >
   <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased">
     <SiteHeader />
@@ -181,15 +221,14 @@ const faqs = [
           <h1
             class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] text-balance ${display} text-stone-900`}
           >
-            The pool-first CourtReserve alternative.
+            The CourtReserve alternative built for the whole club.
           </h1>
           <p
             class="mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
           >
-            Courts covered, of course. But Memberley is organized around the
-            rest of your club too: seasonal memberships, guest passes
-            auto-charged at the gate, front-desk check-in, and dues that settle
-            to <strong>your</strong> Stripe account.
+            Give court and field clubs reservations, memberships, paid classes
+            and events, and communications in one workspace—then add front
+            desk, point of sale, and more as the operation grows.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
             <a
@@ -250,6 +289,140 @@ const faqs = [
             ))
           }
         </dl>
+      </div>
+    </section>
+
+    <!-- Classes and events workflow -->
+    <section class="paper-dark overflow-hidden border-b border-stone-950/10 text-stone-50">
+      <div
+        class="mx-auto grid max-w-[74rem] gap-14 px-6 py-24 lg:grid-cols-[0.86fr_1.14fr] lg:items-start lg:gap-20 lg:px-8"
+      >
+        <div class="max-w-[46ch]">
+          <div
+            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
+          >
+            § Classes &amp; events
+          </div>
+          <h2
+            class={`mt-5 text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.02] text-balance ${display} text-stone-50`}
+          >
+            Registration, payment, and every court block—one offering.
+          </h2>
+          <p
+            class="mt-6 max-w-[55ch] text-[1rem] leading-relaxed text-pretty text-stone-300"
+          >
+            Build a clinic, camp, class, league, or one-off event around the
+            people attending it—not around a collection of disconnected
+            reservations.
+          </p>
+
+          <dl class="mt-10 divide-y divide-stone-50/12 border-y border-stone-50/12">
+            {
+              programCapabilities.map((capability) => (
+                <div class="grid gap-1.5 py-5 sm:grid-cols-[9rem_1fr] sm:gap-6">
+                  <dt class="text-[0.875rem] font-semibold text-stone-100">
+                    {capability.title}
+                  </dt>
+                  <dd class="text-[0.875rem] leading-relaxed text-stone-400">
+                    {capability.body}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+
+        <figure
+          class="relative overflow-hidden rounded-[1.5rem] border border-stone-50/12 bg-stone-50/[0.055] p-5 shadow-[0_28px_80px_-42px_rgb(0_0_0/.9)] sm:p-7"
+          aria-label="Example of a recurring class schedule in Memberley"
+        >
+          <div
+            class="absolute -top-20 -right-24 size-64 rounded-full bg-brand-700/16 blur-3xl"
+            aria-hidden="true"
+          ></div>
+
+          <div class="relative flex items-start justify-between gap-5 border-b border-stone-50/12 pb-5">
+            <div>
+              <div class="font-mono text-[0.625rem] tracking-[0.12em] text-brand-400 uppercase">
+                Class offering
+              </div>
+              <h3 class="mt-2 text-[1.35rem] font-semibold tracking-[-0.025em] text-stone-50">
+                Summer skills clinic
+              </h3>
+            </div>
+            <span class="shrink-0 rounded-full bg-emerald-300/10 px-3 py-1.5 text-[0.6875rem] font-semibold text-emerald-200 ring-1 ring-emerald-200/20">
+              Registration open
+            </span>
+          </div>
+
+          <div class="relative grid gap-8 py-7 sm:grid-cols-[1fr_auto] sm:items-end">
+            <div class="grid gap-5">
+              <div>
+                <div class="text-[0.6875rem] font-medium tracking-wide text-stone-500 uppercase">
+                  Repeats weekly
+                </div>
+                <div class="mt-3 flex flex-wrap gap-2" aria-label="Monday, Wednesday, and Friday">
+                  <span class="grid size-10 place-items-center rounded-full bg-brand-500 text-[0.75rem] font-semibold text-stone-950">M</span>
+                  <span class="grid size-10 place-items-center rounded-full border border-stone-50/12 text-[0.75rem] text-stone-600">T</span>
+                  <span class="grid size-10 place-items-center rounded-full bg-brand-500 text-[0.75rem] font-semibold text-stone-950">W</span>
+                  <span class="grid size-10 place-items-center rounded-full border border-stone-50/12 text-[0.75rem] text-stone-600">T</span>
+                  <span class="grid size-10 place-items-center rounded-full bg-brand-500 text-[0.75rem] font-semibold text-stone-950">F</span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-x-6 gap-y-5 border-t border-stone-50/12 pt-5">
+                <div>
+                  <div class="text-[0.6875rem] text-stone-500">Time</div>
+                  <div class="mt-1 text-[0.875rem] font-medium text-stone-100">2:00–3:30 PM</div>
+                </div>
+                <div>
+                  <div class="text-[0.6875rem] text-stone-500">Facility</div>
+                  <div class="mt-1 text-[0.875rem] font-medium text-stone-100">Court 2</div>
+                </div>
+                <div>
+                  <div class="text-[0.6875rem] text-stone-500">Registration</div>
+                  <div class="mt-1 text-[0.875rem] font-medium text-stone-100">Members + guests</div>
+                </div>
+                <div>
+                  <div class="text-[0.6875rem] text-stone-500">Fee</div>
+                  <div class="mt-1 text-[0.875rem] font-medium text-stone-100">$28 per class</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sm:w-44">
+              <div class="rounded-[0.85rem] bg-stone-50 p-4 text-stone-950 shadow-btn">
+                <div class="font-mono text-[0.625rem] tracking-wide text-brand-800 uppercase">
+                  One click
+                </div>
+                <div class="mt-2 text-[1.65rem] font-semibold tracking-[-0.04em]">24</div>
+                <div class="text-[0.75rem] leading-snug text-stone-600">
+                  Court 2 blocks ready to reserve
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative grid gap-3 border-t border-stone-50/12 pt-5 sm:grid-cols-3">
+            <div class="flex items-center gap-2 text-[0.75rem] text-stone-300">
+              <span class="size-1.5 rounded-full bg-brand-400"></span>
+              Automatic waitlist
+            </div>
+            <div class="flex items-center gap-2 text-[0.75rem] text-stone-300">
+              <span class="size-1.5 rounded-full bg-brand-400"></span>
+              Attendee messages
+            </div>
+            <div class="flex items-center gap-2 text-[0.75rem] text-stone-300">
+              <span class="size-1.5 rounded-full bg-brand-400"></span>
+              Runs beyond the season
+            </div>
+          </div>
+
+          <figcaption class="relative mt-5 text-[0.6875rem] leading-relaxed text-stone-500">
+            One-click block scheduling creates every Monday, Wednesday, and
+            Friday reservation on Court 2 for this class offering.
+          </figcaption>
+        </figure>
       </div>
     </section>
 
@@ -356,8 +529,9 @@ const faqs = [
             CourtReserve is excellent at what it's built for — deep court
             scheduling, leagues, and programming for tennis, pickleball, and
             padel operations. If courts are your whole business, it's a strong
-            choice. Memberley is for pools and community clubs where courts are
-            one amenity among many.
+            choice. Memberley is for court and field clubs that want facility
+            scheduling connected to memberships, paid programming,
+            communications, and the operational modules they may need next.
           </p>
         </div>
       </div>
@@ -367,17 +541,18 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
-          <div class={eyebrow}>§ Beyond the courts</div>
+          <div class={eyebrow}>§ Beyond reservations</div>
           <h2
             class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
-            The rest of the club, built in.
+            Grow the operation without starting over.
           </h2>
           <p
             class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
           >
-            The parts of running a community club that court software leaves to
-            spreadsheets.
+            Start with facilities, memberships, classes, and events. Add the
+            front desk, point of sale, household billing, waivers, and branded
+            experiences when your club is ready.
           </p>
         </div>
         <div class="grid grid-cols-2 gap-x-10 gap-y-8 lg:grid-cols-4">
