@@ -43,8 +43,8 @@ assert.match(homepage, /45-day free trial/, 'Homepage must emphasize the extende
 assert.match(homepage, /https:\/\/demo\.memberley\.com/, 'Homepage must link to the live demo');
 assert.match(
     homepage,
-    /\/hero-macbook-ember\.webp/,
-    'Homepage must use the Ember MacBook product hero',
+    /\/hero-macbook-ivory\.webp/,
+    'Homepage must use the flat-ivory MacBook product hero',
 );
 assert.match(homepage, /\/product\/payments\.webp/, 'Homepage must include product proof');
 assert.doesNotMatch(
