@@ -36,6 +36,14 @@ const POSTHOG_HOST =
 const META_PIXEL_ID =
     (import.meta.env.PUBLIC_META_PIXEL_ID as string | undefined) ??
     '1538904127970855';
+
+// Google Ads tag (gtag.js) for conversion tracking on Memberley ad campaigns.
+// A measurement/conversion ID is public by design — it identifies the Ads
+// account's tag, not a credential. Loaded lazily so ad blockers and local dev
+// can't break the page, and gated like the other trackers.
+const GOOGLE_ADS_ID =
+    (import.meta.env.PUBLIC_GOOGLE_ADS_ID as string | undefined) ??
+    'AW-18393786799';
 ---
 
 <!doctype html>
@@ -151,6 +159,31 @@ const META_PIXEL_ID =
             }
         </script>
         <!-- End Meta Pixel Code -->
+
+        <!-- Google tag (gtag.js) -->
+        <script is:inline define:vars={{ googleAdsId: GOOGLE_ADS_ID }}>
+            if (
+                googleAdsId &&
+                window.location.hostname !== 'localhost' &&
+                !window.location.hostname.endsWith('.test')
+            ) {
+                window.dataLayer = window.dataLayer || [];
+                window.gtag = function () {
+                    window.dataLayer.push(arguments);
+                };
+
+                var gtagScript = document.createElement('script');
+                gtagScript.async = true;
+                gtagScript.src =
+                    'https://www.googletagmanager.com/gtag/js?id=' +
+                    encodeURIComponent(googleAdsId);
+                document.head.appendChild(gtagScript);
+
+                gtag('js', new Date());
+                gtag('config', googleAdsId);
+            }
+        </script>
+        <!-- End Google tag -->
     </head>
     <body class="bg-[#faf9f7] text-stone-900">
         <noscript
