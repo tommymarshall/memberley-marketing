@@ -170,6 +170,127 @@ const builtInExtras = [
   },
 ];
 
+// ── CourtReserve public idea board audit ─────────────────────────────────────
+// Source: feedback.courtreserve.com (a public UserEcho board). Figures come from
+// a full crawl of all 2,028 public ideas on 2026-08-17. "Time in status" is
+// measured from the dated status-change event on each thread — not the
+// submission date — so it reflects how long an idea has sat where it sits now.
+// Every number below is reproducible from the public board. Re-verify before
+// republishing: the board moves, and stale comparative claims are not defensible.
+const auditDate = "August 17, 2026";
+
+const ideaHeadlines = [
+  {
+    figure: "2,028",
+    label: "ideas submitted",
+    note: "Going back to August 2018, all public on their board.",
+  },
+  {
+    figure: "549",
+    label: "never got a reply or a status",
+    note: "27% of the board. No comment from anyone, no status from the product team. 424 of them are past 90 days.",
+  },
+  {
+    figure: "68%",
+    label: "of the last year is untriaged",
+    note: "Of 733 ideas submitted in the last 12 months, 497 still carry no status at all.",
+  },
+  {
+    figure: "98%",
+    label: "past CourtReserve's own deadline",
+    note: "Their board says ideas sit in “Waiting on Votes” for 90 days. 533 of 546 have been there longer — a median of 401 days.",
+  },
+];
+
+// Status mix across all 2,028 ideas. `median` is the median time ideas have
+// already spent in that status, for the statuses where waiting is the point.
+const ideaStatuses: {
+  label: string;
+  count: number;
+  pct: number;
+  bar: string;
+  median?: string;
+}[] = [
+  { label: "Unmarked — never triaged", count: 614, pct: 30.3, bar: "bg-stone-400" },
+  { label: "Waiting on Votes", count: 546, pct: 26.9, bar: "bg-amber-500/70", median: "1.1 yrs" },
+  { label: "Completed", count: 335, pct: 16.5, bar: "bg-emerald-600/70" },
+  { label: "Accepted for Future Development", count: 258, pct: 12.7, bar: "bg-brand-700/60", median: "1.8 yrs" },
+  { label: "Not Planned", count: 196, pct: 9.7, bar: "bg-stone-300" },
+  { label: "Internal Review", count: 49, pct: 2.4, bar: "bg-stone-500" },
+  { label: "In Progress", count: 28, pct: 1.4, bar: "bg-brand-500", median: "0.9 yrs" },
+  { label: "Beta", count: 2, pct: 0.1, bar: "bg-stone-600" },
+];
+
+// Ideas CourtReserve customers are still waiting on, that a Memberley club has
+// today. Status and duration are as recorded on CourtReserve's public board on
+// the audit date; the Memberley column maps to capabilities described elsewhere
+// on this page.
+const longWaits: {
+  idea: string;
+  votes: number;
+  status: string;
+  waiting: string;
+  memberley: string;
+}[] = [
+  {
+    idea: "Integrate QuickBooks",
+    votes: 183,
+    status: "Accepted for Future Development",
+    waiting: "6.1 yrs",
+    memberley: "Included on every plan",
+  },
+  {
+    idea: "Customize all system emails",
+    votes: 221,
+    status: "In Progress",
+    waiting: "3.5 yrs",
+    memberley: "Branded emails · $100/yr module",
+  },
+  {
+    idea: "Email marketing platform integration",
+    votes: 73,
+    status: "Waiting on Votes",
+    waiting: "4.4 yrs",
+    memberley: "Mailchimp sync, included",
+  },
+  {
+    idea: "Event discounting",
+    votes: 81,
+    status: "Accepted for Future Development",
+    waiting: "4.3 yrs",
+    memberley: "Discount codes, included",
+  },
+  {
+    idea: "Promo codes",
+    votes: 147,
+    status: "In Progress",
+    waiting: "1.1 yrs",
+    memberley: "Discount codes, included",
+  },
+  {
+    idea: "Membership payment plans",
+    votes: 4,
+    status: "In Progress",
+    waiting: "1.9 yrs",
+    memberley: "Installment plans, included",
+  },
+];
+
+const shipPrinciples = [
+  {
+    title: "Twenty years of shipping, not guessing",
+    body: "The people building Memberley have spent 20+ years shipping production software — the kind that has to be right the first time because real money and real members depend on it. That experience is why the feature list on this page already exists instead of sitting on a board.",
+  },
+  {
+    title: "A request reaches the person who writes the code",
+    body: "There is no triage queue between you and the roadmap. When a club tells us something is broken or missing, it goes straight to the people who can fix it — which is how features get measured in days and weeks instead of status labels.",
+  },
+  {
+    title: "Built correctly the first time",
+    body: "Fast is only worth anything if it holds up. Dues, payments, rosters, and check-ins are the club's system of record, so we build them to be correct, auditable, and exportable — not shipped quickly and patched later.",
+  },
+];
+
 const faqs = [
   {
     q: "Is Memberley a good CourtReserve alternative?",
@@ -198,6 +319,10 @@ const faqs = [
   {
     q: "Do you offer white-label branding?",
     a: "Yes. The Branded Site & Embed module ($100/yr) applies your logo, colors, and typography across the member portal, sign-in pages, and emails, and lets you embed the portal in the website you already have — no setup fee and no annual contract.",
+  },
+  {
+    q: "How quickly does CourtReserve act on customer feature requests?",
+    a: `You can measure it yourself — CourtReserve runs a public idea board at feedback.courtreserve.com. As of ${auditDate} it held 2,028 ideas. 549 of them (27%) had never received a reply or been given a status, and of the 733 submitted in the previous 12 months, 497 still carried no status at all. The board's own rules say an idea sits in "Waiting on Votes" for 90 days; 533 of the 546 ideas in that status had been there longer, a median of 401 days. Ideas marked "Accepted for Future Development" had been waiting a median of 1.8 years, and the top-voted idea on the entire board has been accepted-but-unbuilt since July 2020.`,
   },
   {
     q: "Do you work with Northern Virginia clubs?",
@@ -533,6 +658,242 @@ const faqs = [
             connected to memberships, paid programming, built-in email and SMS,
             and the operational modules they may need next.
           </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Idea board audit -->
+    <section id="roadmap" class="border-b border-stone-950/10">
+      <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
+        <div class="mb-14 max-w-[52ch]">
+          <div class={eyebrow}>§ How feedback gets handled</div>
+          <h2
+            class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
+          >
+            We counted every idea on CourtReserve's board.
+          </h2>
+          <p class="mt-5 text-[1rem] leading-relaxed text-pretty text-stone-600">
+            CourtReserve runs its roadmap in public at <a
+              href="https://feedback.courtreserve.com/"
+              rel="nofollow noopener"
+              target="_blank"
+              class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
+              >feedback.courtreserve.com</a
+            >, which is genuinely to their credit — it means anyone can check
+            the numbers below. We read all {ideaHeadlines[0].figure} ideas on
+            it. This is what club owners are waiting on.
+          </p>
+        </div>
+
+        <!-- Headline figures -->
+        <dl
+          class="grid grid-cols-1 divide-y divide-stone-950/10 border-y border-stone-950/10 sm:grid-cols-2 sm:divide-x lg:grid-cols-4 lg:divide-y-0"
+        >
+          {
+            ideaHeadlines.map((s, i) => (
+              <div
+                class={`p-7 ${i >= 2 ? "lg:border-t-0 sm:border-t sm:border-stone-950/10 lg:border-t" : ""} ${i === 2 ? "sm:border-l-0 lg:border-l" : ""}`}
+              >
+                <dt
+                  class={`text-[clamp(2.5rem,5vw,3.25rem)] leading-none ${display} text-stone-900 tabular-nums`}
+                >
+                  {s.figure}
+                </dt>
+                <dd class="mt-3">
+                  <div class="text-[0.9375rem] font-semibold text-stone-900">
+                    {s.label}
+                  </div>
+                  <p class="mt-2 max-w-[34ch] text-[0.8125rem] leading-relaxed text-stone-600">
+                    {s.note}
+                  </p>
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <!-- Status mix -->
+        <div class="mt-16 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+          <div>
+            <h3 class={`text-[1.375rem] ${display} text-stone-900`}>
+              Where those 2,028 ideas sit today
+            </h3>
+            <p
+              class="mt-3 max-w-[46ch] text-[0.9375rem] leading-relaxed text-stone-600"
+            >
+              Nearly a third have never been triaged at all. Another quarter are
+              parked in a 90-day voting window that has, in practice, lasted
+              more than a year. Roughly one idea in six has actually shipped.
+            </p>
+            <p
+              class="mt-5 max-w-[46ch] text-[0.9375rem] leading-relaxed text-stone-600"
+            >
+              The single most-voted idea on the board — 282 votes, submitted in
+              2018 — has been marked “Accepted for Future Development” since
+              July 2020. Six years accepted, still not built.
+            </p>
+          </div>
+
+          <div>
+            <div
+              class="flex h-3 w-full overflow-hidden rounded-full bg-stone-200"
+              role="img"
+              aria-label="Status breakdown of all 2,028 CourtReserve ideas"
+            >
+              {
+                ideaStatuses.map((s) => (
+                  <div class={s.bar} style={`width:${s.pct}%`} />
+                ))
+              }
+            </div>
+            <dl class="mt-6 divide-y divide-stone-950/10 border-y border-stone-950/10">
+              {
+                ideaStatuses.map((s) => (
+                  <div class="flex items-baseline gap-3 py-3">
+                    <span
+                      class={`mt-1.5 size-2 shrink-0 rounded-full ${s.bar}`}
+                      aria-hidden="true"
+                    />
+                    <dt class="flex-1 text-[0.875rem] text-stone-700">
+                      {s.label}
+                      {s.median && (
+                        <span class="ml-2 font-mono text-[0.6875rem] tracking-wide text-stone-500 uppercase">
+                          median {s.median} in status
+                        </span>
+                      )}
+                    </dt>
+                    <dd class="shrink-0 text-right font-mono text-[0.8125rem] text-stone-900 tabular-nums">
+                      {s.count.toLocaleString()}
+                      <span class="ml-2 text-stone-400">{s.pct}%</span>
+                    </dd>
+                  </div>
+                ))
+              }
+            </dl>
+          </div>
+        </div>
+
+        <!-- Waiting years / shipping today -->
+        <div class="mt-20">
+          <h3 class={`text-[1.375rem] ${display} text-stone-900`}>
+            Still waiting there. Already working here.
+          </h3>
+          <p
+            class="mt-3 max-w-[62ch] text-[0.9375rem] leading-relaxed text-stone-600"
+          >
+            Each of these is an open request on CourtReserve's own board, with
+            the status and the time it has held that status. Every one of them
+            is something a Memberley club can use today.
+          </p>
+
+          <div
+            class="mt-8 overflow-x-auto rounded-lg bg-white shadow-paper ring-1 ring-stone-950/5"
+          >
+            <table class="w-full border-collapse text-left">
+              <thead>
+                <tr class="border-b border-stone-950/10 bg-stone-100">
+                  <th
+                    class="p-3 text-[0.75rem] font-semibold tracking-wide text-stone-600 uppercase sm:p-4"
+                    >Requested on CourtReserve's board</th
+                  >
+                  <th
+                    class="p-3 text-right text-[0.75rem] font-semibold tracking-wide text-stone-600 uppercase sm:p-4"
+                    >Votes</th
+                  >
+                  <th
+                    class="p-3 text-[0.75rem] font-semibold tracking-wide text-stone-600 uppercase sm:p-4"
+                    >Status &amp; time waiting</th
+                  >
+                  <th
+                    class="bg-brand-700/[0.06] p-3 text-[0.75rem] font-semibold tracking-wide text-brand-800 uppercase sm:p-4"
+                    >In Memberley</th
+                  >
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  longWaits.map((r) => (
+                    <tr class="border-b border-stone-950/5 last:border-0">
+                      <td class="p-3 align-top text-[0.8125rem] font-medium text-stone-900 sm:p-4">
+                        {r.idea}
+                      </td>
+                      <td class="p-3 text-right align-top font-mono text-[0.8125rem] text-stone-600 tabular-nums sm:p-4">
+                        {r.votes}
+                      </td>
+                      <td class="p-3 align-top sm:p-4">
+                        <div class="text-[0.8125rem] text-stone-700">
+                          {r.status}
+                        </div>
+                        <div class="mt-1 font-mono text-[0.6875rem] tracking-wide text-stone-500 uppercase">
+                          {r.waiting} in this status
+                        </div>
+                      </td>
+                      <td class="bg-brand-700/[0.04] p-3 align-top text-[0.8125rem] font-medium text-brand-900 sm:p-4">
+                        {r.memberley}
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <p
+            class="mt-4 max-w-[86ch] font-mono text-[0.75rem] leading-relaxed tracking-wide text-stone-500"
+          >
+            * All figures from a full read of the public board at
+            feedback.courtreserve.com on {auditDate}. Time in status is measured
+            from each idea's dated status change, not its submission date.
+            Statuses reflect what CourtReserve's board reported on that date;
+            check the board for current status before relying on it.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How we build -->
+    <section class="paper-dark border-b border-stone-950/10 text-stone-50">
+      <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
+        <div class="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+          <div class="max-w-[42ch]">
+            <div
+              class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
+            >
+              § How we build
+            </div>
+            <h2
+              class={`mt-5 text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
+            >
+              A roadmap is a promise, not a status label.
+            </h2>
+            <p
+              class="mt-6 max-w-[44ch] text-[1rem] leading-relaxed text-pretty text-stone-400"
+            >
+              Every feature on this page shipped because a club asked for it.
+              That is the whole difference: your request is the roadmap, not an
+              entry in a queue behind a thousand others.
+            </p>
+          </div>
+
+          <dl class="divide-y divide-stone-50/12 border-y border-stone-50/12">
+            {
+              shipPrinciples.map((p, i) => (
+                <div class="grid gap-2 py-7 sm:grid-cols-[2.5rem_1fr] sm:gap-6">
+                  <dt class="font-mono text-[0.75rem] text-brand-400 tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
+                  </dt>
+                  <dd>
+                    <div class="text-[1.0625rem] font-semibold text-stone-100">
+                      {p.title}
+                    </div>
+                    <p class="mt-2 max-w-[56ch] text-[0.9375rem] leading-relaxed text-stone-400">
+                      {p.body}
+                    </p>
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
         </div>
       </div>
     </section>
