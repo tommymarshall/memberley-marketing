@@ -51,7 +51,7 @@ const marketingMeta: Record<
 > = {
   starter: {
     featured: false,
-    tagline: "Start small with every membership essential. Pay only when members pay.",
+    tagline: "Every membership essential, nothing up front — you don't pay a dollar until your members start paying you.",
   },
   community: {
     featured: true,
@@ -257,7 +257,9 @@ function formatFee(value: number): string {
               </a>
             </div>
             <p class="mt-5 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[0.6875rem] tracking-[0.04em] text-stone-500">
-              <span>No card required</span>
+              <span>Pay only when members pay you</span>
+              <span aria-hidden="true">·</span>
+              <span>Add-ons free your first year</span>
               <span aria-hidden="true">·</span>
               <span>Unlimited members</span>
               <span aria-hidden="true">·</span>
@@ -562,8 +564,9 @@ function formatFee(value: number): string {
               </h2>
               <p class="mt-6 max-w-[42ch] text-[0.9375rem] leading-[1.7] text-stone-600">
                 Start with membership management, then add only what your club
-                uses. Every plan and module is available throughout the full
-                45-day trial.
+                uses. Every add-on is free for your entire first year — and on
+                Starter, you don't pay a dollar until your members start paying
+                you.
               </p>
             </div>
 
@@ -578,6 +581,11 @@ function formatFee(value: number): string {
                     {plan.featured && (
                       <span class="absolute top-4 right-4 rounded-full bg-brand-500/18 px-2.5 py-1 font-mono text-[0.5625rem] font-semibold tracking-[0.12em] text-brand-200 uppercase">
                         Best value
+                      </span>
+                    )}
+                    {plan.slug === "starter" && (
+                      <span class="absolute top-4 right-4 rounded-full bg-brand-500/12 px-2.5 py-1 font-mono text-[0.5625rem] font-semibold tracking-[0.12em] text-brand-800 uppercase">
+                        $0 until members pay
                       </span>
                     )}
                     <div class={`font-mono text-[0.625rem] font-semibold tracking-[0.12em] uppercase ${plan.featured ? "text-stone-400" : "text-stone-500"}`}>
@@ -626,16 +634,19 @@ function formatFee(value: number): string {
             </div>
 
             <div>
-              <div class="flex items-baseline justify-between gap-4">
-                <h3 class="font-serif text-[1.5rem] font-semibold tracking-[-0.03em] text-stone-950">
-                  Add what your club needs
-                </h3>
-                <span class="font-mono text-[0.625rem] tracking-[0.1em] text-brand-800 uppercase">Free your first year</span>
+              <h3 class="font-serif text-[1.5rem] font-semibold tracking-[-0.03em] text-stone-950">
+                Add what your club needs
+              </h3>
+              <div class="mt-4 rounded-[0.9rem] border border-brand-700/15 bg-brand-500/8 px-4 py-3.5">
+                <p class="text-[0.875rem] font-semibold text-stone-950">
+                  Every add-on is free for your entire first year.
+                </p>
+                <p class="mt-1 text-[0.8125rem] leading-[1.6] text-stone-600">
+                  Turn everything on at signup, run a full season, and keep only
+                  what your club uses — the flat annual prices below start in
+                  year two.
+                </p>
               </div>
-              <p class="mt-2 text-[0.8125rem] leading-[1.6] text-stone-500">
-                Every add-on is included free for your entire first year. After
-                that, keep the ones your club uses at these flat annual prices.
-              </p>
               <div class="mt-6 grid gap-x-8 gap-y-0 sm:grid-cols-2">
                 {modules.map((module) => (
                   <div class="border-t border-stone-950/8 py-4">
