@@ -10,7 +10,17 @@ const pagePaths = [
     'alternatives/member-splash/index.html',
     'alternatives/pooldues/index.html',
     'alternatives/courtreserve/index.html',
+    'alternatives/wild-apricot/index.html',
+    'alternatives/clubexpress/index.html',
 ];
+
+const competitorLogos = {
+    'alternatives/member-splash/index.html': '/competitors/member-splash.png',
+    'alternatives/pooldues/index.html': '/competitors/pooldues.png',
+    'alternatives/courtreserve/index.html': '/competitors/courtreserve.svg',
+    'alternatives/wild-apricot/index.html': '/competitors/wild-apricot.svg',
+    'alternatives/clubexpress/index.html': '/competitors/clubexpress.png',
+};
 
 const pages = await Promise.all(
     pagePaths.map(async (pagePath) => {
@@ -39,12 +49,27 @@ for (const { pagePath, html } of pages) {
     assert.doesNotMatch(html, /14-day/, `${pagePath} still contains old trial copy`);
 }
 
+for (const [pagePath, logo] of Object.entries(competitorLogos)) {
+    const html = pages.find((page) => page.pagePath === pagePath)?.html ?? '';
+    assert.match(
+        html,
+        /\/memberley-amper-light\.svg/,
+        `${pagePath} comparison table must show the Memberley logo`,
+    );
+    assert.ok(
+        html.split(logo).length >= 3,
+        `${pagePath} must show the competitor logo in both the hero and the comparison table`,
+    );
+}
+
 const homepage = pages.find(({ pagePath }) => pagePath === 'index.html')?.html ?? '';
 
 for (const path of [
     '/alternatives/member-splash',
     '/alternatives/pooldues',
     '/alternatives/courtreserve',
+    '/alternatives/wild-apricot',
+    '/alternatives/clubexpress',
 ]) {
     assert.ok(homepage.includes(path), `Homepage must link to ${path}`);
 }

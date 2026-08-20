@@ -37,4 +37,16 @@ export const alternatives = [
     description: "For swim-and-tennis clubs that need more than reservations.",
     monogram: "CR",
   },
+  {
+    href: "/alternatives/wild-apricot",
+    name: "Wild Apricot",
+    description: "For clubs that outgrew contact tiers and need a front gate.",
+    monogram: "WA",
+  },
+  {
+    href: "/alternatives/clubexpress",
+    name: "ClubExpress",
+    description: "For clubs done with per-member fees and setup packages.",
+    monogram: "CE",
+  },
 ] as const;

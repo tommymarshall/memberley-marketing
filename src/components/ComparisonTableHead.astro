@@ -1,0 +1,37 @@
+---
+interface Props {
+  competitor: string;
+  competitorLogo: string;
+}
+
+const { competitor, competitorLogo } = Astro.props;
+---
+
+<tr class="border-b border-stone-950/10 bg-stone-100">
+  <th class="w-[38%] p-3 sm:w-[44%] sm:p-4"></th>
+  <th class="bg-brand-700/[0.06] p-3 text-center sm:p-4">
+    <span class="inline-flex items-center gap-2">
+      <img
+        src="/memberley-amper-light.svg"
+        alt=""
+        width="20"
+        height="20"
+        class="size-5"
+        loading="lazy"
+        decoding="async"
+      />
+      <span class="text-[0.8125rem] font-semibold text-brand-800"
+        >Memberley</span
+      >
+    </span>
+  </th>
+  <th class="p-3 text-center align-middle sm:p-4">
+    <img
+      src={competitorLogo}
+      alt={competitor}
+      class="mx-auto h-5 w-auto max-w-28 object-contain sm:h-6 sm:max-w-36"
+      loading="lazy"
+      decoding="async"
+    />
+  </th>
+</tr>

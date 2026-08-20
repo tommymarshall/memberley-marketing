@@ -16,7 +16,10 @@ const secondaryBtn =
   "border border-stone-950/15 bg-white text-stone-900 hover:border-stone-950/30 hover:bg-stone-100";
 
 // ── Head-to-head ─────────────────────────────────────────────────────────────
-// Competitor details as published on pooldues.com (2026). Re-verify before
+// Competitor details as published by ClubExpress (clubexpress.com pricing
+// sheet + help center, 2026): 42¢/member/mo sliding scale, $150 basic setup,
+// website packs $960–$4,850, cards 2.99% + 20¢ (own merchant allowed),
+// QuickBooks $20/mo, texting 2–4¢/message, 60-day trial. Re-verify before
 // publishing — comparative claims must stay truthful.
 // Cell types: string = literal · true = ✓ · false = ✕ · null = — (not advertised).
 type Cell = string | boolean | null;
@@ -25,22 +28,27 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   {
     label: "Starting price",
     memberley: "$0/yr + 3%, or $500/yr with no payment fees",
-    competitor: "$1,999 / year (flat)",
+    competitor: "42¢ / member / month",
   },
   {
-    label: "Pay for only the add-on modules you use",
+    label: "Unlimited members included",
     memberley: true,
-    competitor: false,
+    competitor: "Per-member metering",
+  },
+  {
+    label: "One-time setup fee",
+    memberley: "None",
+    competitor: "$150 · site build-outs $960–$4,850",
   },
   {
     label: "Payments",
     memberley: "Your own Stripe · 1–2 day payouts",
-    competitor: "PayPal",
+    competitor: "2.99% + 20¢, or your own merchant",
   },
   {
-    label: "Keep the website you already have (portal embeds)",
+    label: "Member portal embeds in the website you already have",
     memberley: true,
-    competitor: false,
+    competitor: "Hosted on ClubExpress",
   },
   {
     label: "White-label branding on portal & emails",
@@ -55,53 +63,66 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   {
     label: "SMS broadcasts & one-to-one texts",
     memberley: true,
-    competitor: "Opt-in alerts",
+    competitor: "2–4¢ per text + monthly number fee",
   },
   {
-    label: "QuickBooks & Mailchimp integrations",
+    label: "QuickBooks integration",
     memberley: true,
-    competitor: "Mailchimp · QB export",
+    competitor: "$20 / month add-on",
   },
-  { label: "Classes, lessons & programs", memberley: true, competitor: true },
+  { label: "Online dues & auto-renewal", memberley: true, competitor: true },
   {
-    label: "Digital waivers & document library",
+    label: "Guest passes & QR gate check-in",
     memberley: true,
     competitor: null,
   },
-  { label: "Free white-glove migration", memberley: true, competitor: true },
-  { label: "Online dues & auto-renewal", memberley: true, competitor: true },
   {
-    label: "Guest passes & member check-in",
+    label: "Reservations (lanes / courts / rooms)",
     memberley: true,
-    competitor: true,
+    competitor: "Paid add-on module",
   },
   {
-    label: "Reservations (lanes / courts / cabanas)",
+    label: "Point of sale & snack bar",
     memberley: true,
-    competitor: true,
+    competitor: "Paid add-on module",
+  },
+  {
+    label: "Digital waivers with e-signature",
+    memberley: true,
+    competitor: null,
+  },
+  {
+    label: "Classes, lessons & programs",
+    memberley: true,
+    competitor: "Events & registration",
+  },
+  {
+    label: "Free white-glove migration",
+    memberley: true,
+    competitor: "Data import with paid setup",
   },
 ];
 
 const reasons = [
   {
-    title: "Your own Stripe — not PayPal",
-    body: "PoolDues runs payments through PayPal. With Memberley you connect your own Stripe account; members check out with any card, Apple Pay, or Google Pay, and payouts typically reach your bank in 1–2 business days.",
+    title: "Flat pricing, not a per-member meter",
+    body: "ClubExpress bills 42¢ per member per month (sliding down as clubs grow), so a 300-member club pays roughly $1,370 a year before any extras. Memberley starts at $0/yr with unlimited members and a 3% payment fee, or $500/yr with no payment fees — either way, your roster is never a meter.",
   },
   {
-    title: "Keep the website you already have",
-    body: "PoolDues hosts your club site on their servers. Memberley's member portal embeds into the website you already own and run — no migrating your whole web presence onto a vendor.",
+    title: "No setup fee, no website packs",
+    body: "ClubExpress charges $150 for basic setup, and its configured website build-outs run $960 to $4,850. Memberley has no setup fee at all — we import your roster and set up your branded portal for free.",
   },
   {
-    title: "Pricing that fits your pool",
-    body: "PoolDues charges a flat $1,999/yr for the whole bundle, used or not. Memberley starts at $0/yr — unlimited members, 3% per payment — and you add modules like reservations or check-in only if your club needs them, free for your entire first year.",
+    title: "The good stuff isn't an add-on",
+    body: "On ClubExpress, QuickBooks sync is $20/month, texting is metered per message, and modules like point of sale and resource scheduling carry their own one-time and monthly fees. Memberley's modules are flat-priced and free for your entire first year, and QuickBooks and Mailchimp sync are built in — no meters.",
   },
   {
-    title: "Comms & integrations built in",
-    body: "PoolDues includes mass email and PayPal-to-QuickBooks export, but Memberley adds open and bounce tracking, SMS broadcasts and one-to-one texts, and native QuickBooks and Mailchimp sync — no separate newsletter or accounting workflow.",
+    title: "Built this decade",
+    body: "A fast, modern interface your board and your front desk can actually use on a phone or tablet at the gate — with payments landing in your own Stripe account, typically in your bank within 1–2 business days.",
   },
 ];
 
-// Extras where Memberley goes further than PoolDues's published feature set.
+// Extras where Memberley goes further than ClubExpress's published feature set.
 const builtInExtras: {
   title: string;
   desc: string;
@@ -109,13 +130,18 @@ const builtInExtras: {
   badge?: string;
 }[] = [
   {
+    title: "Gate check-in & guest passes",
+    desc: "QR check-in at the front desk, with guest passes that auto-charge the member's card on file.",
+    icon: '<rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/>',
+  },
+  {
     title: "SMS member texts",
-    desc: "Reach members where they actually reply: broadcasts and one-to-one texts, right alongside everything else.",
+    desc: "The Communications module includes 1,000 texts a month flat — broadcasts and one-to-one — not a per-message meter.",
     icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
   },
   {
     title: "QuickBooks & Mailchimp",
-    desc: "Native sync of dues and members — not just a PayPal export or optional Mailchimp push.",
+    desc: "Native sync of dues and members — not a separate $20-a-month line item.",
     icon: '<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/>',
   },
   {
@@ -142,35 +168,35 @@ const builtInExtras: {
 
 const faqs = [
   {
-    q: "Is Memberley a good PoolDues alternative for neighborhood pools?",
-    a: "Yes. Memberley covers the same pool essentials — online dues with auto-renewal, reservations, guest passes, and member check-in — and adds your own Stripe payouts, built-in email and SMS, QuickBooks and Mailchimp integrations, classes, and waivers. It's a fit for swim, tennis, and HOA-with-pool communities.",
+    q: "Is Memberley a good ClubExpress alternative for pools and clubs?",
+    a: "Yes — especially for clubs with a physical facility. Memberley covers online dues with auto-renewal, seasonal tiers, guest passes, QR gate check-in, reservations, waivers, and built-in email and SMS. ClubExpress is broad general-purpose club software, but facility operations like gate check-in and guest passes aren't part of its published feature set, and several of its modules carry separate fees.",
   },
   {
-    q: "Do members have to pay through PayPal?",
-    a: "No. Memberley uses Stripe Connect — you link your own Stripe account and members pay with any card, Apple Pay, or Google Pay. Payouts typically deposit to your bank in 1–2 business days, with no middleman holding your dues.",
+    q: "How does pricing compare to ClubExpress?",
+    a: "ClubExpress bills per member per month — 42¢ for clubs up to 200 members, sliding down for larger clubs — plus a $150 basic setup fee, with website build-out packages from $960 to $4,850 and extra fees for modules like QuickBooks sync ($20/month) and texting (2–4¢ per message). Memberley starts at $0/yr with unlimited members and a 3% payment fee — or a $500/yr Community plan with zero payment fees — and add-on modules are flat-priced and free for your entire first year. Standard Stripe processing fees apply, as with any provider.",
   },
   {
-    q: "Do we have to move our website to Memberley?",
-    a: "No. Unlike PoolDues, which hosts your site on its servers, Memberley embeds the member portal — profile, reservations, payments, documents, announcements — into the website you already have, themed to match.",
+    q: "Where does the money go when members pay?",
+    a: "Into your own Stripe account, typically deposited to your bank in 1–2 business days. ClubExpress processes cards at 2.99% + 20¢ through its own payment system — though, to its credit, it also lets you bring your own merchant account.",
   },
   {
-    q: "How does pricing compare to PoolDues?",
-    a: "PoolDues is a flat $1,999/yr for the whole bundle. Memberley starts at $0/yr with unlimited members and a 3% payment fee — or a $500/yr Community plan with zero payment fees — and add-on modules are free for your first year, after which you pay for only the ones you keep. Most neighborhood pools come out well under what PoolDues charges. Standard Stripe processing fees apply, as with any provider.",
+    q: "Can we keep our existing club website?",
+    a: "Yes. Memberley's member portal embeds into the site you already have, themed to match. ClubExpress hosts your club website on its platform — hosting is included, but your web presence and your operations live with the same vendor.",
   },
   {
     q: "Can we switch in the middle of the season?",
-    a: "You can switch anytime, but most clubs migrate in the off-season so everything is ready before registration opens. We import your roster for you either way.",
+    a: "You can switch anytime, but most clubs migrate in the off-season so everything is ready before registration opens. We import your roster for you either way — free, with no setup fee.",
   },
   {
     q: "Do you work with Northern Virginia pools?",
-    a: "Yes — Memberley is based in Northern Virginia and we'll meet your board in person to walk through setup and migration.",
+    a: "Yes — Memberley is based in Northern Virginia and we'll happily meet your board in person to walk through setup and migration.",
   },
 ];
 ---
 
 <Layout
-  title="PoolDues Alternative for Swim & Tennis Clubs | Memberley"
-  description="Looking for a PoolDues alternative? Memberley runs memberships, dues, reservations, guest passes, and check-in — with payments to your own Stripe account (not PayPal), your existing website, built-in email & SMS, and free migration."
+  title="ClubExpress Alternative for Pools & Clubs | Memberley"
+  description="Looking for a ClubExpress alternative? Memberley runs dues, reservations, guest passes, and gate check-in — with unlimited members instead of per-member fees, no setup packs, payments to your own Stripe account, and free migration."
 >
   <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased">
     <SiteHeader />
@@ -179,20 +205,19 @@ const faqs = [
     <section class="site-header-offset hero-wash border-b border-stone-950/10">
       <div class="mx-auto grid max-w-[74rem] items-center gap-12 px-6 py-20 lg:grid-cols-[0.84fr_1.16fr] lg:px-8 lg:py-24">
         <div class="max-w-[60ch]">
-          <div class={eyebrow}>§ PoolDues alternative</div>
+          <div class={eyebrow}>§ ClubExpress alternative</div>
           <h1
             class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] text-balance ${display} text-stone-900`}
           >
-            A PoolDues alternative that pays out to your own bank.
+            A ClubExpress alternative without the per-member meter.
           </h1>
           <p
             class="mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
           >
-            Everything swim & tennis clubs need (dues, reservations, guest
-            passes, check-in), but members pay into <strong>your</strong> Stripe account
-            instead of PayPal, the portal lives on the website you
-            <strong>already</strong> have, and email, SMS, and accounting sync come
-            built in.
+            Dues, reservations, guest passes, and gate check-in in one modern
+            workspace — with <strong>unlimited members</strong> instead of
+            per-member fees, no setup packs, and payments into
+            <strong>your</strong> Stripe account.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
             <a
@@ -210,13 +235,13 @@ const faqs = [
             </a>
           </div>
           <p class="mt-6 font-mono text-[0.75rem] tracking-wide text-stone-600">
-            Free migration off PoolDues · Your own Stripe · 45-day trial, no
+            Free migration off ClubExpress · No setup fee · 45-day trial, no
             card
           </p>
         </div>
         <ComparisonHeroVisual
-          competitor="PoolDues"
-          competitorLogo="/competitors/pooldues.png"
+          competitor="ClubExpress"
+          competitorLogo="/competitors/clubexpress.png"
           screenshot="/product/payments.webp"
           screenshotAlt="Memberley payments workspace"
         />
@@ -263,7 +288,7 @@ const faqs = [
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
-            Memberley vs. PoolDues.
+            Memberley vs. ClubExpress.
           </h2>
         </div>
 
@@ -273,8 +298,8 @@ const faqs = [
           <table class="w-full border-collapse text-left">
             <thead>
               <ComparisonTableHead
-                competitor="PoolDues"
-                competitorLogo="/competitors/pooldues.png"
+                competitor="ClubExpress"
+                competitorLogo="/competitors/clubexpress.png"
               />
             </thead>
             <tbody>
@@ -333,9 +358,9 @@ const faqs = [
         <p
           class="mt-4 max-w-[75ch] font-mono text-[0.75rem] tracking-wide text-stone-500"
         >
-          * PoolDues pricing &amp; features as published on pooldues.com (2026).
-          “—” means not advertised by PoolDues; verify current terms before
-          relying on them.
+          * ClubExpress pricing &amp; features as published by ClubExpress
+          (clubexpress.com, 2026). “—” means not advertised by ClubExpress;
+          verify current terms before relying on them.
         </p>
 
         <!-- Fair-play note -->
@@ -348,13 +373,14 @@ const faqs = [
             Credit where due
           </div>
           <p class="text-[0.875rem] leading-relaxed text-stone-600">
-            PoolDues will help set up and host your club website alongside its
-            membership tools. The tradeoff is that your public website and club
-            operations are tied to the same vendor, even when a simpler, more
-            user-friendly website service like Squarespace would do the job.
-            Memberley lets you keep the website you own and gives you a
-            better-designed, modern member experience with more built in,
-            including both email and SMS.
+            ClubExpress is genuinely deep software for general clubs and
+            associations: website hosting, unlimited blast email, forums,
+            committees, and unlimited tech support are all included, there's no
+            long-term contract, and it lets you bring your own merchant
+            account. The tradeoff is how the fees accumulate — per-member
+            metering, setup and website packages, and separate charges for
+            modules — and that it's built for associations in general, not for
+            running a pool or club facility day to day.
           </p>
         </div>
       </div>
@@ -373,8 +399,8 @@ const faqs = [
           <p
             class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
           >
-            The tools most clubs end up bolting on separately are already part
-            of Memberley.
+            The tools that show up as add-on fees or meters elsewhere are
+            already part of Memberley.
           </p>
         </div>
         <div class="grid grid-cols-2 gap-x-10 gap-y-8 lg:grid-cols-4">
@@ -454,14 +480,14 @@ const faqs = [
           <h2
             class={`mt-5 text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
           >
-            Keep your dues. Keep your site.
+            Leave the meters and setup packs behind.
           </h2>
           <p
             class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400"
           >
-            Start a 45-day free trial and see your club in Memberley in minutes, or
-            send us your PoolDues roster and we'll set everything up for you,
-            free, before next season.
+            Start a 45-day free trial and see your club in Memberley in
+            minutes, or send us your ClubExpress roster and we'll set
+            everything up for you, free, before next season.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
             <a

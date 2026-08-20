@@ -26,6 +26,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://memberley.com/alternatives/wild-apricot</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://memberley.com/alternatives/clubexpress</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://memberley.com/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

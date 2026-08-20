@@ -16,8 +16,10 @@ const secondaryBtn =
   "border border-stone-950/15 bg-white text-stone-900 hover:border-stone-950/30 hover:bg-stone-100";
 
 // ── Head-to-head ─────────────────────────────────────────────────────────────
-// Competitor details as published on pooldues.com (2026). Re-verify before
-// publishing — comparative claims must stay truthful.
+// Competitor details as published on wildapricot.com (2026): contact-tier
+// pricing from $66/mo at 100 contacts, 60-day trial, no setup fees, Personify
+// Payments (AffiniPay) at 2.9% + 30¢. Re-verify before publishing —
+// comparative claims must stay truthful.
 // Cell types: string = literal · true = ✓ · false = ✕ · null = — (not advertised).
 type Cell = string | boolean | null;
 
@@ -25,22 +27,27 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   {
     label: "Starting price",
     memberley: "$0/yr + 3%, or $500/yr with no payment fees",
-    competitor: "$1,999 / year (flat)",
+    competitor: "From $66/mo (100-contact tier)",
   },
   {
-    label: "Pay for only the add-on modules you use",
+    label: "Unlimited members included",
     memberley: true,
-    competitor: false,
+    competitor: "Priced by contact tier",
+  },
+  {
+    label: "One-time setup fee",
+    memberley: "None",
+    competitor: "None",
   },
   {
     label: "Payments",
     memberley: "Your own Stripe · 1–2 day payouts",
-    competitor: "PayPal",
+    competitor: "Personify Payments · 2.9% + 30¢",
   },
   {
-    label: "Keep the website you already have (portal embeds)",
+    label: "Member portal embeds in the website you already have",
     memberley: true,
-    competitor: false,
+    competitor: "Widgets or hosted site",
   },
   {
     label: "White-label branding on portal & emails",
@@ -55,53 +62,66 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   {
     label: "SMS broadcasts & one-to-one texts",
     memberley: true,
-    competitor: "Opt-in alerts",
+    competitor: null,
   },
+  { label: "Online dues & auto-renewal", memberley: true, competitor: true },
   {
-    label: "QuickBooks & Mailchimp integrations",
-    memberley: true,
-    competitor: "Mailchimp · QB export",
-  },
-  { label: "Classes, lessons & programs", memberley: true, competitor: true },
-  {
-    label: "Digital waivers & document library",
+    label: "Guest passes & QR gate check-in",
     memberley: true,
     competitor: null,
   },
-  { label: "Free white-glove migration", memberley: true, competitor: true },
-  { label: "Online dues & auto-renewal", memberley: true, competitor: true },
   {
-    label: "Guest passes & member check-in",
+    label: "Reservations (lanes / courts / rooms)",
     memberley: true,
-    competitor: true,
+    competitor: null,
   },
   {
-    label: "Reservations (lanes / courts / cabanas)",
+    label: "Point of sale & snack bar",
     memberley: true,
-    competitor: true,
+    competitor: null,
+  },
+  {
+    label: "Digital waivers with e-signature",
+    memberley: true,
+    competitor: null,
+  },
+  {
+    label: "Classes, lessons & programs",
+    memberley: true,
+    competitor: "Event registration",
+  },
+  {
+    label: "Mobile member experience",
+    memberley: "Browser-based — nothing to install",
+    competitor: "Member app",
+  },
+  {
+    label: "Free white-glove migration",
+    memberley: true,
+    competitor: "Complimentary onboarding",
   },
 ];
 
 const reasons = [
   {
-    title: "Your own Stripe — not PayPal",
-    body: "PoolDues runs payments through PayPal. With Memberley you connect your own Stripe account; members check out with any card, Apple Pay, or Google Pay, and payouts typically reach your bank in 1–2 business days.",
+    title: "Unlimited members — contacts aren't a meter",
+    body: "Wild Apricot prices by the size of your database: every lapsed member, prospect, and newsletter subscriber counts toward your contact tier, and the bill steps up as the list grows. Memberley includes unlimited members on every plan, starting at $0/yr with a 3% payment fee.",
   },
   {
-    title: "Keep the website you already have",
-    body: "PoolDues hosts your club site on their servers. Memberley's member portal embeds into the website you already own and run — no migrating your whole web presence onto a vendor.",
+    title: "Built for the front gate, not just the database",
+    body: "Wild Apricot is general-purpose membership software: directory, website, newsletters, events. Memberley runs the club itself — seasonal dues, guest passes that auto-charge, lane and court reservations, and QR check-in at the gate — out of the box.",
   },
   {
-    title: "Pricing that fits your pool",
-    body: "PoolDues charges a flat $1,999/yr for the whole bundle, used or not. Memberley starts at $0/yr — unlimited members, 3% per payment — and you add modules like reservations or check-in only if your club needs them, free for your entire first year.",
+    title: "Your own Stripe — and your own brand",
+    body: "Wild Apricot routes cards through its integrated Personify Payments at 2.9% + 30¢, and other processors cost extra. With Memberley you connect your own Stripe account: payouts typically reach your bank in 1–2 business days, and the portal and every email carry your club's branding.",
   },
   {
-    title: "Comms & integrations built in",
-    body: "PoolDues includes mass email and PayPal-to-QuickBooks export, but Memberley adds open and bounce tracking, SMS broadcasts and one-to-one texts, and native QuickBooks and Mailchimp sync — no separate newsletter or accounting workflow.",
+    title: "We move you over for free",
+    body: "Export your Wild Apricot contacts, send them to us, and we import your roster, set up your branded portal, and have you live before registration opens next season. No spreadsheets, no downtime.",
   },
 ];
 
-// Extras where Memberley goes further than PoolDues's published feature set.
+// Extras where Memberley goes further than Wild Apricot's published feature set.
 const builtInExtras: {
   title: string;
   desc: string;
@@ -109,14 +129,19 @@ const builtInExtras: {
   badge?: string;
 }[] = [
   {
+    title: "Gate check-in & guest passes",
+    desc: "QR check-in at the front desk, with guest passes that auto-charge the member's card on file.",
+    icon: '<rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/>',
+  },
+  {
+    title: "Facility reservations",
+    desc: "Lanes, courts, rooms, and cabanas with booking rules, recurring blocks, and a calendar your members actually use.",
+    icon: '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>',
+  },
+  {
     title: "SMS member texts",
     desc: "Reach members where they actually reply: broadcasts and one-to-one texts, right alongside everything else.",
     icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
-  },
-  {
-    title: "QuickBooks & Mailchimp",
-    desc: "Native sync of dues and members — not just a PayPal export or optional Mailchimp push.",
-    icon: '<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/>',
   },
   {
     title: "Waivers & documents",
@@ -124,14 +149,14 @@ const builtInExtras: {
     icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/>',
   },
   {
+    title: "Point of sale & snack bar",
+    desc: "Ring up concessions and pro-shop sales at the counter, charged to the card on file or paid on the spot.",
+    icon: '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
+  },
+  {
     title: "Embedded white-label portal",
     desc: "Drop the full member portal into your own website, themed to your colors, fonts, and logo.",
     icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
-  },
-  {
-    title: "Modern, mobile-ready UI",
-    desc: "Run the front desk from a phone or tablet at the gate — fast, clean, nothing to install.",
-    icon: '<rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/>',
   },
   {
     title: "Family & household accounts",
@@ -142,35 +167,35 @@ const builtInExtras: {
 
 const faqs = [
   {
-    q: "Is Memberley a good PoolDues alternative for neighborhood pools?",
-    a: "Yes. Memberley covers the same pool essentials — online dues with auto-renewal, reservations, guest passes, and member check-in — and adds your own Stripe payouts, built-in email and SMS, QuickBooks and Mailchimp integrations, classes, and waivers. It's a fit for swim, tennis, and HOA-with-pool communities.",
+    q: "Is Memberley a good Wild Apricot alternative for pools and clubs?",
+    a: "Yes — if your organization has a physical facility, Memberley is purpose-built for it: seasonal membership tiers, online dues with auto-renewal, guest passes that auto-charge at the gate, QR check-in, lane and court reservations, and waitlists. Wild Apricot is strong general membership software, but those club operations aren't part of its published feature set.",
   },
   {
-    q: "Do members have to pay through PayPal?",
-    a: "No. Memberley uses Stripe Connect — you link your own Stripe account and members pay with any card, Apple Pay, or Google Pay. Payouts typically deposit to your bank in 1–2 business days, with no middleman holding your dues.",
+    q: "How does pricing compare to Wild Apricot?",
+    a: "Wild Apricot prices by contact-database size, starting at $66/month for a tier of just 100 contacts, and every prospect, lapsed member, and newsletter subscriber counts toward the tier. Memberley starts at $0/yr with unlimited members and a 3% payment fee — or a $500/yr Community plan with zero payment fees — and add-on modules are free for your entire first year. Standard Stripe processing fees apply, as with any provider.",
   },
   {
-    q: "Do we have to move our website to Memberley?",
-    a: "No. Unlike PoolDues, which hosts your site on its servers, Memberley embeds the member portal — profile, reservations, payments, documents, announcements — into the website you already have, themed to match.",
+    q: "What counts as a contact in Wild Apricot?",
+    a: "Everyone in the database — active members, lapsed members, event attendees, and newsletter subscribers all count toward your contact tier. A 350-family pool with spouses and a mailing list can outgrow a tier quickly. Memberley has no member or contact caps on any plan.",
   },
   {
-    q: "How does pricing compare to PoolDues?",
-    a: "PoolDues is a flat $1,999/yr for the whole bundle. Memberley starts at $0/yr with unlimited members and a 3% payment fee — or a $500/yr Community plan with zero payment fees — and add-on modules are free for your first year, after which you pay for only the ones you keep. Most neighborhood pools come out well under what PoolDues charges. Standard Stripe processing fees apply, as with any provider.",
+    q: "Where does the money go when members pay?",
+    a: "Into your own Stripe account. You connect Stripe in under 10 minutes, and dues, renewals, and guest fees typically deposit to your bank in 1–2 business days — no integrated processor in the middle. Wild Apricot's integrated Personify Payments charges 2.9% + 30¢ per transaction.",
   },
   {
-    q: "Can we switch in the middle of the season?",
-    a: "You can switch anytime, but most clubs migrate in the off-season so everything is ready before registration opens. We import your roster for you either way.",
+    q: "Can we keep our existing club website?",
+    a: "Yes. Memberley's member portal embeds into the site you already have, themed to match. Wild Apricot's strength is its hosted website builder — great if you want the vendor to run your site, unnecessary if you already have one you like.",
   },
   {
     q: "Do you work with Northern Virginia pools?",
-    a: "Yes — Memberley is based in Northern Virginia and we'll meet your board in person to walk through setup and migration.",
+    a: "Yes — Memberley is based in Northern Virginia and we'll happily meet your board in person to walk through setup and migration.",
   },
 ];
 ---
 
 <Layout
-  title="PoolDues Alternative for Swim & Tennis Clubs | Memberley"
-  description="Looking for a PoolDues alternative? Memberley runs memberships, dues, reservations, guest passes, and check-in — with payments to your own Stripe account (not PayPal), your existing website, built-in email & SMS, and free migration."
+  title="Wild Apricot Alternative for Pools & Clubs | Memberley"
+  description="Looking for a Wild Apricot alternative? Memberley runs your club's dues, guest passes, reservations, and gate check-in — with unlimited members, payments to your own Stripe account, your branding, and free migration."
 >
   <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased">
     <SiteHeader />
@@ -179,20 +204,20 @@ const faqs = [
     <section class="site-header-offset hero-wash border-b border-stone-950/10">
       <div class="mx-auto grid max-w-[74rem] items-center gap-12 px-6 py-20 lg:grid-cols-[0.84fr_1.16fr] lg:px-8 lg:py-24">
         <div class="max-w-[60ch]">
-          <div class={eyebrow}>§ PoolDues alternative</div>
+          <div class={eyebrow}>§ Wild Apricot alternative</div>
           <h1
             class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] text-balance ${display} text-stone-900`}
           >
-            A PoolDues alternative that pays out to your own bank.
+            The Wild Apricot alternative built for clubs with a front gate.
           </h1>
           <p
             class="mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
           >
-            Everything swim & tennis clubs need (dues, reservations, guest
-            passes, check-in), but members pay into <strong>your</strong> Stripe account
-            instead of PayPal, the portal lives on the website you
-            <strong>already</strong> have, and email, SMS, and accounting sync come
-            built in.
+            Wild Apricot keeps a tidy membership list. Memberley runs the club
+            itself — dues, guest passes, reservations, QR check-in at the gate —
+            with <strong>unlimited members</strong>, payments into
+            <strong>your</strong> Stripe account, and no per-contact pricing
+            tiers.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
             <a
@@ -210,15 +235,15 @@ const faqs = [
             </a>
           </div>
           <p class="mt-6 font-mono text-[0.75rem] tracking-wide text-stone-600">
-            Free migration off PoolDues · Your own Stripe · 45-day trial, no
-            card
+            Free migration off Wild Apricot · Unlimited members · 45-day trial,
+            no card
           </p>
         </div>
         <ComparisonHeroVisual
-          competitor="PoolDues"
-          competitorLogo="/competitors/pooldues.png"
-          screenshot="/product/payments.webp"
-          screenshotAlt="Memberley payments workspace"
+          competitor="Wild Apricot"
+          competitorLogo="/competitors/wild-apricot.svg"
+          screenshot="/product/check-in.webp"
+          screenshotAlt="Memberley front-desk check-in workspace"
         />
       </div>
     </section>
@@ -263,7 +288,7 @@ const faqs = [
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
-            Memberley vs. PoolDues.
+            Memberley vs. Wild Apricot.
           </h2>
         </div>
 
@@ -273,8 +298,8 @@ const faqs = [
           <table class="w-full border-collapse text-left">
             <thead>
               <ComparisonTableHead
-                competitor="PoolDues"
-                competitorLogo="/competitors/pooldues.png"
+                competitor="Wild Apricot"
+                competitorLogo="/competitors/wild-apricot.svg"
               />
             </thead>
             <tbody>
@@ -333,9 +358,9 @@ const faqs = [
         <p
           class="mt-4 max-w-[75ch] font-mono text-[0.75rem] tracking-wide text-stone-500"
         >
-          * PoolDues pricing &amp; features as published on pooldues.com (2026).
-          “—” means not advertised by PoolDues; verify current terms before
-          relying on them.
+          * Wild Apricot pricing &amp; features as published on wildapricot.com
+          (2026). “—” means not advertised by Wild Apricot; verify current terms
+          before relying on them.
         </p>
 
         <!-- Fair-play note -->
@@ -348,13 +373,13 @@ const faqs = [
             Credit where due
           </div>
           <p class="text-[0.875rem] leading-relaxed text-stone-600">
-            PoolDues will help set up and host your club website alongside its
-            membership tools. The tradeoff is that your public website and club
-            operations are tied to the same vendor, even when a simpler, more
-            user-friendly website service like Squarespace would do the job.
-            Memberley lets you keep the website you own and gives you a
-            better-designed, modern member experience with more built in,
-            including both email and SMS.
+            Wild Apricot is mature, widely used membership software — now part
+            of Momentive Software — with a 60-day free trial, a hosted website
+            builder, a member app, and nonprofit features like donations. If you're running
+            a professional association or a nonprofit chapter, it's a credible
+            choice. Memberley is for clubs with a physical facility — pools,
+            swim &amp; tennis clubs, and HOAs — where dues, guest passes,
+            reservations, and gate check-in need to work as one system.
           </p>
         </div>
       </div>
@@ -368,13 +393,13 @@ const faqs = [
           <h2
             class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
-            More that comes built in.
+            Club operations that come built in.
           </h2>
           <p
             class="mt-4 text-[1rem] leading-relaxed text-pretty text-stone-600"
           >
-            The tools most clubs end up bolting on separately are already part
-            of Memberley.
+            The parts of running a real facility that general membership
+            software leaves to spreadsheets and clipboards.
           </p>
         </div>
         <div class="grid grid-cols-2 gap-x-10 gap-y-8 lg:grid-cols-4">
@@ -454,14 +479,14 @@ const faqs = [
           <h2
             class={`mt-5 text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
           >
-            Keep your dues. Keep your site.
+            Stop counting contacts. Start running the club.
           </h2>
           <p
             class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400"
           >
-            Start a 45-day free trial and see your club in Memberley in minutes, or
-            send us your PoolDues roster and we'll set everything up for you,
-            free, before next season.
+            Start a 45-day free trial and see your club in Memberley in
+            minutes, or send us your Wild Apricot export and we'll set
+            everything up for you, free, before next season.
           </p>
           <div class="mt-10 flex flex-wrap items-center gap-3">
             <a

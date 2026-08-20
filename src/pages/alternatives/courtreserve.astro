@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import ComparisonHeroVisual from "../../components/ComparisonHeroVisual.astro";
+import ComparisonTableHead from "../../components/ComparisonTableHead.astro";
 import { DEMO_URL, SIGNUP_URL } from "../../config/site";
 
 // ── Class tokens (inlined paper theme, matches index.astro) ──────────────────
@@ -568,17 +569,10 @@ const faqs = [
         >
           <table class="w-full border-collapse text-left">
             <thead>
-              <tr class="border-b border-stone-950/10 bg-stone-100">
-                <th class="w-[38%] p-3 sm:w-[44%] sm:p-4"></th>
-                <th
-                  class="bg-brand-700/[0.06] p-3 text-center sm:p-4 text-[0.8125rem] font-semibold text-brand-800"
-                  >Memberley</th
-                >
-                <th
-                  class="p-3 text-center text-[0.8125rem] font-semibold text-stone-700 sm:p-4"
-                  >CourtReserve</th
-                >
-              </tr>
+              <ComparisonTableHead
+                competitor="CourtReserve"
+                competitorLogo="/competitors/courtreserve.svg"
+              />
             </thead>
             <tbody>
               {
