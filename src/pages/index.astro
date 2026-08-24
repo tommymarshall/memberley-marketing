@@ -43,6 +43,8 @@ type AddOnModule = {
   name: string;
   price: string;
   description: string;
+  /** Short pill next to the name — "New" for a just-launched module. */
+  badge?: string;
 };
 
 const marketingMeta: Record<
@@ -155,6 +157,12 @@ const modules: AddOnModule[] = [
     description: "Email campaigns and SMS broadcasts to member segments.",
   },
   {
+    name: "Assessments & capital fees",
+    price: "$150/yr",
+    badge: "New",
+    description: "Capital contributions for a member's first years, initiation fees, and one-time special assessments.",
+  },
+  {
     name: "Branded site & embed",
     price: "$100/yr",
     description: "A member portal that fits the website you already have.",
@@ -182,7 +190,7 @@ const outcomes = [
   {
     number: "02",
     title: "Money reconciles itself.",
-    body: "Dues, payment plans, late fees, discounts, and receipts flow through your own Stripe account with a clean audit trail.",
+    body: "Dues, assessments, payment plans, late fees, discounts, and receipts flow through your own Stripe account with a clean audit trail.",
     detail: "Card + ACH · payouts · reporting",
   },
   {
@@ -356,6 +364,7 @@ function formatFee(value: number): string {
                 {[
                   "Card and ACH bank payments",
                   "Autopay, installments, and late fees",
+                  "Capital fees, initiation fees, and special assessments",
                   "Receipts, exports, and QuickBooks sync",
                 ].map((item) => (
                   <li class="flex items-center gap-3">
@@ -651,7 +660,12 @@ function formatFee(value: number): string {
                 {modules.map((module) => (
                   <div class="border-t border-stone-950/8 py-4">
                     <div class="flex items-start justify-between gap-3">
-                      <span class="text-[0.8125rem] font-semibold text-stone-800">{module.name}</span>
+                      <span class="flex flex-wrap items-center gap-2">
+                        <span class="text-[0.8125rem] font-semibold text-stone-800">{module.name}</span>
+                        {module.badge && (
+                          <span class="rounded-full bg-brand-600 px-1.5 py-0.5 font-mono text-[0.5625rem] font-semibold uppercase tracking-[0.08em] text-white">{module.badge}</span>
+                        )}
+                      </span>
                       <span class="shrink-0 font-mono text-[0.6875rem] font-medium text-brand-800">{module.price}</span>
                     </div>
                     <p class="mt-1.5 text-[0.75rem] leading-[1.55] text-stone-500">{module.description}</p>

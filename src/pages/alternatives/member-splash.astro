@@ -74,6 +74,12 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
     memberley: true,
     competitor: "Auto-renew: future release",
   },
+  // Initiation fees per membersplash.com/feature-overview/online-payment-processing (2026-08); no tenure-based or special-assessment billing found — re-verify before publishing.
+  {
+    label: "Capital fees & special assessments",
+    memberley: "Tenure-based · one-time · initiation",
+    competitor: "Initiation fee at signup",
+  },
   { label: "Guest passes & QR check-in", memberley: true, competitor: true },
   { label: "Waitlist automation", memberley: true, competitor: true },
   {
@@ -162,6 +168,10 @@ const faqs = [
   {
     q: "Can we keep our existing club website?",
     a: "Yes. Memberley's member portal embeds into the site you already have, themed to match. You don't have to move your website onto our servers.",
+  },
+  {
+    q: "Can Memberley bill our capital contribution and initiation fee?",
+    a: "Yes. The Assessments & Capital Fees module ($150/yr, free your first year) bills a capital contribution only during a member's first few membership years, a one-time initiation fee for new members, and special assessments to everyone who is a member on a given date. Memberley counts each household's membership year from the day they were first accepted — waitlist time never counts — adds the charge beside their dues at renewal, and stops on its own when the window ends. Member Splash collects initiation fees at signup; the recurring, tenure-based part is what boards usually track by hand today.",
   },
   {
     q: "Can we switch in the middle of the season?",

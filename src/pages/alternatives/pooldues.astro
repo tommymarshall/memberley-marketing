@@ -70,6 +70,12 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   },
   { label: "Free white-glove migration", memberley: true, competitor: true },
   { label: "Online dues & auto-renewal", memberley: true, competitor: true },
+  // Initiation fees per pooldueshelp.com "Annual Dues vs Initiation Fees" (2026-08); no tenure-based or special-assessment billing found — re-verify before publishing.
+  {
+    label: "Capital fees & special assessments",
+    memberley: "Tenure-based · one-time · initiation",
+    competitor: "Initiation fee at signup",
+  },
   {
     label: "Guest passes & member check-in",
     memberley: true,
@@ -156,6 +162,10 @@ const faqs = [
   {
     q: "How does pricing compare to PoolDues?",
     a: "PoolDues is a flat $1,999/yr for the whole bundle. Memberley starts at $0/yr with unlimited members and a 3% payment fee — or a $500/yr Community plan with zero payment fees — and add-on modules are free for your first year, after which you pay for only the ones you keep. Most neighborhood pools come out well under what PoolDues charges. Standard Stripe processing fees apply, as with any provider.",
+  },
+  {
+    q: "Can Memberley bill our capital contribution and initiation fee?",
+    a: "Yes. The Assessments & Capital Fees module ($150/yr, free your first year) bills a capital contribution only during a member's first few membership years, a one-time initiation fee for new members, and special assessments to everyone who is a member on a given date. Memberley counts each household's membership year from the day they were first accepted — waitlist time never counts — adds the charge beside their dues at renewal, and stops on its own when the window ends. PoolDues collects initiation fees at signup; the recurring, tenure-based part is what boards usually track by hand today.",
   },
   {
     q: "Can we switch in the middle of the season?",
