@@ -47,17 +47,16 @@ type AddOnModule = {
   badge?: string;
 };
 
-const marketingMeta: Record<
-  string,
-  { featured: boolean; tagline: string }
-> = {
+const marketingMeta: Record<string, { featured: boolean; tagline: string }> = {
   starter: {
     featured: false,
-    tagline: "Every membership essential, nothing up front — you don't pay a dollar until your members start paying you.",
+    tagline:
+      "Every membership essential, nothing up front — you don't pay a dollar until your members start paying you.",
   },
   community: {
     featured: true,
-    tagline: "A flat annual price for established clubs that want to keep every dollar of dues.",
+    tagline:
+      "A flat annual price for established clubs that want to keep every dollar of dues.",
   },
 };
 
@@ -160,7 +159,8 @@ const modules: AddOnModule[] = [
     name: "Assessments & capital fees",
     price: "$150/yr",
     badge: "New",
-    description: "Capital contributions for a member's first years, initiation fees, and one-time special assessments.",
+    description:
+      "Capital contributions for a member's first years, initiation fees, and one-time special assessments.",
   },
   {
     name: "Branded site & embed",
@@ -231,20 +231,32 @@ function formatFee(value: number): string {
 
     <main>
       <section class="site-header-offset relative hero-wash">
-        <div class="pointer-events-none absolute inset-0 hairline-grid opacity-55" aria-hidden="true"></div>
-        <div class="relative mx-auto grid max-w-[74rem] items-center gap-12 px-5 pt-16 pb-12 sm:px-7 sm:pt-20 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10 lg:px-8 lg:pt-24 lg:pb-16">
+        <div
+          class="pointer-events-none absolute inset-0 hairline-grid opacity-55"
+          aria-hidden="true"
+        >
+        </div>
+        <div
+          class="relative mx-auto grid max-w-[74rem] items-center gap-12 px-5 pt-16 pb-12 sm:px-7 sm:pt-20 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10 lg:px-8 lg:pt-24 lg:pb-16"
+        >
           <div class="relative z-10 max-w-[40rem]">
-            <div class="inline-flex items-center gap-2 rounded-full border border-brand-900/10 bg-white/58 px-3 py-1.5 shadow-[0_1px_0_rgb(255_255_255/.8)_inset] backdrop-blur-sm">
+            <div
+              class="inline-flex items-center gap-2 rounded-full border border-brand-900/10 bg-white/58 px-3 py-1.5 shadow-[0_1px_0_rgb(255_255_255/.8)_inset] backdrop-blur-sm"
+            >
               <span class="size-1.5 rounded-full bg-brand-600"></span>
               <span class={eyebrow}>Built for pool & swim-tennis clubs</span>
             </div>
-            <h1 class="mt-6 max-w-[13ch] font-serif text-[clamp(3.05rem,5.5vw,4.9rem)] leading-[0.93] font-semibold tracking-[-0.055em] text-balance text-stone-950">
+            <h1
+              class="mt-6 max-w-[13ch] font-serif text-[clamp(3.05rem,5.5vw,4.9rem)] leading-[0.93] font-semibold tracking-[-0.055em] text-balance text-stone-950"
+            >
               Run your community like it runs itself.
             </h1>
-            <p class="mt-7 max-w-[47ch] text-[1.0625rem] leading-[1.65] text-pretty text-stone-600 sm:text-[1.125rem]">
+            <p
+              class="mt-7 max-w-[47ch] text-[1.0625rem] leading-[1.65] text-pretty text-stone-600 sm:text-[1.125rem]"
+            >
               Memberships, payments, check-in, reservations, classes, and
-              communications in one calm workspace—so your board can spend
-              less time administering the club and more time enjoying it.
+              communications in one calm workspace—so your board can spend less
+              time administering the club and more time enjoying it.
             </p>
             <div class="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
@@ -264,7 +276,9 @@ function formatFee(value: number): string {
                 Start a 45-day free trial
               </a>
             </div>
-            <p class="mt-5 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[0.6875rem] tracking-[0.04em] text-stone-500">
+            <p
+              class="mt-5 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[0.6875rem] tracking-[0.04em] text-stone-500"
+            >
               <span>Pay only when members pay you</span>
               <span aria-hidden="true">·</span>
               <span>Add-ons free your first year</span>
@@ -275,9 +289,11 @@ function formatFee(value: number): string {
             </p>
           </div>
 
-          <div class="relative -mx-5 min-w-0 sm:-mx-7 lg:mr-[-8rem] lg:ml-[-3rem] xl:mr-[-10rem]">
+          <div
+            class="relative -mx-5 min-w-0 sm:-mx-7 lg:mr-[-8rem] lg:ml-[-3rem] xl:mr-[-10rem]"
+          >
             <img
-              src="/hero-macbook-transparent-2a36defd.webp"
+              src="/hero-macbook.webp"
               alt="A dark aluminum MacBook displaying Memberley's member roster"
               width="1536"
               height="1024"
@@ -288,19 +304,22 @@ function formatFee(value: number): string {
             />
           </div>
         </div>
-
       </section>
 
       <section id="features" class="border-t border-stone-950/8 bg-[#faf9f7]">
         <div class="mx-auto max-w-[74rem] px-5 py-20 sm:px-7 lg:px-8 lg:py-28">
           <div class="max-w-[40rem]" data-reveal>
             <div class={eyebrow}>One workspace</div>
-            <h2 class="mt-5 max-w-[17ch] font-serif text-[clamp(2.5rem,5vw,4.35rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-balance text-stone-950">
+            <h2
+              class="mt-5 max-w-[17ch] font-serif text-[clamp(2.5rem,5vw,4.35rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-balance text-stone-950"
+            >
               Three jobs your club can stop stitching together.
             </h2>
           </div>
 
-          <div class="mt-14 grid border-y border-stone-950/9 lg:grid-cols-3 lg:divide-x lg:divide-stone-950/9">
+          <div
+            class="mt-14 grid border-y border-stone-950/9 lg:grid-cols-3 lg:divide-x lg:divide-stone-950/9"
+          >
             {
               outcomes.map((outcome, index) => (
                 <article
@@ -329,18 +348,25 @@ function formatFee(value: number): string {
             data-reveal
             class="mt-6 grid gap-6 rounded-[1.15rem] border border-brand-800/12 bg-brand-100/42 p-6 sm:grid-cols-[auto_1fr] sm:items-start sm:p-8"
           >
-            <span class="inline-flex w-fit rounded-full border border-brand-800/16 bg-white/72 px-2.5 py-1 font-mono text-[0.5625rem] font-semibold tracking-[0.12em] text-brand-800 uppercase">
+            <span
+              class="inline-flex w-fit rounded-full border border-brand-800/16 bg-white/72 px-2.5 py-1 font-mono text-[0.5625rem] font-semibold tracking-[0.12em] text-brand-800 uppercase"
+            >
               New
             </span>
             <div class="grid gap-4 lg:grid-cols-[0.72fr_1.28fr] lg:gap-10">
-              <h3 class="max-w-[18ch] font-serif text-[1.6rem] leading-[1.08] font-semibold tracking-[-0.035em] text-stone-950">
+              <h3
+                class="max-w-[18ch] font-serif text-[1.6rem] leading-[1.08] font-semibold tracking-[-0.035em] text-stone-950"
+              >
                 Household pricing that follows your club’s rules.
               </h3>
-              <p class="max-w-[70ch] text-[0.875rem] leading-[1.7] text-stone-600">
+              <p
+                class="max-w-[70ch] text-[0.875rem] leading-[1.7] text-stone-600"
+              >
                 Make a tier individual-only, include a fixed family size, or add
                 a per-person rate after the people covered by the base price.
                 Minimum ages, household caps, capacity counting, renewals,
-                payment plans, and mid-season proration all follow the same setup.
+                payment plans, and mid-season proration all follow the same
+                setup.
               </p>
             </div>
           </aside>
@@ -349,29 +375,39 @@ function formatFee(value: number): string {
 
       <section class="border-t border-stone-950/8 bg-white/62">
         <div class="mx-auto max-w-[74rem] px-5 py-20 sm:px-7 lg:px-8 lg:py-28">
-          <div class="grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <div
+            class="grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16"
+          >
             <div data-reveal>
               <div class={eyebrow}>Money without the mystery</div>
-              <h2 class="mt-5 max-w-[13ch] font-serif text-[clamp(2.3rem,4.5vw,3.9rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950">
+              <h2
+                class="mt-5 max-w-[13ch] font-serif text-[clamp(2.3rem,4.5vw,3.9rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950"
+              >
                 Know what came in. Know what happens next.
               </h2>
-              <p class="mt-6 max-w-[44ch] text-[1rem] leading-[1.7] text-stone-600">
+              <p
+                class="mt-6 max-w-[44ch] text-[1rem] leading-[1.7] text-stone-600"
+              >
                 Every payment, payout, fee, discount, and balance is visible in
-                one place. Funds settle into your club’s own Stripe account—never
-                a black box controlled by your software vendor.
+                one place. Funds settle into your club’s own Stripe
+                account—never a black box controlled by your software vendor.
               </p>
               <ul class="mt-7 grid gap-3 text-[0.875rem] text-stone-700">
-                {[
-                  "Card and ACH bank payments",
-                  "Autopay, installments, and late fees",
-                  "Capital fees, initiation fees, and special assessments",
-                  "Receipts, exports, and QuickBooks sync",
-                ].map((item) => (
-                  <li class="flex items-center gap-3">
-                    <span class="grid size-5 place-items-center rounded-full bg-brand-100 text-[0.6875rem] font-bold text-brand-800">✓</span>
-                    {item}
-                  </li>
-                ))}
+                {
+                  [
+                    "Card and ACH bank payments",
+                    "Autopay, installments, and late fees",
+                    "Capital fees, initiation fees, and special assessments",
+                    "Receipts, exports, and QuickBooks sync",
+                  ].map((item) => (
+                    <li class="flex items-center gap-3">
+                      <span class="grid size-5 place-items-center rounded-full bg-brand-100 text-[0.6875rem] font-bold text-brand-800">
+                        ✓
+                      </span>
+                      {item}
+                    </li>
+                  ))
+                }
               </ul>
             </div>
             <div class="browser-frame" data-reveal style="--reveal-delay:90ms">
@@ -388,7 +424,9 @@ function formatFee(value: number): string {
             </div>
           </div>
 
-          <div class="mt-24 grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
+          <div
+            class="mt-24 grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16"
+          >
             <div class="browser-frame lg:order-1" data-reveal>
               <div class="browser-chrome"><span></span></div>
               <img
@@ -403,10 +441,14 @@ function formatFee(value: number): string {
             </div>
             <div class="lg:order-2" data-reveal style="--reveal-delay:90ms">
               <div class={eyebrow}>Opening day, minus the scramble</div>
-              <h2 class="mt-5 max-w-[13ch] font-serif text-[clamp(2.3rem,4.5vw,3.9rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950">
+              <h2
+                class="mt-5 max-w-[13ch] font-serif text-[clamp(2.3rem,4.5vw,3.9rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950"
+              >
                 A front desk the summer staff can learn in minutes.
               </h2>
-              <p class="mt-6 max-w-[44ch] text-[1rem] leading-[1.7] text-stone-600">
+              <p
+                class="mt-6 max-w-[44ch] text-[1rem] leading-[1.7] text-stone-600"
+              >
                 Search by name or scan a member QR code. Guest passes deduct
                 automatically, every visit gets logged, and the next family is
                 already moving through the gate.
@@ -421,25 +463,35 @@ function formatFee(value: number): string {
           <div class="grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:gap-12">
             <div class="lg:sticky lg:top-28 lg:self-start" data-reveal>
               <div class={eyebrow}>The rest of the club, too</div>
-              <h2 class="mt-5 max-w-[14ch] font-serif text-[clamp(2.35rem,4.5vw,3.85rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950">
+              <h2
+                class="mt-5 max-w-[14ch] font-serif text-[clamp(2.35rem,4.5vw,3.85rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950"
+              >
                 One login from registration to closing day.
               </h2>
-              <p class="mt-6 max-w-[40ch] text-[0.9375rem] leading-[1.7] text-stone-600">
-                Turn on only the modules your club needs — every one is free
-                for your first year. They share the same member records,
+              <p
+                class="mt-6 max-w-[40ch] text-[0.9375rem] leading-[1.7] text-stone-600"
+              >
+                Turn on only the modules your club needs — every one is free for
+                your first year. They share the same member records,
                 permissions, payments, and activity history.
               </p>
               <div class="mt-7 flex flex-wrap gap-2">
-                {moreCapabilities.map((capability) => (
-                  <span class="rounded-full border border-stone-950/9 bg-white/70 px-3 py-1.5 text-[0.75rem] font-medium text-stone-600">
-                    {capability}
-                  </span>
-                ))}
+                {
+                  moreCapabilities.map((capability) => (
+                    <span class="rounded-full border border-stone-950/9 bg-white/70 px-3 py-1.5 text-[0.75rem] font-medium text-stone-600">
+                      {capability}
+                    </span>
+                  ))
+                }
               </div>
             </div>
 
             <div class="grid gap-5">
-              <figure class="browser-frame" data-reveal style="--reveal-delay:70ms">
+              <figure
+                class="browser-frame"
+                data-reveal
+                style="--reveal-delay:70ms"
+              >
                 <div class="browser-chrome"><span></span></div>
                 <img
                   src="/product/reservations.webp"
@@ -450,11 +502,18 @@ function formatFee(value: number): string {
                   decoding="async"
                   class="block aspect-[16/10] w-full object-cover object-left-top"
                 />
-                <figcaption class="border-t border-stone-950/8 bg-white px-5 py-4 text-[0.8125rem] font-medium text-stone-600">
-                  Reservations with approvals, blocks, conflict checks, and a week at a glance.
+                <figcaption
+                  class="border-t border-stone-950/8 bg-white px-5 py-4 text-[0.8125rem] font-medium text-stone-600"
+                >
+                  Reservations with approvals, blocks, conflict checks, and a
+                  week at a glance.
                 </figcaption>
               </figure>
-              <figure class="browser-frame ml-[8%]" data-reveal style="--reveal-delay:90ms">
+              <figure
+                class="browser-frame ml-[8%]"
+                data-reveal
+                style="--reveal-delay:90ms"
+              >
                 <div class="browser-chrome"><span></span></div>
                 <img
                   src="/product/programs.webp"
@@ -465,8 +524,11 @@ function formatFee(value: number): string {
                   decoding="async"
                   class="block aspect-[16/10] w-full object-cover object-left-top"
                 />
-                <figcaption class="border-t border-stone-950/8 bg-white px-5 py-4 text-[0.8125rem] font-medium text-stone-600">
-                  Classes, clinics, camps, and events with registration and rosters built in.
+                <figcaption
+                  class="border-t border-stone-950/8 bg-white px-5 py-4 text-[0.8125rem] font-medium text-stone-600"
+                >
+                  Classes, clinics, camps, and events with registration and
+                  rosters built in.
                 </figcaption>
               </figure>
             </div>
@@ -475,15 +537,23 @@ function formatFee(value: number): string {
       </section>
 
       <section id="demo" class="paper-dark text-white">
-        <div class="mx-auto grid max-w-[74rem] items-center gap-12 px-5 py-20 sm:px-7 lg:grid-cols-[0.76fr_1.24fr] lg:gap-14 lg:px-8 lg:py-28">
+        <div
+          class="mx-auto grid max-w-[74rem] items-center gap-12 px-5 py-20 sm:px-7 lg:grid-cols-[0.76fr_1.24fr] lg:gap-14 lg:px-8 lg:py-28"
+        >
           <div data-reveal>
-            <div class="font-mono text-[0.625rem] font-semibold tracking-[0.14em] text-brand-300 uppercase">
+            <div
+              class="font-mono text-[0.625rem] font-semibold tracking-[0.14em] text-brand-300 uppercase"
+            >
               No sales call required
             </div>
-            <h2 class="mt-5 max-w-[12ch] font-serif text-[clamp(2.5rem,5vw,4.35rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-balance">
+            <h2
+              class="mt-5 max-w-[12ch] font-serif text-[clamp(2.5rem,5vw,4.35rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-balance"
+            >
               Click around before you commit to anything.
             </h2>
-            <p class="mt-6 max-w-[42ch] text-[1rem] leading-[1.7] text-stone-400">
+            <p
+              class="mt-6 max-w-[42ch] text-[1rem] leading-[1.7] text-stone-400"
+            >
               The live demo is a complete sample club—not a guided slideshow.
               Open the roster, check someone in, review payments, and see how a
               season actually fits together.
@@ -499,8 +569,14 @@ function formatFee(value: number): string {
           </div>
 
           <div class="relative" data-reveal style="--reveal-delay:90ms">
-            <div class="absolute -inset-8 rounded-full bg-brand-600/10 blur-3xl" aria-hidden="true"></div>
-            <div class="browser-frame relative rotate-[0.35deg] shadow-[0_40px_100px_-34px_rgb(0_0_0/.75)]">
+            <div
+              class="absolute -inset-8 rounded-full bg-brand-600/10 blur-3xl"
+              aria-hidden="true"
+            >
+            </div>
+            <div
+              class="browser-frame relative rotate-[0.35deg] shadow-[0_40px_100px_-34px_rgb(0_0_0/.75)]"
+            >
               <div class="browser-chrome"><span></span></div>
               <img
                 src="/app-roster.webp"
@@ -520,14 +596,21 @@ function formatFee(value: number): string {
 
       <section id="compare" class="bg-[#faf9f7]">
         <div class="mx-auto max-w-[74rem] px-5 py-20 sm:px-7 lg:px-8 lg:py-28">
-          <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between" data-reveal>
+          <div
+            class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
+            data-reveal
+          >
             <div>
               <div class={eyebrow}>Considering a switch?</div>
-              <h2 class="mt-5 max-w-[15ch] font-serif text-[clamp(2.35rem,4.5vw,3.85rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950">
+              <h2
+                class="mt-5 max-w-[15ch] font-serif text-[clamp(2.35rem,4.5vw,3.85rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950"
+              >
                 Start with an honest comparison.
               </h2>
             </div>
-            <p class="max-w-[41ch] text-[0.875rem] leading-[1.65] text-stone-500">
+            <p
+              class="max-w-[41ch] text-[0.875rem] leading-[1.65] text-stone-500"
+            >
               We explain where Memberley is different, where each competitor is
               strong, and what to verify before your board makes a decision.
             </p>
@@ -546,7 +629,9 @@ function formatFee(value: number): string {
                     <span class="grid size-11 place-items-center rounded-[0.8rem] bg-brand-100 font-mono text-[0.6875rem] font-semibold text-brand-800">
                       {alternative.monogram}
                     </span>
-                    <span class="text-stone-300 transition group-hover:translate-x-0.5 group-hover:text-brand-700 motion-reduce:transform-none">→</span>
+                    <span class="text-stone-300 transition group-hover:translate-x-0.5 group-hover:text-brand-700 motion-reduce:transform-none">
+                      →
+                    </span>
                   </div>
                   <div class="mt-10">
                     <h3 class="min-h-[3.5rem] font-serif text-[1.45rem] leading-[1.2] font-semibold tracking-[-0.03em] text-stone-950">
@@ -568,10 +653,14 @@ function formatFee(value: number): string {
           <div class="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14">
             <div data-reveal>
               <div class={eyebrow}>Simple annual pricing</div>
-              <h2 class="mt-5 max-w-[13ch] font-serif text-[clamp(2.5rem,5vw,4.35rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-stone-950">
+              <h2
+                class="mt-5 max-w-[13ch] font-serif text-[clamp(2.5rem,5vw,4.35rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-stone-950"
+              >
                 Unlimited members. No surprise tiers.
               </h2>
-              <p class="mt-6 max-w-[42ch] text-[0.9375rem] leading-[1.7] text-stone-600">
+              <p
+                class="mt-6 max-w-[42ch] text-[0.9375rem] leading-[1.7] text-stone-600"
+              >
                 Start with membership management, then add only what your club
                 uses. Every add-on is free for your entire first year — and on
                 Starter, you don't pay a dollar until your members start paying
@@ -597,21 +686,29 @@ function formatFee(value: number): string {
                         $0 until members pay
                       </span>
                     )}
-                    <div class={`font-mono text-[0.625rem] font-semibold tracking-[0.12em] uppercase ${plan.featured ? "text-stone-400" : "text-stone-500"}`}>
+                    <div
+                      class={`font-mono text-[0.625rem] font-semibold tracking-[0.12em] uppercase ${plan.featured ? "text-stone-400" : "text-stone-500"}`}
+                    >
                       {plan.name}
                     </div>
                     <div class="mt-7 flex items-end gap-2">
                       <span class="font-serif text-[3.5rem] leading-none font-semibold tracking-[-0.055em]">
                         {plan.price}
                       </span>
-                      <span class={`pb-1 text-[0.75rem] ${plan.featured ? "text-stone-400" : "text-stone-500"}`}>
+                      <span
+                        class={`pb-1 text-[0.75rem] ${plan.featured ? "text-stone-400" : "text-stone-500"}`}
+                      >
                         /{plan.interval === "year" ? "yr" : "mo"}
                       </span>
                     </div>
-                    <p class={`mt-5 min-h-[4.8rem] text-[0.875rem] leading-[1.6] ${plan.featured ? "text-stone-400" : "text-stone-600"}`}>
+                    <p
+                      class={`mt-5 min-h-[4.8rem] text-[0.875rem] leading-[1.6] ${plan.featured ? "text-stone-400" : "text-stone-600"}`}
+                    >
                       {plan.tagline}
                     </p>
-                    <div class={`mt-6 border-t pt-5 text-[0.8125rem] font-semibold ${plan.featured ? "border-white/12 text-white" : "border-stone-950/9 text-stone-800"}`}>
+                    <div
+                      class={`mt-6 border-t pt-5 text-[0.8125rem] font-semibold ${plan.featured ? "border-white/12 text-white" : "border-stone-950/9 text-stone-800"}`}
+                    >
                       {formatFee(plan.platformFeePercentage)}
                     </div>
                     <a
@@ -628,25 +725,38 @@ function formatFee(value: number): string {
             </div>
           </div>
 
-          <div class="mt-14 grid gap-8 border-t border-stone-950/9 pt-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14">
+          <div
+            class="mt-14 grid gap-8 border-t border-stone-950/9 pt-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14"
+          >
             <div>
-              <h3 class="font-serif text-[1.5rem] font-semibold tracking-[-0.03em] text-stone-950">
+              <h3
+                class="font-serif text-[1.5rem] font-semibold tracking-[-0.03em] text-stone-950"
+              >
                 Included in every plan
               </h3>
               <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                {baseFeatures.map((feature) => (
-                  <div class="flex gap-3 text-[0.8125rem] leading-snug text-stone-600">
-                    <span class="text-brand-700">✓</span><span>{feature}</span>
-                  </div>
-                ))}
+                {
+                  baseFeatures.map((feature) => (
+                    <div class="flex gap-3 text-[0.8125rem] leading-snug text-stone-600">
+                      <>
+                        <span class="text-brand-700">✓</span>
+                        <span>{feature}</span>
+                      </>
+                    </div>
+                  ))
+                }
               </div>
             </div>
 
             <div>
-              <h3 class="font-serif text-[1.5rem] font-semibold tracking-[-0.03em] text-stone-950">
+              <h3
+                class="font-serif text-[1.5rem] font-semibold tracking-[-0.03em] text-stone-950"
+              >
                 Add what your club needs
               </h3>
-              <div class="mt-4 rounded-[0.9rem] border border-brand-700/15 bg-brand-500/8 px-4 py-3.5">
+              <div
+                class="mt-4 rounded-[0.9rem] border border-brand-700/15 bg-brand-500/8 px-4 py-3.5"
+              >
                 <p class="text-[0.875rem] font-semibold text-stone-950">
                   Every add-on is free for your entire first year.
                 </p>
@@ -657,34 +767,53 @@ function formatFee(value: number): string {
                 </p>
               </div>
               <div class="mt-6 grid gap-x-8 gap-y-0 sm:grid-cols-2">
-                {modules.map((module) => (
-                  <div class="border-t border-stone-950/8 py-4">
-                    <div class="flex items-start justify-between gap-3">
-                      <span class="flex flex-wrap items-center gap-2">
-                        <span class="text-[0.8125rem] font-semibold text-stone-800">{module.name}</span>
-                        {module.badge && (
-                          <span class="rounded-full bg-brand-600 px-1.5 py-0.5 font-mono text-[0.5625rem] font-semibold uppercase tracking-[0.08em] text-white">{module.badge}</span>
-                        )}
-                      </span>
-                      <span class="shrink-0 font-mono text-[0.6875rem] font-medium text-brand-800">{module.price}</span>
+                {
+                  modules.map((module) => (
+                    <div class="border-t border-stone-950/8 py-4">
+                      <div class="flex items-start justify-between gap-3">
+                        <span class="flex flex-wrap items-center gap-2">
+                          <span class="text-[0.8125rem] font-semibold text-stone-800">
+                            {module.name}
+                          </span>
+                          {module.badge && (
+                            <span class="rounded-full bg-brand-600 px-1.5 py-0.5 font-mono text-[0.5625rem] font-semibold uppercase tracking-[0.08em] text-white">
+                              {module.badge}
+                            </span>
+                          )}
+                        </span>
+                        <span class="shrink-0 font-mono text-[0.6875rem] font-medium text-brand-800">
+                          {module.price}
+                        </span>
+                      </div>
+                      <p class="mt-1.5 text-[0.75rem] leading-[1.55] text-stone-500">
+                        {module.description}
+                      </p>
                     </div>
-                    <p class="mt-1.5 text-[0.75rem] leading-[1.55] text-stone-500">{module.description}</p>
-                  </div>
-                ))}
+                  ))
+                }
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="relative overflow-hidden border-t border-stone-950/8 bg-[#efe4d7]">
-        <div class="absolute inset-0 hero-wash opacity-70" aria-hidden="true"></div>
-        <div class="relative mx-auto max-w-[74rem] px-5 py-20 text-center sm:px-7 lg:px-8 lg:py-28">
+      <section
+        class="relative overflow-hidden border-t border-stone-950/8 bg-[#efe4d7]"
+      >
+        <div class="absolute inset-0 hero-wash opacity-70" aria-hidden="true">
+        </div>
+        <div
+          class="relative mx-auto max-w-[74rem] px-5 py-20 text-center sm:px-7 lg:px-8 lg:py-28"
+        >
           <div class={eyebrow}>Your next season can be calmer</div>
-          <h2 class="mx-auto mt-5 max-w-[16ch] font-serif text-[clamp(2.6rem,5.5vw,4.8rem)] leading-[0.95] font-semibold tracking-[-0.05em] text-balance text-stone-950">
+          <h2
+            class="mx-auto mt-5 max-w-[16ch] font-serif text-[clamp(2.6rem,5.5vw,4.8rem)] leading-[0.95] font-semibold tracking-[-0.05em] text-balance text-stone-950"
+          >
             Bring the club together in one workspace.
           </h2>
-          <p class="mx-auto mt-6 max-w-[46ch] text-[1rem] leading-[1.7] text-stone-600">
+          <p
+            class="mx-auto mt-6 max-w-[46ch] text-[1rem] leading-[1.7] text-stone-600"
+          >
             Explore a complete sample club now, or start with your own roster.
             You’ll have 45 days to decide—no card and no pressure.
           </p>
@@ -707,7 +836,10 @@ function formatFee(value: number): string {
             </a>
           </div>
           <p class="mt-6 text-[0.75rem] text-stone-500">
-            Prefer a walkthrough? Email <a class="font-semibold text-stone-800 underline decoration-stone-400 underline-offset-4" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+            Prefer a walkthrough? Email <a
+              class="font-semibold text-stone-800 underline decoration-stone-400 underline-offset-4"
+              href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a
+            >.
           </p>
         </div>
       </section>
