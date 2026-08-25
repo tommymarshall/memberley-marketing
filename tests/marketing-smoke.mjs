@@ -88,7 +88,7 @@ assert.match(
 );
 assert.match(
     homepage,
-    /\/hero-macbook-transparent-42bf53ca\.webp/,
+    /\/hero-macbook-transparent-[0-9a-f]{8}\.webp/,
     'Homepage must use the transparent MacBook product hero',
 );
 assert.match(homepage, /\/product\/payments\.webp/, 'Homepage must include product proof');
