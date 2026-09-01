@@ -58,6 +58,14 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
     memberley: true,
     competitor: null,
   },
+  // Member Splash's published app is the front-desk check-in app (iOS, paired
+  // with card-reader hardware) — per internal competitor research 2026-05, no
+  // member-facing app found. Re-verify before publishing.
+  {
+    label: "Installs on members' phones as an app",
+    memberley: true,
+    competitor: "Front-desk check-in app only",
+  },
   {
     label: "SMS broadcasts & one-to-one texts",
     memberley: true,
@@ -122,8 +130,8 @@ const builtInExtras: {
     icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
   },
   {
-    title: "Modern, mobile-ready UI",
-    desc: "Run the front desk from a phone or tablet at the gate — fast, clean, nothing to install.",
+    title: "An app on your members' phones",
+    desc: "Members add it to the home screen under your club's name and colors, and it opens full screen — no app store, nothing to update. Same app runs the front desk from a phone or tablet at the gate.",
     icon: '<rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/>',
   },
   {
@@ -168,6 +176,10 @@ const faqs = [
   {
     q: "Can we keep our existing club website?",
     a: "Yes. Memberley's member portal embeds into the site you already have, themed to match. You don't have to move your website onto our servers.",
+  },
+  {
+    q: "Does Memberley have a mobile app?",
+    a: "Yes — members and staff install it straight from the browser. Open Memberley on a phone and add it to the home screen: it gets its own icon under your club's name, opens full screen with no browser bars, and stays signed in. There is nothing to download from the App Store or Play Store, and no updates for anyone to install — everyone is always on the current version. Member Splash's app is a front-desk check-in tool for staff; a Memberley household books a court, pays dues, and pulls up their check-in code from the same icon.",
   },
   {
     q: "Can Memberley bill our capital contribution and initiation fee?",
