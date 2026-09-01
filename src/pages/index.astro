@@ -169,6 +169,30 @@ const modules: AddOnModule[] = [
   },
 ];
 
+/**
+ * What "white glove" actually covers. Kept concrete deliberately: this is a
+ * promise a person has to keep, so each line names work someone does rather
+ * than a feeling about onboarding.
+ */
+const setupSteps = [
+  {
+    title: "Your roster, moved",
+    body: "Members, households, and contact details brought over from your current system or a spreadsheet — with families kept intact, not flattened into a list of names.",
+  },
+  {
+    title: "Season, tiers, and dues",
+    body: "Your membership tiers, dues amounts, family and per-person pricing, prorating, and installment plans, configured to match what your club already charges.",
+  },
+  {
+    title: "Documents and custom fields",
+    body: "Waivers, bylaws, and every question you ask at registration — loaded and ready to collect before your signup link goes out.",
+  },
+  {
+    title: "Facilities and programs",
+    body: "Courts, pool hours, reservation rules, guest passes, and your classes, camps, and swim team — set up for the clubs that run them.",
+  },
+];
+
 const baseFeatures = [
   "Unlimited members",
   "Online dues, ACH, and card payments",
@@ -178,6 +202,7 @@ const baseFeatures = [
   "Waitlists with auto-promotion",
   "Reports, exports, and activity history",
   "QuickBooks and Mailchimp integrations",
+  "White-glove season setup and member migration",
 ];
 
 const outcomes = [
@@ -285,7 +310,7 @@ function formatFee(value: number): string {
               <span aria-hidden="true">·</span>
               <span>Unlimited members</span>
               <span aria-hidden="true">·</span>
-              <span>Free roster migration</span>
+              <span>Free setup and migration</span>
             </p>
           </div>
 
@@ -644,6 +669,66 @@ function formatFee(value: number): string {
                 </a>
               ))
             }
+          </div>
+        </div>
+      </section>
+
+      <section id="setup" class="border-t border-stone-950/8 bg-[#f1ede7]">
+        <div class="mx-auto max-w-[74rem] px-5 py-20 sm:px-7 lg:px-8 lg:py-28">
+          <div class="grid gap-8 lg:grid-cols-[0.76fr_1.24fr] lg:gap-12">
+            <div class="lg:sticky lg:top-28 lg:self-start" data-reveal>
+              <div class={eyebrow}>White glove, free with every club</div>
+              <h2
+                class="mt-5 max-w-[14ch] font-serif text-[clamp(2.35rem,4.5vw,3.85rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950"
+              >
+                We set up your first season with you.
+              </h2>
+              <p
+                class="mt-6 max-w-[40ch] text-[0.9375rem] leading-[1.7] text-stone-600"
+              >
+                Changing systems shouldn't cost you a season. Send us your
+                roster and what you charged last year, and we'll stand the whole
+                thing up — then walk your board through it before registration
+                opens.
+              </p>
+              <p
+                class="mt-5 max-w-[40ch] text-[0.9375rem] leading-[1.7] text-stone-600"
+              >
+                No setup fee, on any plan. It's how every club starts, not an
+                upsell.
+              </p>
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                data-marketing-event="setup_contact_clicked"
+                data-marketing-location="setup"
+                class="mt-7 inline-flex items-center gap-1.5 text-[0.875rem] font-semibold text-stone-950 underline decoration-brand-700/35 underline-offset-4 transition hover:decoration-brand-700"
+              >
+                Talk to us about your season
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+
+            <ol class="grid gap-3 sm:grid-cols-2">
+              {
+                setupSteps.map((step, index) => (
+                  <li
+                    data-reveal
+                    style={`--reveal-delay:${index * 70}ms`}
+                    class="flex flex-col rounded-[1.1rem] border border-stone-950/9 bg-white/70 p-6 shadow-paper"
+                  >
+                    <span class="grid size-9 place-items-center rounded-full bg-brand-100 font-mono text-[0.6875rem] font-semibold text-brand-800">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3 class="mt-6 font-serif text-[1.3rem] leading-[1.2] font-semibold tracking-[-0.03em] text-stone-950">
+                      {step.title}
+                    </h3>
+                    <p class="mt-3 text-[0.8125rem] leading-[1.65] text-stone-600">
+                      {step.body}
+                    </p>
+                  </li>
+                ))
+              }
+            </ol>
           </div>
         </div>
       </section>
