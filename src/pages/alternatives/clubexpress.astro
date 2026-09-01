@@ -4,7 +4,7 @@ import SiteHeader from "../../components/SiteHeader.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import ComparisonHeroVisual from "../../components/ComparisonHeroVisual.astro";
 import ComparisonTableHead from "../../components/ComparisonTableHead.astro";
-import { DEMO_URL, SIGNUP_URL } from "../../config/site";
+import { DEMO_LOGIN_URL, SIGNUP_URL } from "../../config/site";
 
 // ── Class tokens (inlined paper theme, matches index.astro) ──────────────────
 const eyebrow =
@@ -503,7 +503,7 @@ const faqs = [
               Start 45-day free trial →
             </a>
             <a
-              href={DEMO_URL}
+              href={DEMO_LOGIN_URL}
               class="inline-flex items-center gap-2 rounded-sm border border-stone-700 px-5 py-3 text-[0.875rem] font-medium text-stone-200 transition hover:bg-stone-800"
             >
               Explore the live demo

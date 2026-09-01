@@ -15,6 +15,14 @@ export const SIGNUP_URL = `${APP_URL}/register`;
 export const LOGIN_URL = `${APP_URL}/login`;
 export const DASHBOARD_URL = `${APP_URL}/dashboard`;
 export const DEMO_URL = "https://demo.memberley.com";
+
+// Where every "try the demo" CTA points. The demo app signs the visitor into
+// the seeded owner account and drops them on the admin dashboard, so nobody
+// has to get past a sign-in screen to look around. The route exists only when
+// the app is running in demo mode — on app.memberley.com it is a 404, which is
+// exactly why this is hardcoded to the demo host rather than built from
+// APP_URL.
+export const DEMO_LOGIN_URL = `${DEMO_URL}/demo/login`;
 export const DOCS_URL = "https://docs.memberley.com";
 export const CONTACT_EMAIL = "tommy@memberley.com";
 

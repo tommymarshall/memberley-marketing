@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import { DEMO_LOGIN_URL } from "../config/site";
 
 const fromEnv = (import.meta.env.PUBLIC_MEMBERLEY_APP_URL as string | undefined)
   ?.trim()
@@ -13,7 +14,6 @@ const APP_URL =
       ? "http://memberley-app.test"
       : "https://app.memberley.com";
 const SIGNUP_URL = `${APP_URL}/register`;
-const DEMO_URL = "https://demo.memberley.com";
 const DOCS_URL = "https://docs.memberley.com";
 const CONTACT_EMAIL = "tommy@memberley.com";
 
@@ -211,7 +211,7 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
               Email {CONTACT_EMAIL}
             </a>
             <a
-              href={DEMO_URL}
+              href={DEMO_LOGIN_URL}
               class="inline-flex items-center gap-2 rounded-sm border border-stone-700 px-5 py-3 text-[0.875rem] font-medium text-stone-200 transition hover:bg-stone-800"
             >
               Explore the live demo

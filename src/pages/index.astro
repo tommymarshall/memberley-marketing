@@ -6,7 +6,7 @@ import Testimonials from "../components/Testimonials.astro";
 import {
   APP_URL,
   CONTACT_EMAIL,
-  DEMO_URL,
+  DEMO_LOGIN_URL,
   SIGNUP_URL,
   alternatives,
 } from "../config/site";
@@ -260,7 +260,7 @@ function formatFee(value: number): string {
             </p>
             <div class="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
-                href={DEMO_URL}
+                href={DEMO_LOGIN_URL}
                 data-marketing-event="live_demo_clicked"
                 data-marketing-location="hero"
                 class={primaryButton}
@@ -559,7 +559,7 @@ function formatFee(value: number): string {
               season actually fits together.
             </p>
             <a
-              href={DEMO_URL}
+              href={DEMO_LOGIN_URL}
               data-marketing-event="live_demo_clicked"
               data-marketing-location="demo_section"
               class="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[0.875rem] font-semibold text-stone-950 shadow-btn transition hover:-translate-y-px hover:bg-stone-100 motion-reduce:transform-none"
@@ -819,7 +819,7 @@ function formatFee(value: number): string {
           </p>
           <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <a
-              href={DEMO_URL}
+              href={DEMO_LOGIN_URL}
               data-marketing-event="live_demo_clicked"
               data-marketing-location="final_cta"
               class={primaryButton}
