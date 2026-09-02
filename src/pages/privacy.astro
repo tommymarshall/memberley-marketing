@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import { CONTACT_EMAIL } from '../config/site';
 
 const eyebrow =
     'font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase';
@@ -15,7 +16,7 @@ const sections = [
         title: 'Overview',
         body: [
             'This Privacy Policy describes how Memberley, Inc. ("Memberley," "we," "us") collects, uses, and shares information when you use Memberley (the "Service"). It applies to organizations that run their membership on Memberley and to the members, customers, and visitors they serve.',
-            'We aim to collect only what we need to operate the Service, and to be clear about how it is used. If you have questions, you can reach us at support@memberley.com.',
+            `We aim to collect only what we need to operate the Service, and to be clear about how it is used. If you have questions, you can reach us at ${CONTACT_EMAIL}.`,
         ],
     },
     {
@@ -75,7 +76,7 @@ const sections = [
         title: 'Your choices and rights',
         body: [
             'You can access and update much of your account information directly within the Service. You may also opt out of marketing email and SMS as described above.',
-            'Depending on where you live, you may have rights to access, correct, delete, or port your personal information, or to object to certain processing. To exercise these rights, contact us at support@memberley.com. If your information is held by an organization that uses Memberley, we may direct your request to that organization.',
+            `Depending on where you live, you may have rights to access, correct, delete, or port your personal information, or to object to certain processing. To exercise these rights, contact us at ${CONTACT_EMAIL}. If your information is held by an organization that uses Memberley, we may direct your request to that organization.`,
         ],
     },
     {
@@ -96,7 +97,7 @@ const sections = [
         n: '11',
         title: 'Contact',
         body: [
-            'Questions about this Privacy Policy or our handling of your information can be sent to support@memberley.com.',
+            `Questions about this Privacy Policy or our handling of your information can be sent to ${CONTACT_EMAIL}.`,
         ],
     },
 ];

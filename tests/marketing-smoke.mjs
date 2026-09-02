@@ -63,6 +63,11 @@ for (const { pagePath, html } of pages) {
         /Start (a |your )?45-day (free )?trial|>\s*45-day free trial\s*<\/a>/,
         `${pagePath} still uses a retired trial CTA variant`,
     );
+    assert.doesNotMatch(
+        html,
+        /support@memberley\.com/,
+        `${pagePath} must point at tommy@memberley.com, not the retired support@ address`,
+    );
 }
 
 for (const [pagePath, logo] of Object.entries(competitorLogos)) {
