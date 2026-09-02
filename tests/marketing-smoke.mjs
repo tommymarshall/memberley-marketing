@@ -47,10 +47,32 @@ for (const { pagePath, html } of pages) {
         `${pagePath} must use the shared footer`,
     );
     assert.doesNotMatch(html, /14-day/, `${pagePath} still contains old trial copy`);
+    assert.match(
+        html,
+        /<a href="#main" class="skip-link">/,
+        `${pagePath} must start with the keyboard skip link`,
+    );
+    assert.match(html, /<main id="main">/, `${pagePath} must expose a main landmark for the skip link`);
+    assert.match(
+        html,
+        /Start your free trial/,
+        `${pagePath} must use the shared trial CTA label`,
+    );
+    assert.doesNotMatch(
+        html,
+        /Start (a |your )?45-day (free )?trial|>\s*45-day free trial\s*<\/a>/,
+        `${pagePath} still uses a retired trial CTA variant`,
+    );
 }
 
 for (const [pagePath, logo] of Object.entries(competitorLogos)) {
     const html = pages.find((page) => page.pagePath === pagePath)?.html ?? '';
+    assert.match(
+        html,
+        /no Memberley fee/,
+        `${pagePath} price row must mention the no-fee Community plan`,
+    );
+    assert.doesNotMatch(html, /§/, `${pagePath} must not decorate eyebrows with section signs`);
     assert.match(
         html,
         /\/memberley-amper-light\.svg/,
@@ -92,6 +114,27 @@ assert.match(
     'Homepage must use the transparent MacBook product hero',
 );
 assert.match(homepage, /\/product\/payments\.webp/, 'Homepage must include product proof');
+assert.match(
+    homepage,
+    /\/hero-macbook-768\.webp 768w/,
+    'Homepage hero image must ship responsive sources',
+);
+assert.match(
+    homepage,
+    /\/product\/dashboard\.webp/,
+    'Homepage demo section must show the dashboard, not repeat the hero roster',
+);
+assert.match(homepage, /class="hero-facts/, 'Homepage hero must list the trial terms as facts');
+assert.match(
+    homepage,
+    /Standard Stripe processing fees apply/,
+    'Homepage pricing must disclose processing fees next to the plans',
+);
+assert.match(
+    homepage,
+    /Using something else\?/,
+    'Homepage comparison grid must catch clubs on unlisted systems',
+);
 assert.doesNotMatch(
     homepage,
     /data-palette/,
@@ -101,6 +144,15 @@ assert.doesNotMatch(
     homepage,
     /data-placeholder-testimonials/,
     'Placeholder testimonials must never ship in a production build',
+);
+
+const helpPage = pages.find(({ pagePath }) => pagePath === 'help/index.html')?.html ?? '';
+
+assert.match(helpPage, /Email Tommy/, 'Help CTA must name the person who answers');
+assert.match(
+    helpPage,
+    /Open the live demo/,
+    'Help FAQ about the demo must link straight to it',
 );
 
 const courtReservePage =

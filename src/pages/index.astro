@@ -8,8 +8,17 @@ import {
   CONTACT_EMAIL,
   DEMO_LOGIN_URL,
   SIGNUP_URL,
+  TRIAL_CTA_LABEL,
+  TRIAL_TERMS,
   alternatives,
 } from "../config/site";
+import {
+  eyebrow,
+  eyebrowOnDark,
+  primaryButton,
+  primaryButtonOnDark,
+  secondaryButton,
+} from "../config/ui";
 
 declare const process: {
   env: {
@@ -51,7 +60,7 @@ const marketingMeta: Record<string, { featured: boolean; tagline: string }> = {
   starter: {
     featured: false,
     tagline:
-      "Every membership essential, nothing up front — you don't pay a dollar until your members start paying you.",
+      "Every membership essential, nothing up front — you don’t pay a dollar until your members start paying you.",
   },
   community: {
     featured: true,
@@ -129,6 +138,24 @@ try {
   }
 }
 
+const starterPlan =
+  plans.find((plan) => plan.slug === "starter") ?? fallbackPlans[0];
+const communityPlan =
+  plans.find((plan) => plan.slug === "community") ?? fallbackPlans[1];
+
+// Dues volume at which Community's flat price costs the same as Starter's
+// percentage fee, rounded to the nearest thousand for the copy below.
+const communityPriceDollars = Number(
+  communityPlan.price.replace(/[^0-9.]/g, ""),
+);
+const breakEvenDollars =
+  starterPlan.platformFeePercentage > 0
+    ? Math.round(
+        communityPriceDollars / (starterPlan.platformFeePercentage / 100) / 1000,
+      ) * 1000
+    : 0;
+const breakEvenCopy = breakEvenDollars.toLocaleString("en-US");
+
 const modules: AddOnModule[] = [
   {
     name: "Facilities & reservations",
@@ -160,7 +187,7 @@ const modules: AddOnModule[] = [
     price: "$150/yr",
     badge: "New",
     description:
-      "Capital contributions for a member's first years, initiation fees, and one-time special assessments.",
+      "Capital contributions for a member’s first years, initiation fees, and one-time special assessments.",
   },
   {
     name: "Branded site & embed",
@@ -236,12 +263,14 @@ const moreCapabilities = [
   "Season-by-season reporting",
 ];
 
-const primaryButton =
-  "inline-flex items-center justify-center gap-2 rounded-full bg-stone-950 px-5 py-3 text-[0.875rem] font-semibold text-white shadow-btn transition hover:-translate-y-px hover:bg-stone-800 motion-reduce:transform-none";
-const secondaryButton =
-  "inline-flex items-center justify-center gap-2 rounded-full border border-stone-950/14 bg-white/72 px-5 py-3 text-[0.875rem] font-semibold text-stone-800 shadow-[0_1px_0_rgb(255_255_255/.8)_inset] transition hover:-translate-y-px hover:border-stone-950/24 hover:bg-white motion-reduce:transform-none";
-const eyebrow =
-  "font-mono text-[0.625rem] font-semibold tracking-[0.14em] text-brand-800 uppercase";
+const compareCard =
+  "group flex flex-col rounded-[1.1rem] border border-stone-950/9 bg-white p-5 shadow-paper transition duration-300 hover:-translate-y-1 hover:border-brand-700/20 hover:shadow-paper-lg motion-reduce:transform-none sm:p-6 lg:min-h-[15rem]";
+const compareMonogram =
+  "grid size-11 place-items-center rounded-[0.8rem] bg-brand-100 font-mono text-[0.6875rem] font-semibold text-brand-800";
+const compareArrow =
+  "text-stone-300 transition group-hover:translate-x-0.5 group-hover:text-brand-700 motion-reduce:transform-none";
+const compareTitle =
+  "font-serif text-[1.45rem] leading-[1.2] font-semibold tracking-[-0.03em] text-stone-950 lg:min-h-[3.5rem]";
 
 function formatFee(value: number): string {
   return value > 0 ? `${value}% per payment` : "No Memberley payment fee";
@@ -255,7 +284,7 @@ function formatFee(value: number): string {
   <div class="min-h-dvh overflow-clip paper-light font-sans text-stone-900">
     <SiteHeader />
 
-    <main>
+    <main id="main">
       <section class="site-header-offset relative hero-wash">
         <div
           class="pointer-events-none absolute inset-0 hairline-grid opacity-55"
@@ -281,7 +310,7 @@ function formatFee(value: number): string {
               class="mt-7 max-w-[47ch] text-[1.0625rem] leading-[1.65] text-pretty text-stone-600 sm:text-[1.125rem]"
             >
               Memberships, payments, check-in, reservations, classes, and
-              communications in one calm workspace—so your board can spend less
+              communications in one calm workspace — so your board can spend less
               time administering the club and more time enjoying it.
             </p>
             <div class="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -299,20 +328,18 @@ function formatFee(value: number): string {
                 data-marketing-location="hero"
                 class={secondaryButton}
               >
-                Start a 45-day free trial
+                {TRIAL_CTA_LABEL}
               </a>
             </div>
-            <p
-              class="mt-5 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[0.6875rem] tracking-[0.04em] text-stone-500"
+            <ul
+              class="hero-facts mt-5 font-mono text-[0.6875rem] tracking-[0.04em] text-stone-500"
             >
-              <span>Pay only when members pay you</span>
-              <span aria-hidden="true">·</span>
-              <span>Add-ons free your first year</span>
-              <span aria-hidden="true">·</span>
-              <span>Unlimited members</span>
-              <span aria-hidden="true">·</span>
-              <span>Free setup and migration</span>
-            </p>
+              <li>{TRIAL_TERMS}</li>
+              <li>Pay only when members pay you</li>
+              <li>Add-ons free your first year</li>
+              <li>Unlimited members</li>
+              <li>Free setup and migration</li>
+            </ul>
           </div>
 
           <div
@@ -320,7 +347,9 @@ function formatFee(value: number): string {
           >
             <img
               src="/hero-macbook.webp"
-              alt="A dark aluminum MacBook displaying Memberley's member roster"
+              srcset="/hero-macbook-768.webp 768w, /hero-macbook-1152.webp 1152w, /hero-macbook.webp 1536w"
+              sizes="(min-width: 64rem) 48rem, 100vw"
+              alt="A dark aluminum MacBook displaying Memberley’s member roster"
               width="1536"
               height="1024"
               class="hero-product-photo block w-full"
@@ -407,7 +436,7 @@ function formatFee(value: number): string {
             <div data-reveal>
               <div class={eyebrow}>Money without the mystery</div>
               <h2
-                class="mt-5 max-w-[13ch] font-serif text-[clamp(2.3rem,4.5vw,3.9rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950"
+                class="mt-5 max-w-[16ch] font-serif text-[clamp(2.3rem,4.2vw,3.6rem)] leading-[1] font-semibold tracking-[-0.045em] text-balance text-stone-950"
               >
                 Know what came in. Know what happens next.
               </h2>
@@ -416,7 +445,7 @@ function formatFee(value: number): string {
               >
                 Every payment, payout, fee, discount, and balance is visible in
                 one place. Funds settle into your club’s own Stripe
-                account—never a black box controlled by your software vendor.
+                account — never a black box controlled by your software vendor.
               </p>
               <ul class="mt-7 grid gap-3 text-[0.875rem] text-stone-700">
                 {
@@ -453,22 +482,10 @@ function formatFee(value: number): string {
           <div
             class="mt-24 grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16"
           >
-            <div class="browser-frame lg:order-1" data-reveal>
-              <div class="browser-chrome"><span></span></div>
-              <img
-                src="/product/check-in.webp"
-                alt="Memberley front desk showing live member check-ins"
-                width="2880"
-                height="1800"
-                loading="lazy"
-                decoding="async"
-                class="block aspect-[16/10] w-full object-cover object-left-top"
-              />
-            </div>
-            <div class="lg:order-2" data-reveal style="--reveal-delay:90ms">
+            <div data-reveal>
               <div class={eyebrow}>Opening day, minus the scramble</div>
               <h2
-                class="mt-5 max-w-[13ch] font-serif text-[clamp(2.3rem,4.5vw,3.9rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950"
+                class="mt-5 max-w-[16ch] font-serif text-[clamp(2.3rem,4.2vw,3.6rem)] leading-[1] font-semibold tracking-[-0.045em] text-balance text-stone-950"
               >
                 A front desk the summer staff can learn in minutes.
               </h2>
@@ -480,6 +497,22 @@ function formatFee(value: number): string {
                 already moving through the gate.
               </p>
             </div>
+            <div
+              class="browser-frame lg:order-first"
+              data-reveal
+              style="--reveal-delay:90ms"
+            >
+              <div class="browser-chrome"><span></span></div>
+              <img
+                src="/product/check-in.webp"
+                alt="Memberley front desk showing live member check-ins"
+                width="2880"
+                height="1800"
+                loading="lazy"
+                decoding="async"
+                class="block aspect-[16/10] w-full object-cover object-left-top"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -490,7 +523,7 @@ function formatFee(value: number): string {
             <div class="lg:sticky lg:top-28 lg:self-start" data-reveal>
               <div class={eyebrow}>The rest of the club, too</div>
               <h2
-                class="mt-5 max-w-[14ch] font-serif text-[clamp(2.35rem,4.5vw,3.85rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950"
+                class="mt-5 max-w-[16ch] font-serif text-[clamp(2.35rem,4.2vw,3.6rem)] leading-[1] font-semibold tracking-[-0.045em] text-balance text-stone-950"
               >
                 One login from registration to closing day.
               </h2>
@@ -536,7 +569,7 @@ function formatFee(value: number): string {
                 </figcaption>
               </figure>
               <figure
-                class="browser-frame ml-[8%]"
+                class="browser-frame lg:ml-[8%]"
                 data-reveal
                 style="--reveal-delay:90ms"
               >
@@ -567,20 +600,16 @@ function formatFee(value: number): string {
           class="mx-auto grid max-w-[74rem] items-center gap-12 px-5 py-20 sm:px-7 lg:grid-cols-[0.76fr_1.24fr] lg:gap-14 lg:px-8 lg:py-28"
         >
           <div data-reveal>
-            <div
-              class="font-mono text-[0.625rem] font-semibold tracking-[0.14em] text-brand-300 uppercase"
-            >
-              No sales call required
-            </div>
+            <div class={eyebrowOnDark}>No sales call required</div>
             <h2
-              class="mt-5 max-w-[12ch] font-serif text-[clamp(2.5rem,5vw,4.35rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-balance"
+              class="mt-5 max-w-[14ch] font-serif text-[clamp(2.5rem,5vw,4.35rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-balance"
             >
               Click around before you commit to anything.
             </h2>
             <p
               class="mt-6 max-w-[42ch] text-[1rem] leading-[1.7] text-stone-400"
             >
-              The live demo is a complete sample club—not a guided slideshow.
+              The live demo is a complete sample club — not a guided slideshow.
               Open the roster, check someone in, review payments, and see how a
               season actually fits together.
             </p>
@@ -588,7 +617,7 @@ function formatFee(value: number): string {
               href={DEMO_LOGIN_URL}
               data-marketing-event="live_demo_clicked"
               data-marketing-location="demo_section"
-              class="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[0.875rem] font-semibold text-stone-950 shadow-btn transition hover:-translate-y-px hover:bg-stone-100 motion-reduce:transform-none"
+              class={`mt-8 ${primaryButtonOnDark}`}
             >
               Enter the live demo <span aria-hidden="true">→</span>
             </a>
@@ -605,8 +634,8 @@ function formatFee(value: number): string {
             >
               <div class="browser-chrome"><span></span></div>
               <img
-                src="/app-roster.webp"
-                alt="Memberley live demo member roster"
+                src="/product/dashboard.webp"
+                alt="Memberley dashboard for a sample swim club: today's revenue, active members, who is on site, and reservations at a glance"
                 width="2880"
                 height="1800"
                 loading="lazy"
@@ -629,7 +658,7 @@ function formatFee(value: number): string {
             <div>
               <div class={eyebrow}>Considering a switch?</div>
               <h2
-                class="mt-5 max-w-[15ch] font-serif text-[clamp(2.35rem,4.5vw,3.85rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950"
+                class="mt-5 max-w-[15ch] font-serif text-[clamp(2.35rem,4.5vw,3.85rem)] leading-[1] font-semibold tracking-[-0.045em] text-balance text-stone-950"
               >
                 Start with an honest comparison.
               </h2>
@@ -649,18 +678,14 @@ function formatFee(value: number): string {
                   href={alternative.href}
                   data-reveal
                   style={`--reveal-delay:${index * 70}ms`}
-                  class="group flex min-h-[15rem] flex-col rounded-[1.1rem] border border-stone-950/9 bg-white p-6 shadow-paper transition duration-300 hover:-translate-y-1 hover:border-brand-700/20 hover:shadow-paper-lg motion-reduce:transform-none"
+                  class={compareCard}
                 >
                   <div class="flex items-start justify-between">
-                    <span class="grid size-11 place-items-center rounded-[0.8rem] bg-brand-100 font-mono text-[0.6875rem] font-semibold text-brand-800">
-                      {alternative.monogram}
-                    </span>
-                    <span class="text-stone-300 transition group-hover:translate-x-0.5 group-hover:text-brand-700 motion-reduce:transform-none">
-                      →
-                    </span>
+                    <span class={compareMonogram}>{alternative.monogram}</span>
+                    <span class={compareArrow}>→</span>
                   </div>
-                  <div class="mt-10">
-                    <h3 class="min-h-[3.5rem] font-serif text-[1.45rem] leading-[1.2] font-semibold tracking-[-0.03em] text-stone-950">
+                  <div class="mt-5 lg:mt-10">
+                    <h3 class={compareTitle}>
                       Memberley vs. {alternative.name}
                     </h3>
                     <p class="mt-3 text-[0.8125rem] leading-[1.6] text-stone-500">
@@ -670,6 +695,24 @@ function formatFee(value: number): string {
                 </a>
               ))
             }
+            <a
+              href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Moving our club to Memberley")}`}
+              data-reveal
+              style={`--reveal-delay:${alternatives.length * 70}ms`}
+              class={compareCard}
+            >
+              <div class="flex items-start justify-between">
+                <span class={compareMonogram}>?</span>
+                <span class={compareArrow}>→</span>
+              </div>
+              <div class="mt-5 lg:mt-10">
+                <h3 class={compareTitle}>Using something else?</h3>
+                <p class="mt-3 text-[0.8125rem] leading-[1.6] text-stone-500">
+                  Spreadsheets, PayPal buttons, or a system we haven’t written
+                  up yet — tell us what you’re on and we’ll map the migration.
+                </p>
+              </div>
+            </a>
           </div>
         </div>
       </section>
@@ -680,22 +723,22 @@ function formatFee(value: number): string {
             <div class="lg:sticky lg:top-28 lg:self-start" data-reveal>
               <div class={eyebrow}>White glove, free with every club</div>
               <h2
-                class="mt-5 max-w-[14ch] font-serif text-[clamp(2.35rem,4.5vw,3.85rem)] leading-[1] font-semibold tracking-[-0.045em] text-stone-950"
+                class="mt-5 max-w-[16ch] font-serif text-[clamp(2.35rem,4.2vw,3.6rem)] leading-[1] font-semibold tracking-[-0.045em] text-balance text-stone-950"
               >
                 We set up your first season with you.
               </h2>
               <p
                 class="mt-6 max-w-[40ch] text-[0.9375rem] leading-[1.7] text-stone-600"
               >
-                Changing systems shouldn't cost you a season. Send us your
-                roster and what you charged last year, and we'll stand the whole
+                Changing systems shouldn’t cost you a season. Send us your
+                roster and what you charged last year, and we’ll stand the whole
                 thing up — then walk your board through it before registration
                 opens.
               </p>
               <p
                 class="mt-5 max-w-[40ch] text-[0.9375rem] leading-[1.7] text-stone-600"
               >
-                No setup fee, on any plan. It's how every club starts, not an
+                No setup fee, on any plan. It’s how every club starts, not an
                 upsell.
               </p>
               <a
@@ -736,24 +779,34 @@ function formatFee(value: number): string {
 
       <section id="pricing" class="border-t border-stone-950/8 bg-white/68">
         <div class="mx-auto max-w-[74rem] px-5 py-20 sm:px-7 lg:px-8 lg:py-28">
-          <div class="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14">
+          <div
+            class="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-start lg:gap-14"
+          >
             <div data-reveal>
               <div class={eyebrow}>Simple annual pricing</div>
               <h2
-                class="mt-5 max-w-[13ch] font-serif text-[clamp(2.5rem,5vw,4.35rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-stone-950"
+                class="mt-5 max-w-[15ch] font-serif text-[clamp(2.4rem,4.6vw,4rem)] leading-[0.98] font-semibold tracking-[-0.045em] text-balance text-stone-950"
               >
                 Unlimited members. No surprise tiers.
               </h2>
               <p
                 class="mt-6 max-w-[42ch] text-[0.9375rem] leading-[1.7] text-stone-600"
               >
-                Start with membership management, then add only what your club
-                uses. Every add-on is free for your entire first year — and on
-                Starter, you don't pay a dollar until your members start paying
-                you.
+                Two plans, one difference: Starter costs nothing until your
+                members pay, and Community trades the{" "}
+                {starterPlan.platformFeePercentage}% for a flat{" "}
+                {communityPlan.price} a year — it pays for itself once a club
+                collects about ${breakEvenCopy} in dues.
+              </p>
+              <p
+                class="mt-4 max-w-[42ch] text-[0.9375rem] leading-[1.7] text-stone-600"
+              >
+                Add only the modules your club uses. Every one is free for your
+                entire first year.
               </p>
             </div>
 
+            <div>
             <div class="grid gap-4 md:grid-cols-2">
               {
                 plans.map((plan, index) => (
@@ -788,26 +841,36 @@ function formatFee(value: number): string {
                       </span>
                     </div>
                     <p
-                      class={`mt-5 min-h-[4.8rem] text-[0.875rem] leading-[1.6] ${plan.featured ? "text-stone-400" : "text-stone-600"}`}
+                      class={`mt-5 text-[0.875rem] leading-[1.6] md:min-h-[4.8rem] ${plan.featured ? "text-stone-400" : "text-stone-600"}`}
                     >
                       {plan.tagline}
                     </p>
-                    <div
-                      class={`mt-6 border-t pt-5 text-[0.8125rem] font-semibold ${plan.featured ? "border-white/12 text-white" : "border-stone-950/9 text-stone-800"}`}
-                    >
-                      {formatFee(plan.platformFeePercentage)}
+                    <div class="mt-auto pt-6">
+                      <div
+                        class={`border-t pt-5 text-[0.8125rem] font-semibold ${plan.featured ? "border-white/12 text-white" : "border-stone-950/9 text-stone-800"}`}
+                      >
+                        {formatFee(plan.platformFeePercentage)}
+                      </div>
+                      <a
+                        href={`${SIGNUP_URL}?plan=${plan.slug}`}
+                        data-marketing-event="trial_started"
+                        data-marketing-location={`pricing_${plan.slug}`}
+                        class={`mt-6 inline-flex w-full items-center justify-center rounded-full px-4 py-2.5 text-[0.8125rem] font-semibold transition hover:-translate-y-px motion-reduce:transform-none ${plan.featured ? "bg-white text-stone-950 hover:bg-stone-100" : "bg-stone-950 text-white hover:bg-stone-800"}`}
+                      >
+                        {TRIAL_CTA_LABEL}
+                      </a>
                     </div>
-                    <a
-                      href={`${SIGNUP_URL}?plan=${plan.slug}`}
-                      data-marketing-event="trial_started"
-                      data-marketing-location={`pricing_${plan.slug}`}
-                      class={`mt-6 inline-flex items-center justify-center rounded-full px-4 py-2.5 text-[0.8125rem] font-semibold transition hover:-translate-y-px motion-reduce:transform-none ${plan.featured ? "bg-white text-stone-950 hover:bg-stone-100" : "bg-stone-950 text-white hover:bg-stone-800"}`}
-                    >
-                      Start 45-day free trial
-                    </a>
                   </article>
                 ))
               }
+            </div>
+            <p
+              class="mt-4 font-mono text-[0.6875rem] tracking-[0.04em] text-stone-500"
+              data-reveal
+            >
+              {TRIAL_TERMS}. Standard Stripe processing fees apply on every plan,
+              as with any provider.
+            </p>
             </div>
           </div>
 
@@ -855,7 +918,7 @@ function formatFee(value: number): string {
               <div class="mt-6 grid gap-x-8 gap-y-0 sm:grid-cols-2">
                 {
                   modules.map((module) => (
-                    <div class="border-t border-stone-950/8 py-4">
+                    <div class="border-t border-stone-950/8 py-4 sm:last:col-span-2">
                       <div class="flex items-start justify-between gap-3">
                         <span class="flex flex-wrap items-center gap-2">
                           <span class="text-[0.8125rem] font-semibold text-stone-800">
@@ -901,7 +964,7 @@ function formatFee(value: number): string {
             class="mx-auto mt-6 max-w-[46ch] text-[1rem] leading-[1.7] text-stone-600"
           >
             Explore a complete sample club now, or start with your own roster.
-            You’ll have 45 days to decide—no card and no pressure.
+            You’ll have 45 days to decide — no card and no pressure.
           </p>
           <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <a
@@ -918,7 +981,7 @@ function formatFee(value: number): string {
               data-marketing-location="final_cta"
               class={secondaryButton}
             >
-              Start a 45-day free trial
+              {TRIAL_CTA_LABEL}
             </a>
           </div>
           <p class="mt-6 text-[0.75rem] text-stone-500">

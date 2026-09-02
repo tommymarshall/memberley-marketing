@@ -26,6 +26,12 @@ export const DEMO_LOGIN_URL = `${DEMO_URL}/demo/login`;
 export const DOCS_URL = "https://docs.memberley.com";
 export const CONTACT_EMAIL = "tommy@memberley.com";
 
+// The one label every trial CTA uses (header, hero, pricing cards, footer,
+// help, alternatives). The 45-day / no-card terms live in the caption next to
+// the button, not in the label, so the buttons read the same everywhere.
+export const TRIAL_CTA_LABEL = "Start your free trial";
+export const TRIAL_TERMS = "45-day free trial, no card required";
+
 export const alternatives = [
   {
     href: "/alternatives/member-splash",

@@ -4,16 +4,21 @@ import SiteHeader from "../../components/SiteHeader.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import ComparisonHeroVisual from "../../components/ComparisonHeroVisual.astro";
 import ComparisonTableHead from "../../components/ComparisonTableHead.astro";
-import { DEMO_LOGIN_URL, SIGNUP_URL } from "../../config/site";
-
-// ── Class tokens (inlined paper theme, matches index.astro) ──────────────────
-const eyebrow =
-  "font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase";
-const display = "font-serif font-semibold tracking-tight";
-const primaryBtn =
-  "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800 focus-visible:outline-brand-600";
-const secondaryBtn =
-  "border border-stone-950/15 bg-white text-stone-900 hover:border-stone-950/30 hover:bg-stone-100";
+import {
+  DEMO_LOGIN_URL,
+  SIGNUP_URL,
+  TRIAL_CTA_LABEL,
+  TRIAL_TERMS,
+} from "../../config/site";
+import {
+  display,
+  eyebrow,
+  eyebrowOnDark,
+  primaryButton,
+  primaryButtonOnDark,
+  secondaryButton,
+  secondaryButtonOnDark,
+} from "../../config/ui";
 
 // ── Head-to-head ─────────────────────────────────────────────────────────────
 // Competitor details as published by ClubExpress (clubexpress.com pricing
@@ -27,7 +32,7 @@ type Cell = string | boolean | null;
 const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   {
     label: "Starting price",
-    memberley: "$0/yr + 3%, or $500/yr with no payment fees",
+    memberley: "$0/yr + 3% per payment, or $500/yr with no Memberley fee",
     competitor: "42¢ / member / month",
   },
   {
@@ -119,8 +124,8 @@ const reasons = [
     body: "ClubExpress charges $150 for basic setup, and its configured website build-outs run $960 to $4,850. Memberley has no setup fee at all — we import your roster and set up your branded portal for free.",
   },
   {
-    title: "The good stuff isn't an add-on",
-    body: "On ClubExpress, QuickBooks sync is $20/month, texting is metered per message, and modules like point of sale and resource scheduling carry their own one-time and monthly fees. Memberley's modules are flat-priced and free for your entire first year, and QuickBooks and Mailchimp sync are built in — no meters.",
+    title: "The good stuff isn’t an add-on",
+    body: "On ClubExpress, QuickBooks sync is $20/month, texting is metered per message, and modules like point of sale and resource scheduling carry their own one-time and monthly fees. Memberley’s modules are flat-priced and free for your entire first year, and QuickBooks and Mailchimp sync are built in — no meters.",
   },
   {
     title: "Built this decade",
@@ -128,7 +133,7 @@ const reasons = [
   },
 ];
 
-// Extras where Memberley goes further than ClubExpress's published feature set.
+// Extras where Memberley goes further than ClubExpress’s published feature set.
 const builtInExtras: {
   title: string;
   desc: string;
@@ -137,7 +142,7 @@ const builtInExtras: {
 }[] = [
   {
     title: "Gate check-in & guest passes",
-    desc: "QR check-in at the front desk, with guest passes that auto-charge the member's card on file.",
+    desc: "QR check-in at the front desk, with guest passes that auto-charge the member’s card on file.",
     icon: '<rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/>',
   },
   {
@@ -175,7 +180,7 @@ const builtInExtras: {
 const faqs = [
   {
     q: "Is Memberley a good ClubExpress alternative for pools and clubs?",
-    a: "Yes — especially for clubs with a physical facility. Memberley covers online dues with auto-renewal, seasonal tiers, guest passes, QR gate check-in, reservations, waivers, and built-in email and SMS. ClubExpress is broad general-purpose club software, but facility operations like gate check-in and guest passes aren't part of its published feature set, and several of its modules carry separate fees.",
+    a: "Yes — especially for clubs with a physical facility. Memberley covers online dues with auto-renewal, seasonal tiers, guest passes, QR gate check-in, reservations, waivers, and built-in email and SMS. ClubExpress is broad general-purpose club software, but facility operations like gate check-in and guest passes aren’t part of its published feature set, and several of its modules carry separate fees.",
   },
   {
     q: "How does pricing compare to ClubExpress?",
@@ -187,7 +192,7 @@ const faqs = [
   },
   {
     q: "Can we keep our existing club website?",
-    a: "Yes. Memberley's member portal embeds into the site you already have, themed to match. ClubExpress hosts your club website on its platform — hosting is included, but your web presence and your operations live with the same vendor.",
+    a: "Yes. Memberley’s member portal embeds into the site you already have, themed to match. ClubExpress hosts your club website on its platform — hosting is included, but your web presence and your operations live with the same vendor.",
   },
   {
     q: "Can we switch in the middle of the season?",
@@ -195,7 +200,7 @@ const faqs = [
   },
   {
     q: "Do you work with Northern Virginia pools?",
-    a: "Yes — Memberley is based in Northern Virginia and we'll happily meet your board in person to walk through setup and migration.",
+    a: "Yes — Memberley is based in Northern Virginia and we’ll happily meet your board in person to walk through setup and migration.",
   },
 ];
 ---
@@ -206,14 +211,15 @@ const faqs = [
 >
   <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased">
     <SiteHeader />
+    <main id="main">
 
     <!-- Hero -->
     <section class="site-header-offset hero-wash border-b border-stone-950/10">
       <div class="mx-auto grid max-w-[74rem] items-center gap-12 px-6 py-20 lg:grid-cols-[0.84fr_1.16fr] lg:px-8 lg:py-24">
         <div class="max-w-[60ch]">
-          <div class={eyebrow}>§ ClubExpress alternative</div>
+          <div class={eyebrow}>ClubExpress alternative</div>
           <h1
-            class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] text-balance ${display} text-stone-900`}
+            class={`mt-5 max-w-[20ch] text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] text-balance ${display} text-stone-900`}
           >
             A ClubExpress alternative without the per-member meter.
           </h1>
@@ -225,20 +231,17 @@ const faqs = [
             per-member fees, no setup packs, and payments into
             <strong>your</strong> Stripe account.
           </p>
-          <div class="mt-10 flex flex-wrap items-center gap-3">
+          <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <a
               href={SIGNUP_URL}
-              class={`group inline-flex items-center gap-2 rounded-full px-5 py-3 text-[0.875rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
+              data-marketing-event="trial_started"
+              data-marketing-location="alternative_hero"
+              class={`group ${primaryButton}`}
             >
-              Start 45-day free trial
-              <span class="transition group-hover:translate-x-0.5">→</span>
+              {TRIAL_CTA_LABEL}
+              <span class="transition group-hover:translate-x-0.5 motion-reduce:transform-none">→</span>
             </a>
-            <a
-              href="#compare"
-              class={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-[0.875rem] font-medium transition ${secondaryBtn}`}
-            >
-              See the comparison
-            </a>
+            <a href="#compare" class={secondaryButton}>See the comparison</a>
           </div>
           <p class="mt-6 font-mono text-[0.75rem] tracking-wide text-stone-600">
             Free migration off ClubExpress · No setup fee · 45-day trial, no
@@ -258,7 +261,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
-          <div class={eyebrow}>§ Why clubs switch</div>
+          <div class={eyebrow}>Why clubs switch</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -290,7 +293,7 @@ const faqs = [
     <section id="compare" class="border-b border-stone-950/10 bg-stone-50">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-12 max-w-[44ch]">
-          <div class={eyebrow}>§ Head to head</div>
+          <div class={eyebrow}>Head to head</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -381,11 +384,11 @@ const faqs = [
           <p class="text-[0.875rem] leading-relaxed text-stone-600">
             ClubExpress is genuinely deep software for general clubs and
             associations: website hosting, unlimited blast email, forums,
-            committees, and unlimited tech support are all included, there's no
+            committees, and unlimited tech support are all included, there’s no
             long-term contract, and it lets you bring your own merchant
             account. The tradeoff is how the fees accumulate — per-member
             metering, setup and website packages, and separate charges for
-            modules — and that it's built for associations in general, not for
+            modules — and that it’s built for associations in general, not for
             running a pool or club facility day to day.
           </p>
         </div>
@@ -396,7 +399,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
-          <div class={eyebrow}>§ Beyond the basics</div>
+          <div class={eyebrow}>Beyond the basics</div>
           <h2
             class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -450,7 +453,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-12 max-w-[44ch]">
-          <div class={eyebrow}>§ FAQ</div>
+          <div class={eyebrow}>FAQ</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -478,11 +481,7 @@ const faqs = [
     <section class="paper-dark text-stone-50">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="max-w-[40ch]">
-          <div
-            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
-          >
-            § Make the switch
-          </div>
+          <div class={eyebrowOnDark}>Make the switch</div>
           <h2
             class={`mt-5 text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
           >
@@ -491,28 +490,35 @@ const faqs = [
           <p
             class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400"
           >
-            Start a 45-day free trial and see your club in Memberley in
-            minutes, or send us your ClubExpress roster and we'll set
+            Start your free trial and see your club in Memberley in minutes, or send us your ClubExpress roster and we’ll set
             everything up for you, free, before next season.
           </p>
-          <div class="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href={SIGNUP_URL}
-              class="inline-flex items-center gap-2 rounded-sm bg-brand-700 px-5 py-3 text-[0.875rem] font-semibold text-white transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
-            >
-              Start 45-day free trial →
-            </a>
-            <a
-              href={DEMO_LOGIN_URL}
-              class="inline-flex items-center gap-2 rounded-sm border border-stone-700 px-5 py-3 text-[0.875rem] font-medium text-stone-200 transition hover:bg-stone-800"
-            >
-              Explore the live demo
-            </a>
-          </div>
         </div>
+        <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <a
+            href={SIGNUP_URL}
+            data-marketing-event="trial_started"
+            data-marketing-location="alternative_cta"
+            class={primaryButtonOnDark}
+          >
+            {TRIAL_CTA_LABEL} <span aria-hidden="true">→</span>
+          </a>
+          <a
+            href={DEMO_LOGIN_URL}
+            data-marketing-event="live_demo_clicked"
+            data-marketing-location="alternative_cta"
+            class={secondaryButtonOnDark}
+          >
+            Explore the live demo
+          </a>
+        </div>
+        <p class="mt-4 font-mono text-[0.6875rem] tracking-[0.04em] text-stone-500">
+          {TRIAL_TERMS} · Free migration, no setup fee
+        </p>
       </div>
     </section>
 
+    </main>
     <SiteFooter />
   </div>
 

@@ -4,16 +4,21 @@ import SiteHeader from "../../components/SiteHeader.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import ComparisonHeroVisual from "../../components/ComparisonHeroVisual.astro";
 import ComparisonTableHead from "../../components/ComparisonTableHead.astro";
-import { DEMO_LOGIN_URL, SIGNUP_URL } from "../../config/site";
-
-// ── Class tokens (inlined paper theme, matches index.astro) ──────────────────
-const eyebrow =
-  "font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase";
-const display = "font-serif font-semibold tracking-tight";
-const primaryBtn =
-  "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800 focus-visible:outline-brand-600";
-const secondaryBtn =
-  "border border-stone-950/15 bg-white text-stone-900 hover:border-stone-950/30 hover:bg-stone-100";
+import {
+  DEMO_LOGIN_URL,
+  SIGNUP_URL,
+  TRIAL_CTA_LABEL,
+  TRIAL_TERMS,
+} from "../../config/site";
+import {
+  display,
+  eyebrow,
+  eyebrowOnDark,
+  primaryButton,
+  primaryButtonOnDark,
+  secondaryButton,
+  secondaryButtonOnDark,
+} from "../../config/ui";
 
 // ── Head-to-head ─────────────────────────────────────────────────────────────
 // Competitor details as published on courtreserve.com (2026). Re-verify before
@@ -29,7 +34,7 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   },
   {
     label: "Starting price",
-    memberley: "$0/yr + 3% per payment — or $500/yr, no payment fees",
+    memberley: "$0/yr + 3% per payment, or $500/yr with no Memberley fee",
     competitor: "From $159/mo (annual billing, 8 courts)",
   },
   {
@@ -102,7 +107,7 @@ const reasons = [
   },
   {
     title: "Flat-priced comms, not metered",
-    body: "CourtReserve meters broadcasts at 500 texts and 5,000 marketing emails a month, then you pay per bundle. Memberley's Communications module is $150/yr flat with 1,000 SMS a month included and unlimited email campaigns.",
+    body: "CourtReserve meters broadcasts at 500 texts and 5,000 marketing emails a month, then you pay per bundle. Memberley’s Communications module is $150/yr flat with 1,000 SMS a month included and unlimited email campaigns.",
   },
   {
     title: "Room to grow beyond reservations",
@@ -204,7 +209,7 @@ const ideaHeadlines = [
   },
   {
     figure: "98%",
-    label: "past CourtReserve's own deadline",
+    label: "past CourtReserve’s own deadline",
     note: "Their board says ideas sit in “Waiting on Votes” for 90 days. 533 of 546 have been there longer — a median of 401 days.",
   },
 ];
@@ -229,7 +234,7 @@ const ideaStatuses: {
 ];
 
 // Ideas CourtReserve customers are still waiting on, that a Memberley club has
-// today. Status and duration are as recorded on CourtReserve's public board on
+// today. Status and duration are as recorded on CourtReserve’s public board on
 // the audit date; the Memberley column maps to capabilities described elsewhere
 // on this page.
 const longWaits: {
@@ -294,14 +299,14 @@ const shipPrinciples = [
   },
   {
     title: "Built correctly the first time",
-    body: "Fast is only worth anything if it holds up. Dues, payments, rosters, and check-ins are the club's system of record, so we build them to be correct, auditable, and exportable — not shipped quickly and patched later.",
+    body: "Fast is only worth anything if it holds up. Dues, payments, rosters, and check-ins are the club’s system of record, so we build them to be correct, auditable, and exportable — not shipped quickly and patched later.",
   },
 ];
 
 const faqs = [
   {
     q: "Is Memberley a good CourtReserve alternative?",
-    a: "It depends on what you run. CourtReserve's court scheduling is deep and purpose-built for tennis, pickleball, and padel operations. Memberley is a strong fit for court and field clubs that want reservations alongside memberships, paid classes and events, attendee communications, and room to add front-desk or point-of-sale operations as they grow.",
+    a: "It depends on what you run. CourtReserve’s court scheduling is deep and purpose-built for tennis, pickleball, and padel operations. Memberley is a strong fit for court and field clubs that want reservations alongside memberships, paid classes and events, attendee communications, and room to add front-desk or point-of-sale operations as they grow.",
   },
   {
     q: "How does pricing compare to CourtReserve?",
@@ -309,7 +314,7 @@ const faqs = [
   },
   {
     q: "Are texts and emails metered?",
-    a: "Not with Memberley. The Communications module is $150/yr flat and includes 1,000 SMS a month with unlimited email campaigns; if you need more texts in a busy month, top-ups are available in 1,000-message packs. CourtReserve's published plans meter broadcasts at 500 texts and 5,000 marketing emails a month, then charge per bundle.",
+    a: "Not with Memberley. The Communications module is $150/yr flat and includes 1,000 SMS a month with unlimited email campaigns; if you need more texts in a busy month, top-ups are available in 1,000-message packs. CourtReserve’s published plans meter broadcasts at 500 texts and 5,000 marketing emails a month, then charge per bundle.",
   },
   {
     q: "Can we still run court reservations on Memberley?",
@@ -321,7 +326,7 @@ const faqs = [
   },
   {
     q: "Can a seasonal club run programs outside its normal season?",
-    a: "Yes. Classes and events can run before, during, or after your club's membership season. Their registration dates, schedules, payments, communications, and facility reservations are not limited by the season's opening and closing dates.",
+    a: "Yes. Classes and events can run before, during, or after your club’s membership season. Their registration dates, schedules, payments, communications, and facility reservations are not limited by the season’s opening and closing dates.",
   },
   {
     q: "Do you offer white-label branding?",
@@ -329,11 +334,11 @@ const faqs = [
   },
   {
     q: "How quickly does CourtReserve act on customer feature requests?",
-    a: `You can measure it yourself — CourtReserve runs a public idea board at feedback.courtreserve.com. As of ${auditDate} it held 2,028 ideas. 549 of them (27%) had never received a reply or been given a status, and of the 733 submitted in the previous 12 months, 497 still carried no status at all. The board's own rules say an idea sits in "Waiting on Votes" for 90 days; 533 of the 546 ideas in that status had been there longer, a median of 401 days. Ideas marked "Accepted for Future Development" had been waiting a median of 1.8 years, and the top-voted idea on the entire board has been accepted-but-unbuilt since July 2020.`,
+    a: `You can measure it yourself — CourtReserve runs a public idea board at feedback.courtreserve.com. As of ${auditDate} it held 2,028 ideas. 549 of them (27%) had never received a reply or been given a status, and of the 733 submitted in the previous 12 months, 497 still carried no status at all. The board’s own rules say an idea sits in "Waiting on Votes" for 90 days; 533 of the 546 ideas in that status had been there longer, a median of 401 days. Ideas marked "Accepted for Future Development" had been waiting a median of 1.8 years, and the top-voted idea on the entire board has been accepted-but-unbuilt since July 2020.`,
   },
   {
     q: "Do you work with Northern Virginia clubs?",
-    a: "Yes — Memberley is based in Northern Virginia and we'll meet your board in person to walk through setup and migration. Migration is free: send us your current roster and we'll have you live before next season.",
+    a: "Yes — Memberley is based in Northern Virginia and we’ll meet your board in person to walk through setup and migration. Migration is free: send us your current roster and we’ll have you live before next season.",
   },
 ];
 ---
@@ -344,14 +349,15 @@ const faqs = [
 >
   <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased">
     <SiteHeader />
+    <main id="main">
 
     <!-- Hero -->
     <section class="site-header-offset hero-wash border-b border-stone-950/10">
       <div class="mx-auto grid max-w-[74rem] items-center gap-12 px-6 py-20 lg:grid-cols-[0.84fr_1.16fr] lg:px-8 lg:py-24">
         <div class="max-w-[60ch]">
-          <div class={eyebrow}>§ CourtReserve alternative</div>
+          <div class={eyebrow}>CourtReserve alternative</div>
           <h1
-            class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] text-balance ${display} text-stone-900`}
+            class={`mt-5 max-w-[20ch] text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] text-balance ${display} text-stone-900`}
           >
             The CourtReserve alternative built for the whole club.
           </h1>
@@ -359,23 +365,20 @@ const faqs = [
             class="mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-pretty text-stone-600"
           >
             Give court and field clubs reservations, memberships, paid classes
-            and events, and communications in one workspace—then add front
+            and events, and communications in one workspace — then add front
             desk, point of sale, and more as the operation grows.
           </p>
-          <div class="mt-10 flex flex-wrap items-center gap-3">
+          <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <a
               href={SIGNUP_URL}
-              class={`group inline-flex items-center gap-2 rounded-full px-5 py-3 text-[0.875rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
+              data-marketing-event="trial_started"
+              data-marketing-location="alternative_hero"
+              class={`group ${primaryButton}`}
             >
-              Start 45-day free trial
-              <span class="transition group-hover:translate-x-0.5">→</span>
+              {TRIAL_CTA_LABEL}
+              <span class="transition group-hover:translate-x-0.5 motion-reduce:transform-none">→</span>
             </a>
-            <a
-              href="#compare"
-              class={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-[0.875rem] font-medium transition ${secondaryBtn}`}
-            >
-              See the comparison
-            </a>
+            <a href="#compare" class={secondaryButton}>See the comparison</a>
           </div>
           <p
             class="mt-6 max-w-[75ch] font-mono text-[0.75rem] tracking-wide text-stone-600"
@@ -396,7 +399,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
-          <div class={eyebrow}>§ Why clubs switch</div>
+          <div class={eyebrow}>Why clubs switch</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -430,21 +433,17 @@ const faqs = [
         class="mx-auto grid max-w-[74rem] gap-14 px-6 py-24 lg:grid-cols-[0.86fr_1.14fr] lg:items-start lg:gap-20 lg:px-8"
       >
         <div class="max-w-[46ch]">
-          <div
-            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
-          >
-            § Classes &amp; events
-          </div>
+          <div class={eyebrowOnDark}>Classes &amp; events</div>
           <h2
             class={`mt-5 text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.02] text-balance ${display} text-stone-50`}
           >
-            Registration, payment, and every court block—one offering.
+            Registration, payment, and every court block — one offering.
           </h2>
           <p
             class="mt-6 max-w-[55ch] text-[1rem] leading-relaxed text-pretty text-stone-300"
           >
             Build a clinic, camp, class, league, or one-off event around the
-            people attending it—not around a collection of disconnected
+            people attending it — not around a collection of disconnected
             reservations.
           </p>
 
@@ -562,7 +561,7 @@ const faqs = [
     <section id="compare" class="border-b border-stone-950/10 bg-stone-50">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-12 max-w-[44ch]">
-          <div class={eyebrow}>§ Head to head</div>
+          <div class={eyebrow}>Head to head</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -651,12 +650,13 @@ const faqs = [
             Credit where due
           </div>
           <p class="text-[0.875rem] leading-relaxed text-stone-600">
-            CourtReserve's clearest advantage is its exclusive focus on tennis
-            and racquet clubs, which may make it a fit for organizations planning
-            specialized leagues and championships. Memberley is the more
-            flexible choice for clubs that want modern facility scheduling
-            connected to memberships, paid programming, built-in email and SMS,
-            and the operational modules they may need next.
+            CourtReserve is built for courts first. If your club’s whole life is
+            tennis and pickleball — ladders, leagues, tournaments, and court time
+            sold by the hour — that focus shows in the product, and the racquet
+            clubs on it are well served. Memberley treats reservations as one
+            module beside memberships, dues, programs, check-in, and
+            communications, which is the shape a swim-and-tennis club or
+            neighborhood pool needs for a whole season.
           </p>
         </div>
       </div>
@@ -666,11 +666,11 @@ const faqs = [
     <section id="roadmap" class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[52ch]">
-          <div class={eyebrow}>§ How feedback gets handled</div>
+          <div class={eyebrow}>How feedback gets handled</div>
           <h2
             class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
-            We counted every idea on CourtReserve's board.
+            We counted every idea on CourtReserve’s board.
           </h2>
           <p class="mt-5 text-[1rem] leading-relaxed text-pretty text-stone-600">
             CourtReserve runs its roadmap in public at <a
@@ -781,7 +781,7 @@ const faqs = [
           <p
             class="mt-3 max-w-[62ch] text-[0.9375rem] leading-relaxed text-stone-600"
           >
-            Each of these is an open request on CourtReserve's own board, with
+            Each of these is an open request on CourtReserve’s own board, with
             the status and the time it has held that status. Every one of them
             is something a Memberley club can use today.
           </p>
@@ -794,7 +794,7 @@ const faqs = [
                 <tr class="border-b border-stone-950/10 bg-stone-100">
                   <th
                     class="p-3 text-[0.75rem] font-semibold tracking-wide text-stone-600 uppercase sm:p-4"
-                    >Requested on CourtReserve's board</th
+                    >Requested on CourtReserve’s board</th
                   >
                   <th
                     class="p-3 text-right text-[0.75rem] font-semibold tracking-wide text-stone-600 uppercase sm:p-4"
@@ -843,8 +843,8 @@ const faqs = [
           >
             * All figures from a full read of the public board at
             feedback.courtreserve.com on {auditDate}. Time in status is measured
-            from each idea's dated status change, not its submission date.
-            Statuses reflect what CourtReserve's board reported on that date;
+            from each idea’s dated status change, not its submission date.
+            Statuses reflect what CourtReserve’s board reported on that date;
             check the board for current status before relying on it.
           </p>
         </div>
@@ -856,11 +856,7 @@ const faqs = [
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
           <div class="max-w-[42ch]">
-            <div
-              class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
-            >
-              § How we build
-            </div>
+            <div class={eyebrowOnDark}>How we build</div>
             <h2
               class={`mt-5 text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
             >
@@ -902,7 +898,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
-          <div class={eyebrow}>§ Beyond reservations</div>
+          <div class={eyebrow}>Beyond reservations</div>
           <h2
             class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -950,7 +946,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-12 max-w-[44ch]">
-          <div class={eyebrow}>§ FAQ</div>
+          <div class={eyebrow}>FAQ</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -978,11 +974,7 @@ const faqs = [
     <section class="paper-dark text-stone-50">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="max-w-[40ch]">
-          <div
-            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
-          >
-            § Make the switch
-          </div>
+          <div class={eyebrowOnDark}>Make the switch</div>
           <h2
             class={`mt-5 text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
           >
@@ -991,28 +983,36 @@ const faqs = [
           <p
             class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400"
           >
-            Start a 45-day free trial and see your club in Memberley in minutes, or
-            send us your current roster and we'll set everything up for you,
+            Start your free trial and see your club in Memberley in minutes, or
+            send us your current roster and we’ll set everything up for you,
             free, before next season.
           </p>
-          <div class="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href={SIGNUP_URL}
-              class="inline-flex items-center gap-2 rounded-sm bg-brand-700 px-5 py-3 text-[0.875rem] font-semibold text-white shadow-btn transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
-            >
-              Start 45-day free trial →
-            </a>
-            <a
-              href={DEMO_LOGIN_URL}
-              class="inline-flex items-center gap-2 rounded-sm border border-stone-700 px-5 py-3 text-[0.875rem] font-medium text-stone-200 transition hover:bg-stone-800"
-            >
-              Explore the live demo
-            </a>
-          </div>
         </div>
+        <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <a
+            href={SIGNUP_URL}
+            data-marketing-event="trial_started"
+            data-marketing-location="alternative_cta"
+            class={primaryButtonOnDark}
+          >
+            {TRIAL_CTA_LABEL} <span aria-hidden="true">→</span>
+          </a>
+          <a
+            href={DEMO_LOGIN_URL}
+            data-marketing-event="live_demo_clicked"
+            data-marketing-location="alternative_cta"
+            class={secondaryButtonOnDark}
+          >
+            Explore the live demo
+          </a>
+        </div>
+        <p class="mt-4 font-mono text-[0.6875rem] tracking-[0.04em] text-stone-500">
+          {TRIAL_TERMS} · Free migration, no setup fee
+        </p>
       </div>
     </section>
 
+    </main>
     <SiteFooter />
   </div>
 

@@ -2,27 +2,25 @@
 import Layout from "../layouts/Layout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
-import { DEMO_LOGIN_URL } from "../config/site";
+import {
+  CONTACT_EMAIL,
+  DEMO_LOGIN_URL,
+  DOCS_URL,
+  SIGNUP_URL,
+  TRIAL_CTA_LABEL,
+  TRIAL_TERMS,
+} from "../config/site";
+import {
+  display,
+  eyebrow,
+  eyebrowOnDark,
+  primaryButtonOnDark,
+  secondaryButtonOnDark,
+} from "../config/ui";
 
-const fromEnv = (import.meta.env.PUBLIC_MEMBERLEY_APP_URL as string | undefined)
-  ?.trim()
-  .replace(/\/$/, "");
-const APP_URL =
-  fromEnv && fromEnv.length > 0
-    ? fromEnv
-    : import.meta.env.DEV
-      ? "http://memberley-app.test"
-      : "https://app.memberley.com";
-const SIGNUP_URL = `${APP_URL}/register`;
-const DOCS_URL = "https://docs.memberley.com";
-const CONTACT_EMAIL = "tommy@memberley.com";
-
-// ── Class tokens (paper theme, matches index.astro) ──────────────────────────
-const eyebrow =
-  "font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase";
-const display = "font-serif font-semibold tracking-tight";
-
-type Faq = { q: string; a: string };
+// An answer can end with one link — the demo, the docs — rendered as a real
+// anchor under the text rather than a bare URL the reader has to retype.
+type Faq = { q: string; a: string; link?: { href: string; label: string } };
 type FaqGroup = { title: string; faqs: Faq[] };
 
 const faqGroups: FaqGroup[] = [
@@ -31,23 +29,24 @@ const faqGroups: FaqGroup[] = [
     faqs: [
       {
         q: "What is Memberley?",
-        a: "Memberley runs the day-to-day of community organizations — memberships and dues, facility reservations, front-desk check-in, classes and programs, and member communications, in one workspace. It's built first for neighborhood pools, swim & tennis clubs, HOAs with amenities, and private clubs.",
+        a: "Memberley runs the day-to-day of a neighborhood pool or swim & tennis club — memberships and dues, facility reservations, front-desk check-in, classes and programs, and member communications — in one workspace. HOAs with a pool or courts and private clubs run on it the same way.",
       },
       {
         q: "How long does setup take?",
-        a: "Creating your organization takes about a minute. Connecting your own Stripe account takes about ten. Most clubs set up tiers, import their roster, and share their signup link within an hour. Every plan starts with a 45-day free trial — no card required.",
+        a: "Creating your organization takes about a minute. Connecting your own Stripe account takes about ten. Most clubs set up their tiers, import their roster, and share their signup link in an afternoon. Every plan starts with a 45-day free trial — no card required.",
       },
       {
         q: "Can I see it before signing up?",
-        a: "Yes — explore the live demo at demo.memberley.com. It's a full working organization you can click through, no account needed.",
+        a: "Yes. The live demo is a full working organization you can click through — no account needed.",
+        link: { href: DEMO_LOGIN_URL, label: "Open the live demo" },
       },
       {
         q: "How do I get my members in?",
-        a: "Three ways: import your whole roster from a CSV in one upload, share a single invite link that drops new members onto your default tier, or hand out join codes. Most clubs are fully migrated in an afternoon. If you'd rather not do it yourself, we will — see the next question.",
+        a: "Three ways: import your whole roster from a CSV in one upload, share a single invite link that drops new members onto your default tier, or hand out join codes. Most clubs are fully migrated in an afternoon. If you’d rather not do it yourself, we will — see the next question.",
       },
       {
         q: "Will you set our season up for us?",
-        a: "Yes, free with every club and on every plan — no setup fee. Send us your roster and what you charged last year and we'll move your members and households over, build your season with its tiers, dues, family pricing, prorating, and installments, load your waivers and the custom fields you collect at registration, and configure facilities, reservation rules, guest passes, and any classes or camps you run. Then we walk your board through it before you open registration.",
+        a: "Yes, free with every club and on every plan — no setup fee. Send us your roster and what you charged last year and we’ll move your members and households over, build your season with its tiers, dues, family pricing, prorating, and installments, load your waivers and the custom fields you collect at registration, and configure facilities, reservation rules, guest passes, and any classes or camps you run. Then we walk your board through it before you open registration.",
       },
       {
         q: "Can we track our own member details?",
@@ -64,15 +63,15 @@ const faqGroups: FaqGroup[] = [
       },
       {
         q: "Which plan should we pick?",
-        a: "A rule of thumb: if your club collects more than about $17,000 a year through Memberley, Community's flat $500 costs less than Starter's 3%, and you keep 100% of your dues. Smaller clubs usually start on Starter and upgrade when the math flips.",
+        a: "A rule of thumb: if your club collects more than about $17,000 a year through Memberley, Community’s flat $500 costs less than Starter’s 3%, and you keep 100% of your dues. Smaller clubs usually start on Starter and upgrade when the math flips.",
       },
       {
         q: "What are add-on modules?",
-        a: "Optional features billed flat per year, so you pay for only what your club uses. Every module is free to try during your trial, and you can switch modules on or off as your needs change.",
+        a: "Optional features billed flat per year, so you pay for only what your club uses. Every module is free for your entire first year — turn them all on, run a season, and keep the ones that earned their place. You can switch modules on or off as your needs change.",
       },
       {
         q: "Can we bill capital contributions, initiation fees, or special assessments?",
-        a: "Yes — the Assessments & Capital Fees module ($150/yr, free your first year) handles the charges that live outside normal dues: a capital contribution billed only during a member's first few membership years, a one-time initiation fee for new members, and special assessments issued to everyone who is a member on a given date. Memberley counts each household's membership year from the day they were first accepted (time on the waitlist never counts), adds the charge beside their dues, and stops automatically when the window ends — no moving members between tiers. Every charge is itemized on renewal emails, the member's account, receipts, and reports.",
+        a: "Yes — the Assessments & Capital Fees module ($150/yr, free your first year) handles the charges that live outside normal dues: a capital contribution billed only during a member’s first few membership years, a one-time initiation fee for new members, and special assessments issued to everyone who is a member on a given date. Memberley counts each household’s membership year from the day they were first accepted (time on the waitlist never counts), adds the charge beside their dues, and stops automatically when the window ends — no moving members between tiers. Every charge is itemized on renewal emails, the member’s account, receipts, and reports.",
       },
       {
         q: "Can we cancel?",
@@ -84,7 +83,7 @@ const faqGroups: FaqGroup[] = [
     title: "Payments",
     faqs: [
       {
-        q: "Where does members' money go?",
+        q: "Where does members’ money go?",
         a: "Into your own Stripe account, connected through Stripe Connect. Members pay your club directly, and payouts typically reach your bank in 1–2 business days — no middleman holding your funds.",
       },
       {
@@ -101,16 +100,16 @@ const faqGroups: FaqGroup[] = [
     title: "Switching & support",
     faqs: [
       {
-        q: "We're on Member Splash, PoolDues, or CourtReserve — how hard is switching?",
-        a: "We migrate you for free: send us your current roster and we'll import it, set up your branded portal, and have you live before registration opens. Most clubs switch in the off-season so everything is ready for next year.",
+        q: "We’re on Member Splash, PoolDues, or CourtReserve — how hard is switching?",
+        a: "We migrate you for free: send us your current roster and we’ll import it, set up your branded portal, and have you live before registration opens. Most clubs switch in the off-season so everything is ready for next year.",
       },
       {
         q: "Can we keep our existing website?",
-        a: "Yes. Memberley's member portal embeds into the website you already have, themed to your colors, fonts, and logo — you don't move your web presence onto our servers.",
+        a: "Yes. Memberley’s member portal embeds into the website you already have, themed to your colors, fonts, and logo — you don’t move your web presence onto our servers.",
       },
       {
         q: "How do we reach a human?",
-        a: "Write tommy@memberley.com or call the founder Tommy at (703) 895-6939. Memberley is based in Northern Virginia, and we'll happily meet your board in person to walk through setup and migration.",
+        a: "Write tommy@memberley.com or call the founder Tommy at (703) 895-6939. Memberley is based in Northern Virginia, and we’ll happily meet your board in person to walk through setup and migration.",
       },
     ],
   },
@@ -126,11 +125,12 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
   <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased">
     <SiteHeader />
 
+    <main id="main">
     <!-- Hero -->
     <section class="site-header-offset hero-wash border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-20 lg:px-8">
         <div class="max-w-[60ch]">
-          <div class={eyebrow}>§ Help</div>
+          <div class={eyebrow}>Help</div>
           <h1
             class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4.5vw,4rem)] leading-[1] text-balance ${display} text-stone-900`}
           >
@@ -146,7 +146,7 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
               href={DOCS_URL}
               class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
               >docs.memberley.com</a
-            >. Can't find your answer? Write
+            >. Can’t find your answer? Write
             <a
               href={`mailto:${CONTACT_EMAIL}`}
               class="font-medium text-stone-900 underline decoration-stone-400 underline-offset-2 transition hover:decoration-stone-900"
@@ -176,6 +176,14 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
                     </dt>
                     <dd class="mt-2.5 max-w-[65ch] text-[0.9375rem] leading-relaxed text-stone-600">
                       {f.a}
+                      {f.link && (
+                        <a
+                          href={f.link.href}
+                          class="mt-2 inline-flex items-center gap-1.5 font-medium text-stone-900 underline decoration-stone-400 underline-offset-4 transition hover:decoration-stone-900"
+                        >
+                          {f.link.label} <span aria-hidden="true">→</span>
+                        </a>
+                      )}
                     </dd>
                   </div>
                 ))}
@@ -190,11 +198,7 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
     <section class="paper-dark text-stone-50">
       <div class="mx-auto max-w-[74rem] px-6 py-20 lg:px-8">
         <div class="max-w-[44ch]">
-          <div
-            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
-          >
-            § Still deciding?
-          </div>
+          <div class={eyebrowOnDark}>Still deciding?</div>
           <h2
             class={`mt-5 text-[clamp(2rem,3.5vw,3rem)] leading-[1.05] text-balance ${display} text-stone-50`}
           >
@@ -203,33 +207,31 @@ const allFaqs = faqGroups.flatMap((g) => g.faqs);
           <p
             class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400"
           >
-            Write us and we&rsquo;ll walk your board through setup and
-            migration, or explore the live demo and start a 45-day free trial whenever
-            you&rsquo;re ready.
+            Write Tommy and he&rsquo;ll walk your board through setup and
+            migration, or explore the live demo and start your 45-day free
+            trial whenever you&rsquo;re ready.
           </p>
-          <div class="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              class="inline-flex items-center gap-2 rounded-sm bg-brand-700 px-5 py-3 text-[0.875rem] font-semibold text-white shadow-btn transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
-            >
-              Email {CONTACT_EMAIL}
-            </a>
-            <a
-              href={DEMO_LOGIN_URL}
-              class="inline-flex items-center gap-2 rounded-sm border border-stone-700 px-5 py-3 text-[0.875rem] font-medium text-stone-200 transition hover:bg-stone-800"
-            >
-              Explore the live demo
-            </a>
-            <a
-              href={SIGNUP_URL}
-              class="inline-flex items-center gap-2 rounded-sm px-5 py-3 text-[0.875rem] font-medium text-stone-300 transition hover:text-stone-50"
-            >
-              Start 45-day free trial →
-            </a>
-          </div>
         </div>
+        <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <a href={`mailto:${CONTACT_EMAIL}`} class={primaryButtonOnDark}>
+            Email Tommy
+          </a>
+          <a href={DEMO_LOGIN_URL} class={secondaryButtonOnDark}>
+            Explore the live demo
+          </a>
+          <a
+            href={SIGNUP_URL}
+            class="inline-flex items-center justify-center gap-2 px-5 py-3 text-[0.875rem] font-medium text-stone-300 transition hover:text-stone-50"
+          >
+            {TRIAL_CTA_LABEL} <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <p class="mt-4 font-mono text-[0.6875rem] tracking-[0.04em] text-stone-500">
+          {CONTACT_EMAIL} · (703) 895-6939 · {TRIAL_TERMS}
+        </p>
       </div>
     </section>
+    </main>
 
     <SiteFooter />
   </div>

@@ -4,16 +4,21 @@ import SiteHeader from "../../components/SiteHeader.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import ComparisonHeroVisual from "../../components/ComparisonHeroVisual.astro";
 import ComparisonTableHead from "../../components/ComparisonTableHead.astro";
-import { DEMO_LOGIN_URL, SIGNUP_URL } from "../../config/site";
-
-// ── Class tokens (inlined paper theme, matches index.astro) ──────────────────
-const eyebrow =
-  "font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase";
-const display = "font-serif font-semibold tracking-tight";
-const primaryBtn =
-  "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800 focus-visible:outline-brand-600";
-const secondaryBtn =
-  "border border-stone-950/15 bg-white text-stone-900 hover:border-stone-950/30 hover:bg-stone-100";
+import {
+  DEMO_LOGIN_URL,
+  SIGNUP_URL,
+  TRIAL_CTA_LABEL,
+  TRIAL_TERMS,
+} from "../../config/site";
+import {
+  display,
+  eyebrow,
+  eyebrowOnDark,
+  primaryButton,
+  primaryButtonOnDark,
+  secondaryButton,
+  secondaryButtonOnDark,
+} from "../../config/ui";
 
 // ── Head-to-head ─────────────────────────────────────────────────────────────
 // Competitor details as published on membersplash.com (2026). Re-verify before
@@ -24,7 +29,7 @@ type Cell = string | boolean | null;
 const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   {
     label: "Starting price",
-    memberley: "$0/yr + 3%, or $500/yr with no payment fees",
+    memberley: "$0/yr + 3% per payment, or $500/yr with no Memberley fee",
     competitor: "$2,000–$3,500 / year",
   },
   {
@@ -58,7 +63,7 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
     memberley: true,
     competitor: null,
   },
-  // Member Splash's published app is the front-desk check-in app (iOS, paired
+  // Member Splash’s published app is the front-desk check-in app (iOS, paired
   // with card-reader hardware) — per internal competitor research 2026-05, no
   // member-facing app found. Re-verify before publishing.
   {
@@ -97,7 +102,7 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   },
 ];
 
-// Extras where Memberley goes further than Member Splash's published feature set.
+// Extras where Memberley goes further than Member Splash’s published feature set.
 const builtInExtras: {
   title: string;
   desc: string;
@@ -131,7 +136,7 @@ const builtInExtras: {
   },
   {
     title: "An app on your members' phones",
-    desc: "Members add it to the home screen under your club's name and colors, and it opens full screen — no app store, nothing to update. Same app runs the front desk from a phone or tablet at the gate.",
+    desc: "Members add it to the home screen under your club’s name and colors, and it opens full screen — no app store, nothing to update. Same app runs the front desk from a phone or tablet at the gate.",
     icon: '<rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/>',
   },
   {
@@ -144,11 +149,11 @@ const builtInExtras: {
 const reasons = [
   {
     title: "Keep your dues — and your brand",
-    body: "Connect your own Stripe account in minutes. Members pay your club directly and payouts typically reach your bank in 1–2 business days. The portal and every email carry your logo and colors, not a vendor's.",
+    body: "Connect your own Stripe account in minutes. Members pay your club directly and payouts typically reach your bank in 1–2 business days. The portal and every email carry your logo and colors, not a vendor’s.",
   },
   {
     title: "No setup fee, lower yearly cost",
-    body: "Member Splash runs $2,000–$3,500 a year before your first member pays, plus $500–$1,000 more if you want hands-on setup. Memberley starts at $0/yr with a 3% payment fee, and there's nothing to set up.",
+    body: "Member Splash runs $2,000–$3,500 a year before your first member pays, plus $500–$1,000 more if you want hands-on setup. Memberley starts at $0/yr with a 3% payment fee, and there’s nothing to set up.",
   },
   {
     title: "Built this decade",
@@ -163,11 +168,11 @@ const reasons = [
 const faqs = [
   {
     q: "Is Memberley a good Member Splash alternative for neighborhood pools?",
-    a: "Yes — Memberley is purpose-built for community and neighborhood pools: seasonal membership tiers, guest-pass auto-charge at the gate, QR-code check-in, waitlists, and online dues. The biggest differences are that dues settle to your own Stripe account, the member portal and emails are branded as your club, and there's no setup fee.",
+    a: "Yes — Memberley is purpose-built for community and neighborhood pools: seasonal membership tiers, guest-pass auto-charge at the gate, QR-code check-in, waitlists, and online dues. The biggest differences are that dues settle to your own Stripe account, the member portal and emails are branded as your club, and there’s no setup fee.",
   },
   {
     q: "How does pricing compare to Member Splash?",
-    a: "Member Splash publishes $2,000/yr (Essentials OS) to $3,500/yr (Premium OS), with hands-on setup available for an extra $500–$1,000. Memberley starts at $0/yr — unlimited members, no setup fee — with a 3% payment fee, or a $500/yr Community plan with zero payment fees; either way you add only the modules you need, and every module is free for your entire first year. Standard Stripe processing fees apply, as with any provider. Most neighborhood pools land well under what they'd pay Member Splash in year one.",
+    a: "Member Splash publishes $2,000/yr (Essentials OS) to $3,500/yr (Premium OS), with hands-on setup available for an extra $500–$1,000. Memberley starts at $0/yr — unlimited members, no setup fee — with a 3% payment fee, or a $500/yr Community plan with zero payment fees; either way you add only the modules you need, and every module is free for your entire first year. Standard Stripe processing fees apply, as with any provider. Most neighborhood pools land well under what they’d pay Member Splash in year one.",
   },
   {
     q: "Where does the money go when members pay?",
@@ -175,15 +180,15 @@ const faqs = [
   },
   {
     q: "Can we keep our existing club website?",
-    a: "Yes. Memberley's member portal embeds into the site you already have, themed to match. You don't have to move your website onto our servers.",
+    a: "Yes. Memberley’s member portal embeds into the site you already have, themed to match. You don’t have to move your website onto our servers.",
   },
   {
     q: "Does Memberley have a mobile app?",
-    a: "Yes — members and staff install it straight from the browser. Open Memberley on a phone and add it to the home screen: it gets its own icon under your club's name, opens full screen with no browser bars, and stays signed in. There is nothing to download from the App Store or Play Store, and no updates for anyone to install — everyone is always on the current version. Member Splash's app is a front-desk check-in tool for staff; a Memberley household books a court, pays dues, and pulls up their check-in code from the same icon.",
+    a: "Yes. Members and staff add Memberley to their phone’s home screen straight from the browser — it gets its own icon under your club’s name, opens full screen, and stays signed in, with nothing to download from an app store and no updates to install. Member Splash’s app is a check-in tool for staff; a Memberley household books a court, pays dues, and pulls up their check-in code from the same icon.",
   },
   {
     q: "Can Memberley bill our capital contribution and initiation fee?",
-    a: "Yes. The Assessments & Capital Fees module ($150/yr, free your first year) bills a capital contribution only during a member's first few membership years, a one-time initiation fee for new members, and special assessments to everyone who is a member on a given date. Memberley counts each household's membership year from the day they were first accepted — waitlist time never counts — adds the charge beside their dues at renewal, and stops on its own when the window ends. Member Splash collects initiation fees at signup; the recurring, tenure-based part is what boards usually track by hand today.",
+    a: "Yes. The Assessments & Capital Fees module ($150/yr, free your first year) bills a capital contribution only during a member’s first few membership years, a one-time initiation fee for new members, and special assessments to everyone who is a member on a given date. Memberley counts each household’s membership year from the day they were first accepted — waitlist time never counts — adds the charge beside their dues at renewal, and stops on its own when the window ends. Member Splash collects initiation fees at signup; the recurring, tenure-based part is what boards usually track by hand today.",
   },
   {
     q: "Can we switch in the middle of the season?",
@@ -191,25 +196,26 @@ const faqs = [
   },
   {
     q: "Do you work with Northern Virginia pools?",
-    a: "Yes — Memberley is based in Northern Virginia and we'll happily meet your board in person to walk through setup and migration.",
+    a: "Yes — Memberley is based in Northern Virginia and we’ll happily meet your board in person to walk through setup and migration.",
   },
 ];
 ---
 
 <Layout
   title="Member Splash Alternative for Neighborhood Pools | Memberley"
-  description="Looking for a Member Splash alternative? Memberley runs your pool's memberships, dues, guest passes, and check-in — with dues paid to your own Stripe account, your branding, no setup fee, and free migration."
+  description="Looking for a Member Splash alternative? Memberley runs your pool’s memberships, dues, guest passes, and check-in — with dues paid to your own Stripe account, your branding, no setup fee, and free migration."
 >
   <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased">
     <SiteHeader />
+    <main id="main">
 
     <!-- Hero -->
     <section class="site-header-offset hero-wash border-b border-stone-950/10">
       <div class="mx-auto grid max-w-[74rem] items-center gap-12 px-6 py-20 lg:grid-cols-[0.84fr_1.16fr] lg:px-8 lg:py-24">
         <div class="max-w-[60ch]">
-          <div class={eyebrow}>§ Member Splash alternative</div>
+          <div class={eyebrow}>Member Splash alternative</div>
           <h1
-            class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] text-balance ${display} text-stone-900`}
+            class={`mt-5 max-w-[20ch] text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] text-balance ${display} text-stone-900`}
           >
             The modern Member Splash alternative for neighborhood pools.
           </h1>
@@ -222,20 +228,17 @@ const faqs = [
             > Stripe account, and the portal wears
             <strong>your</strong> brand, not ours.
           </p>
-          <div class="mt-10 flex flex-wrap items-center gap-3">
+          <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <a
               href={SIGNUP_URL}
-              class={`group inline-flex items-center gap-2 rounded-full px-5 py-3 text-[0.875rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
+              data-marketing-event="trial_started"
+              data-marketing-location="alternative_hero"
+              class={`group ${primaryButton}`}
             >
-              Start 45-day free trial
-              <span class="transition group-hover:translate-x-0.5">→</span>
+              {TRIAL_CTA_LABEL}
+              <span class="transition group-hover:translate-x-0.5 motion-reduce:transform-none">→</span>
             </a>
-            <a
-              href="#compare"
-              class={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-[0.875rem] font-medium transition ${secondaryBtn}`}
-            >
-              See the comparison
-            </a>
+            <a href="#compare" class={secondaryButton}>See the comparison</a>
           </div>
           <p class="mt-6 font-mono text-[0.75rem] tracking-wide text-stone-600">
             Free migration off Member Splash · No setup fee · 45-day trial, no
@@ -255,7 +258,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
-          <div class={eyebrow}>§ Why pools switch</div>
+          <div class={eyebrow}>Why pools switch</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -287,7 +290,7 @@ const faqs = [
     <section id="compare" class="border-b border-stone-950/10 bg-stone-50">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-12 max-w-[44ch]">
-          <div class={eyebrow}>§ Head to head</div>
+          <div class={eyebrow}>Head to head</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -372,14 +375,16 @@ const faqs = [
           >
             Credit where due
           </div>
+          {/* "Since 2010" and the club count are as published on membersplash.com
+              (verified 2026-06). Re-verify before publishing. */}
           <p class="text-[0.875rem] leading-relaxed text-stone-600">
-            Member Splash will help set up and host your club website alongside
-            its membership tools. The tradeoff is that your public website and
-            club operations are tied to the same vendor, even when a simpler,
-            more user-friendly website service like Squarespace would do the
-            job. Memberley lets you keep the website you own and gives you a
-            better-designed, modern member experience with more built in,
-            including both email and SMS.
+            Member Splash has run neighborhood pools since 2010, and hundreds
+            of clubs is real trust: its support team knows this world, and if
+            you want one vendor to build and host your club website alongside
+            memberships, they do that well. The difference is where things
+            live. With Memberley your website stays where it is with the member
+            portal embedded in it, dues settle to your own Stripe account, and
+            email and SMS sit in the same workspace as the gate.
           </p>
         </div>
       </div>
@@ -389,7 +394,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
-          <div class={eyebrow}>§ Beyond the basics</div>
+          <div class={eyebrow}>Beyond the basics</div>
           <h2
             class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -443,7 +448,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-12 max-w-[44ch]">
-          <div class={eyebrow}>§ FAQ</div>
+          <div class={eyebrow}>FAQ</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -471,11 +476,7 @@ const faqs = [
     <section class="paper-dark text-stone-50">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="max-w-[40ch]">
-          <div
-            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
-          >
-            § Make the switch
-          </div>
+          <div class={eyebrowOnDark}>Make the switch</div>
           <h2
             class={`mt-5 text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
           >
@@ -484,28 +485,36 @@ const faqs = [
           <p
             class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400"
           >
-            Start a 45-day free trial and see your club in Memberley in minutes, or
-            send us your Member Splash roster and we'll set everything up for
+            Start your free trial and see your club in Memberley in minutes, or
+            send us your Member Splash roster and we’ll set everything up for
             you, free, before next season.
           </p>
-          <div class="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href={SIGNUP_URL}
-              class="inline-flex items-center gap-2 rounded-sm bg-brand-700 px-5 py-3 text-[0.875rem] font-semibold text-white transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
-            >
-              Start 45-day free trial →
-            </a>
-            <a
-              href={DEMO_LOGIN_URL}
-              class="inline-flex items-center gap-2 rounded-sm border border-stone-700 px-5 py-3 text-[0.875rem] font-medium text-stone-200 transition hover:bg-stone-800"
-            >
-              Explore the live demo
-            </a>
-          </div>
         </div>
+        <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <a
+            href={SIGNUP_URL}
+            data-marketing-event="trial_started"
+            data-marketing-location="alternative_cta"
+            class={primaryButtonOnDark}
+          >
+            {TRIAL_CTA_LABEL} <span aria-hidden="true">→</span>
+          </a>
+          <a
+            href={DEMO_LOGIN_URL}
+            data-marketing-event="live_demo_clicked"
+            data-marketing-location="alternative_cta"
+            class={secondaryButtonOnDark}
+          >
+            Explore the live demo
+          </a>
+        </div>
+        <p class="mt-4 font-mono text-[0.6875rem] tracking-[0.04em] text-stone-500">
+          {TRIAL_TERMS} · Free migration, no setup fee
+        </p>
       </div>
     </section>
 
+    </main>
     <SiteFooter />
   </div>
 

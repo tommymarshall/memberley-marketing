@@ -106,89 +106,91 @@ const sections = [
     <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased">
         <SiteHeader />
 
-        <!-- Header -->
-        <section class="site-header-offset hero-wash border-b border-stone-950/10">
-            <div class="mx-auto max-w-[74rem] px-6 py-20 lg:px-8 lg:py-24">
-                <div class={eyebrow}>§ Legal</div>
-                <h1
-                    class={`mt-5 max-w-[22ch] text-[clamp(2.5rem,5vw,4rem)] leading-[1] text-balance ${display} text-stone-900`}
-                >
-                    Terms of Use
-                </h1>
-                <p
-                    class="mt-6 max-w-[60ch] text-[1rem] leading-relaxed text-stone-600"
-                >
-                    These terms govern your access to and use of Memberley.
-                    Please read them carefully — they include important
-                    information about your rights, responsibilities, and limits
-                    on our liability.
-                </p>
-                <div
-                    class="mt-8 font-mono text-[0.75rem] tracking-wide text-stone-500 uppercase"
-                >
-                    Last updated · {lastUpdated}
+        <main id="main">
+            <!-- Header -->
+            <section class="site-header-offset hero-wash border-b border-stone-950/10">
+                <div class="mx-auto max-w-[74rem] px-6 py-20 lg:px-8 lg:py-24">
+                    <div class={eyebrow}>§ Legal</div>
+                    <h1
+                        class={`mt-5 max-w-[22ch] text-[clamp(2.5rem,5vw,4rem)] leading-[1] text-balance ${display} text-stone-900`}
+                    >
+                        Terms of Use
+                    </h1>
+                    <p
+                        class="mt-6 max-w-[60ch] text-[1rem] leading-relaxed text-stone-600"
+                    >
+                        These terms govern your access to and use of Memberley.
+                        Please read them carefully — they include important
+                        information about your rights, responsibilities, and limits
+                        on our liability.
+                    </p>
+                    <div
+                        class="mt-8 font-mono text-[0.75rem] tracking-wide text-stone-500 uppercase"
+                    >
+                        Last updated · {lastUpdated}
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Body -->
-        <section class="border-b border-stone-950/10 bg-stone-50">
-            <div
-                class="mx-auto grid max-w-[74rem] grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:px-8"
-            >
-                <aside class="hidden lg:col-span-4 lg:block">
-                    <div class="sticky top-24">
-                        <div class={eyebrow}>§ Contents</div>
-                        <ol
-                            role="list"
-                            class="mt-5 space-y-2.5 border-t border-stone-950/10 pt-5"
+            <!-- Body -->
+            <section class="border-b border-stone-950/10 bg-stone-50">
+                <div
+                    class="mx-auto grid max-w-[74rem] grid-cols-1 gap-12 px-6 py-20 lg:grid-cols-12 lg:px-8"
+                >
+                    <aside class="hidden lg:col-span-4 lg:block">
+                        <div class="sticky top-24">
+                            <div class={eyebrow}>§ Contents</div>
+                            <ol
+                                role="list"
+                                class="mt-5 space-y-2.5 border-t border-stone-950/10 pt-5"
+                            >
+                                {
+                                    sections.map((s) => (
+                                        <li>
+                                            <a
+                                                href={`#s-${s.n}`}
+                                                class="flex gap-3 text-[0.8125rem] text-stone-600 transition hover:text-stone-900"
+                                            >
+                                                <span class="font-mono text-stone-500 tabular-nums">
+                                                    {s.n}
+                                                </span>
+                                                <span>{s.title}</span>
+                                            </a>
+                                        </li>
+                                    ))
+                                }
+                            </ol>
+                        </div>
+                    </aside>
+
+                    <div class="lg:col-span-8">
+                        <div
+                            class="divide-y divide-stone-950/10 border-y border-stone-950/10"
                         >
                             {
                                 sections.map((s) => (
-                                    <li>
-                                        <a
-                                            href={`#s-${s.n}`}
-                                            class="flex gap-3 text-[0.8125rem] text-stone-600 transition hover:text-stone-900"
+                                    <article id={`s-${s.n}`} class="py-10">
+                                        <div class="font-mono text-[0.75rem] text-stone-500">
+                                            {s.n}
+                                        </div>
+                                        <h2
+                                            class={`mt-3 text-[1.5rem] ${display} text-stone-900`}
                                         >
-                                            <span class="font-mono text-stone-500 tabular-nums">
-                                                {s.n}
-                                            </span>
-                                            <span>{s.title}</span>
-                                        </a>
-                                    </li>
+                                            {s.title}
+                                        </h2>
+                                        <div class="mt-4 max-w-[70ch] space-y-4 text-[0.9375rem] leading-relaxed text-stone-600">
+                                            {s.body.map((p) => (
+                                                <p>{p}</p>
+                                            ))}
+                                        </div>
+                                    </article>
                                 ))
                             }
-                        </ol>
-                    </div>
-                </aside>
-
-                <div class="lg:col-span-8">
-                    <div
-                        class="divide-y divide-stone-950/10 border-y border-stone-950/10"
-                    >
-                        {
-                            sections.map((s) => (
-                                <article id={`s-${s.n}`} class="py-10">
-                                    <div class="font-mono text-[0.75rem] text-stone-500">
-                                        {s.n}
-                                    </div>
-                                    <h2
-                                        class={`mt-3 text-[1.5rem] ${display} text-stone-900`}
-                                    >
-                                        {s.title}
-                                    </h2>
-                                    <div class="mt-4 max-w-[70ch] space-y-4 text-[0.9375rem] leading-relaxed text-stone-600">
-                                        {s.body.map((p) => (
-                                            <p>{p}</p>
-                                        ))}
-                                    </div>
-                                </article>
-                            ))
-                        }
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </main>
 
         <SiteFooter />
     </div>

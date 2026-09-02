@@ -133,7 +133,9 @@ body {
     overflow: hidden;
     border: 1px solid rgb(28 25 23 / 0.14);
     border-radius: 1rem;
-    background: #fff;
+    /* Stone-100 so the box reads as a placeholder while its screenshot loads
+       instead of a white flash against the paper background. */
+    background: #f5f5f4;
     box-shadow: var(--shadow-paper-lg);
 }
 
@@ -158,9 +160,82 @@ body {
     content: '';
 }
 
+/* The laptop sits on a table that runs to the edges of the photo. Fading the
+   table out at the sides and bottom lets it dissolve into the page instead of
+   ending in a hard rectangle with rounded corners. */
 .hero-product-photo {
     filter: drop-shadow(0 2.4rem 2.2rem rgb(69 45 32 / 0.12));
-    border-radius: 1.5rem;
+    -webkit-mask-image:
+        linear-gradient(to bottom, #000 86%, transparent 100%),
+        linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image:
+        linear-gradient(to bottom, #000 86%, transparent 100%),
+        linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+    mask-composite: intersect;
+}
+
+/* Hero fact list: stacked on phones, one dotted line from `sm` up. */
+.hero-facts {
+    display: grid;
+    row-gap: 0.25rem;
+}
+
+/* Wider screens run the facts on one line with dot separators. Every item
+   carries its own leading dot, and the list is shifted left and clipped by
+   exactly that width, so a dot never dangles at the start of a wrapped line. */
+@media (min-width: 40rem) {
+    .hero-facts {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: -1.7rem;
+        clip-path: inset(0 0 0 1.7rem);
+    }
+
+    .hero-facts li::before {
+        display: inline-block;
+        width: 1.7rem;
+        color: rgb(168 162 158);
+        text-align: center;
+        content: '·';
+    }
+}
+
+/* The GhostChat widget positions its window with inline styles sized for a
+   desktop corner (350px wide, 84px off the bottom). On phones that leaves a
+   cramped box floating over the page; open it edge to edge instead. */
+@media (max-width: 40rem) {
+    #ghostchat-window {
+        inset: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+        height: 100dvh !important;
+        max-height: none !important;
+        border-radius: 0 !important;
+    }
+}
+
+/* Keyboard users get a "skip to content" link that is only visible while it
+   has focus. */
+.skip-link {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    border-radius: 999px;
+    background: #1c1917;
+    padding: 0.6rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #fff;
+    transform: translateY(-200%);
+    transition: transform 150ms ease;
+}
+
+.skip-link:focus-visible {
+    transform: none;
+    outline: 2px solid var(--color-brand-500, #c0633b);
+    outline-offset: 2px;
 }
 
 details > summary::-webkit-details-marker {

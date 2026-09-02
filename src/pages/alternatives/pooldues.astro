@@ -4,16 +4,21 @@ import SiteHeader from "../../components/SiteHeader.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import ComparisonHeroVisual from "../../components/ComparisonHeroVisual.astro";
 import ComparisonTableHead from "../../components/ComparisonTableHead.astro";
-import { DEMO_LOGIN_URL, SIGNUP_URL } from "../../config/site";
-
-// ── Class tokens (inlined paper theme, matches index.astro) ──────────────────
-const eyebrow =
-  "font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase";
-const display = "font-serif font-semibold tracking-tight";
-const primaryBtn =
-  "bg-stone-900 text-stone-50 shadow-btn hover:bg-stone-800 focus-visible:outline-brand-600";
-const secondaryBtn =
-  "border border-stone-950/15 bg-white text-stone-900 hover:border-stone-950/30 hover:bg-stone-100";
+import {
+  DEMO_LOGIN_URL,
+  SIGNUP_URL,
+  TRIAL_CTA_LABEL,
+  TRIAL_TERMS,
+} from "../../config/site";
+import {
+  display,
+  eyebrow,
+  eyebrowOnDark,
+  primaryButton,
+  primaryButtonOnDark,
+  secondaryButton,
+  secondaryButtonOnDark,
+} from "../../config/ui";
 
 // ── Head-to-head ─────────────────────────────────────────────────────────────
 // Competitor details as published on pooldues.com (2026). Re-verify before
@@ -24,7 +29,7 @@ type Cell = string | boolean | null;
 const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
   {
     label: "Starting price",
-    memberley: "$0/yr + 3%, or $500/yr with no payment fees",
+    memberley: "$0/yr + 3% per payment, or $500/yr with no Memberley fee",
     competitor: "$1,999 / year (flat)",
   },
   {
@@ -95,7 +100,7 @@ const reasons = [
   },
   {
     title: "Keep the website you already have",
-    body: "PoolDues hosts your club site on their servers. Memberley's member portal embeds into the website you already own and run — no migrating your whole web presence onto a vendor.",
+    body: "PoolDues hosts your club site on their servers. Memberley’s member portal embeds into the website you already own and run — no migrating your whole web presence onto a vendor.",
   },
   {
     title: "Pricing that fits your pool",
@@ -107,7 +112,7 @@ const reasons = [
   },
 ];
 
-// Extras where Memberley goes further than PoolDues's published feature set.
+// Extras where Memberley goes further than PoolDues’s published feature set.
 const builtInExtras: {
   title: string;
   desc: string;
@@ -149,7 +154,7 @@ const builtInExtras: {
 const faqs = [
   {
     q: "Is Memberley a good PoolDues alternative for neighborhood pools?",
-    a: "Yes. Memberley covers the same pool essentials — online dues with auto-renewal, reservations, guest passes, and member check-in — and adds your own Stripe payouts, built-in email and SMS, QuickBooks and Mailchimp integrations, classes, and waivers. It's a fit for swim, tennis, and HOA-with-pool communities.",
+    a: "Yes. Memberley covers the same pool essentials — online dues with auto-renewal, reservations, guest passes, and member check-in — and adds your own Stripe payouts, built-in email and SMS, QuickBooks and Mailchimp integrations, classes, and waivers. It’s a fit for swim, tennis, and HOA-with-pool communities.",
   },
   {
     q: "Do members have to pay through PayPal?",
@@ -165,7 +170,7 @@ const faqs = [
   },
   {
     q: "Can Memberley bill our capital contribution and initiation fee?",
-    a: "Yes. The Assessments & Capital Fees module ($150/yr, free your first year) bills a capital contribution only during a member's first few membership years, a one-time initiation fee for new members, and special assessments to everyone who is a member on a given date. Memberley counts each household's membership year from the day they were first accepted — waitlist time never counts — adds the charge beside their dues at renewal, and stops on its own when the window ends. PoolDues collects initiation fees at signup; the recurring, tenure-based part is what boards usually track by hand today.",
+    a: "Yes. The Assessments & Capital Fees module ($150/yr, free your first year) bills a capital contribution only during a member’s first few membership years, a one-time initiation fee for new members, and special assessments to everyone who is a member on a given date. Memberley counts each household’s membership year from the day they were first accepted — waitlist time never counts — adds the charge beside their dues at renewal, and stops on its own when the window ends. PoolDues collects initiation fees at signup; the recurring, tenure-based part is what boards usually track by hand today.",
   },
   {
     q: "Can we switch in the middle of the season?",
@@ -173,7 +178,7 @@ const faqs = [
   },
   {
     q: "Do you work with Northern Virginia pools?",
-    a: "Yes — Memberley is based in Northern Virginia and we'll meet your board in person to walk through setup and migration.",
+    a: "Yes — Memberley is based in Northern Virginia and we’ll meet your board in person to walk through setup and migration.",
   },
 ];
 ---
@@ -184,14 +189,15 @@ const faqs = [
 >
   <div class="min-h-dvh paper-light font-sans text-stone-900 antialiased">
     <SiteHeader />
+    <main id="main">
 
     <!-- Hero -->
     <section class="site-header-offset hero-wash border-b border-stone-950/10">
       <div class="mx-auto grid max-w-[74rem] items-center gap-12 px-6 py-20 lg:grid-cols-[0.84fr_1.16fr] lg:px-8 lg:py-24">
         <div class="max-w-[60ch]">
-          <div class={eyebrow}>§ PoolDues alternative</div>
+          <div class={eyebrow}>PoolDues alternative</div>
           <h1
-            class={`mt-5 max-w-[18ch] text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] text-balance ${display} text-stone-900`}
+            class={`mt-5 max-w-[20ch] text-[clamp(2.5rem,4vw,3.5rem)] leading-[1] text-balance ${display} text-stone-900`}
           >
             A PoolDues alternative that pays out to your own bank.
           </h1>
@@ -204,20 +210,17 @@ const faqs = [
             <strong>already</strong> have, and email, SMS, and accounting sync come
             built in.
           </p>
-          <div class="mt-10 flex flex-wrap items-center gap-3">
+          <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <a
               href={SIGNUP_URL}
-              class={`group inline-flex items-center gap-2 rounded-full px-5 py-3 text-[0.875rem] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${primaryBtn}`}
+              data-marketing-event="trial_started"
+              data-marketing-location="alternative_hero"
+              class={`group ${primaryButton}`}
             >
-              Start 45-day free trial
-              <span class="transition group-hover:translate-x-0.5">→</span>
+              {TRIAL_CTA_LABEL}
+              <span class="transition group-hover:translate-x-0.5 motion-reduce:transform-none">→</span>
             </a>
-            <a
-              href="#compare"
-              class={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-[0.875rem] font-medium transition ${secondaryBtn}`}
-            >
-              See the comparison
-            </a>
+            <a href="#compare" class={secondaryButton}>See the comparison</a>
           </div>
           <p class="mt-6 font-mono text-[0.75rem] tracking-wide text-stone-600">
             Free migration off PoolDues · Your own Stripe · 45-day trial, no
@@ -237,7 +240,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
-          <div class={eyebrow}>§ Why clubs switch</div>
+          <div class={eyebrow}>Why clubs switch</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -269,7 +272,7 @@ const faqs = [
     <section id="compare" class="border-b border-stone-950/10 bg-stone-50">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-12 max-w-[44ch]">
-          <div class={eyebrow}>§ Head to head</div>
+          <div class={eyebrow}>Head to head</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -358,13 +361,14 @@ const faqs = [
             Credit where due
           </div>
           <p class="text-[0.875rem] leading-relaxed text-stone-600">
-            PoolDues will help set up and host your club website alongside its
-            membership tools. The tradeoff is that your public website and club
-            operations are tied to the same vendor, even when a simpler, more
-            user-friendly website service like Squarespace would do the job.
-            Memberley lets you keep the website you own and gives you a
-            better-designed, modern member experience with more built in,
-            including both email and SMS.
+            PoolDues is purpose-built for swim and tennis clubs, its flat yearly
+            price is easy for a board to budget, and it will build and host your
+            club website as part of the package. If you want one vendor for the
+            site and the memberships, that is a fair choice. The difference is
+            where things live. With Memberley your website stays where it is
+            with the member portal embedded in it, members pay into your own
+            Stripe account rather than through PayPal, and email and SMS sit in
+            the same workspace as dues and the gate.
           </p>
         </div>
       </div>
@@ -374,7 +378,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-14 max-w-[44ch]">
-          <div class={eyebrow}>§ Beyond the basics</div>
+          <div class={eyebrow}>Beyond the basics</div>
           <h2
             class={`mt-5 max-w-[24ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -428,7 +432,7 @@ const faqs = [
     <section class="border-b border-stone-950/10">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="mb-12 max-w-[44ch]">
-          <div class={eyebrow}>§ FAQ</div>
+          <div class={eyebrow}>FAQ</div>
           <h2
             class={`mt-5 max-w-[22ch] text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-900`}
           >
@@ -456,11 +460,7 @@ const faqs = [
     <section class="paper-dark text-stone-50">
       <div class="mx-auto max-w-[74rem] px-6 py-24 lg:px-8">
         <div class="max-w-[40ch]">
-          <div
-            class="font-mono text-[0.6875rem] font-medium tracking-wide text-brand-400 uppercase"
-          >
-            § Make the switch
-          </div>
+          <div class={eyebrowOnDark}>Make the switch</div>
           <h2
             class={`mt-5 text-[clamp(2.25rem,4vw,3.25rem)] leading-[1.05] text-balance ${display} text-stone-50`}
           >
@@ -469,28 +469,36 @@ const faqs = [
           <p
             class="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-stone-400"
           >
-            Start a 45-day free trial and see your club in Memberley in minutes, or
-            send us your PoolDues roster and we'll set everything up for you,
+            Start your free trial and see your club in Memberley in minutes, or
+            send us your PoolDues roster and we’ll set everything up for you,
             free, before next season.
           </p>
-          <div class="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href={SIGNUP_URL}
-              class="inline-flex items-center gap-2 rounded-sm bg-brand-700 px-5 py-3 text-[0.875rem] font-semibold text-white transition hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
-            >
-              Start 45-day free trial →
-            </a>
-            <a
-              href={DEMO_LOGIN_URL}
-              class="inline-flex items-center gap-2 rounded-sm border border-stone-700 px-5 py-3 text-[0.875rem] font-medium text-stone-200 transition hover:bg-stone-800"
-            >
-              Explore the live demo
-            </a>
-          </div>
         </div>
+        <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <a
+            href={SIGNUP_URL}
+            data-marketing-event="trial_started"
+            data-marketing-location="alternative_cta"
+            class={primaryButtonOnDark}
+          >
+            {TRIAL_CTA_LABEL} <span aria-hidden="true">→</span>
+          </a>
+          <a
+            href={DEMO_LOGIN_URL}
+            data-marketing-event="live_demo_clicked"
+            data-marketing-location="alternative_cta"
+            class={secondaryButtonOnDark}
+          >
+            Explore the live demo
+          </a>
+        </div>
+        <p class="mt-4 font-mono text-[0.6875rem] tracking-[0.04em] text-stone-500">
+          {TRIAL_TERMS} · Free migration, no setup fee
+        </p>
       </div>
     </section>
 
+    </main>
     <SiteFooter />
   </div>
 
