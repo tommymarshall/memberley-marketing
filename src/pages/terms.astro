@@ -8,93 +8,275 @@ const eyebrow =
     'font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase';
 const display = 'font-serif font-semibold tracking-tight';
 
-const lastUpdated = 'April 24, 2026';
+const lastUpdated = 'September 16, 2026';
 
-const sections = [
+type Block = string | { items: string[] };
+
+type Section = {
+    n: string;
+    title: string;
+    body: Block[];
+};
+
+const sections: Section[] = [
     {
         n: '01',
-        title: 'Acceptance of terms',
+        title: 'Agreement and who it covers',
         body: [
-            'By accessing or using Memberley (the "Service"), you agree to be bound by these Terms of Use ("Terms"). If you are using the Service on behalf of an organization, you represent that you have authority to bind that organization to these Terms.',
-            'If you do not agree to these Terms, you may not access or use the Service.',
+            'These Terms of Use (the “Terms”) are a binding agreement between you and Memberley, Inc. (“Memberley,” “we,” “us”) governing your access to and use of the Memberley platform, applications, organization portals, embeds, calendar feeds, and related services (together, the “Service”). By creating an account, joining an organization through the Service, clicking to accept, or otherwise using the Service, you agree to these Terms and to our Privacy Policy, which is incorporated by reference.',
+            'If you create or administer an Organization on the Service, you are agreeing on behalf of that Organization and you represent that you have the authority to bind it. If you use the Service as a Member of an Organization, these Terms govern your use of the Service, while your membership itself — dues, rules, refunds, eligibility, and conduct — is governed by that Organization.',
+            'You must be at least 18 years old to create an account. Records for younger household members may be maintained only by an adult who is responsible for them.',
+            'These Terms include a binding arbitration provision and class action waiver in Section 23. It affects how disputes are resolved, and it lets you opt out within 30 days.',
         ],
     },
     {
         n: '02',
-        title: 'Accounts',
+        title: 'Definitions',
         body: [
-            'To use the Service you must create an account and provide accurate, current information. You are responsible for safeguarding your credentials and for all activity that occurs under your account.',
-            'You must notify us promptly of any unauthorized access or suspected breach of security. We are not liable for losses caused by unauthorized use of your account that you could have prevented.',
+            {
+                items: [
+                    '“Organization” means the club, pool, HOA, team, or other group that creates an organization account on the Service, and is also referred to as “Customer.”',
+                    '“Administrator” means any person the Organization authorizes to manage its account, including owners, managers, front-desk staff, and anyone using shared or embedded check-in devices.',
+                    '“Member” means an individual who joins, registers with, pays, checks in to, or otherwise interacts with an Organization through the Service, including household members whose records are maintained by an adult account holder.',
+                    '“Customer Data” means all data, content, files, records, and messages submitted to the Service by or on behalf of an Organization or its Members, including personal information about Members.',
+                    '“Security Incident” means a confirmed unauthorized access to, or acquisition, disclosure, alteration, or destruction of, Customer Data stored in systems that Memberley controls. It does not include unsuccessful attempts, or events caused by an Organization’s or Member’s own credentials, devices, or configuration.',
+                ],
+            },
         ],
     },
     {
         n: '03',
-        title: 'Acceptable use',
+        title: 'Accounts and access security',
         body: [
-            'You agree not to misuse the Service. This includes, without limitation, attempting to gain unauthorized access, interfering with other users, transmitting malware, scraping the Service, or using it to violate any applicable law.',
-            'We may suspend or terminate accounts that violate these Terms or that pose a risk to the Service or other users.',
+            'You must provide accurate, current information and keep it updated. You are responsible for everything that happens under your account and under the accounts of the Administrators you authorize, whether or not you approved a particular action.',
+            'You agree to keep credentials confidential, to use a strong and unique password, to enable two-factor authentication where offered (we strongly recommend it for every Administrator and may require it for some roles), and to promptly remove access for staff and volunteers who no longer need it. Shared logins for Administrators are not permitted except through features we provide for that purpose, such as front-desk devices.',
+            'If you learn of any unauthorized use of your account, any lost or stolen device that is signed in, or any other security concern involving the Service, you must notify us immediately at the contact address in Section 26 and take reasonable steps to contain it, including changing your password and revoking sessions. We are not responsible for losses that result from your failure to protect your credentials or devices, or from delays in reporting.',
         ],
     },
     {
         n: '04',
-        title: 'Subscriptions and billing',
+        title: 'The Service, plans, and changes',
         body: [
-            'Paid plans are billed in advance on a recurring basis. You authorize us to charge your payment method for all fees due. Fees are non-refundable except where required by law.',
-            'We may change pricing at any time, but changes to your existing subscription will only take effect at the start of your next billing cycle, after reasonable notice.',
+            'The Service is offered on the plans and with the modules described on our website and in your billing settings. Trials are provided at our discretion, may be limited or ended at any time, and convert to a paid or free plan as described at signup.',
+            'We continually improve the Service. We may add, change, or retire features, modules, integrations, or plans, and may impose reasonable limits on storage, messaging, or usage. If a change materially reduces core functionality you are paying for, we will give you reasonable notice and you may cancel and receive a pro-rated refund of prepaid fees for the remainder of your term.',
+            'Some features may be labeled beta, preview, or experimental, including features that use artificial intelligence, such as the in-app assistant. These are provided as-is, may be changed or withdrawn without notice, may produce inaccurate results, and should not be relied upon without your own review.',
         ],
     },
     {
         n: '05',
-        title: 'Your content',
+        title: 'Organization responsibilities',
         body: [
-            'You retain ownership of the data and content you submit to the Service ("Customer Data"). You grant Memberley a limited license to host, process, and transmit Customer Data solely for the purpose of operating and improving the Service.',
-            'You are responsible for the legality of Customer Data and for obtaining any consents required to provide it to us.',
+            'As between you and Memberley, the Organization owns and controls its Customer Data and decides how it is used. We process it on your behalf and under your instructions as set out in these Terms. That means the Organization, not Memberley, is responsible for:',
+            {
+                items: [
+                    'Having a lawful basis and any required notices or consents to collect Customer Data from Members and to provide it to us, including consents for minors, photographs, and emergency or safety information.',
+                    'The accuracy, quality, legality, and appropriateness of Customer Data, including data imported from prior systems.',
+                    'Its own membership terms, refund policies, waivers, rules, pricing, and tax obligations, and for resolving disputes with its Members.',
+                    'Responding to Members’ privacy requests, and for maintaining any records that laws applicable to the Organization require.',
+                    'Complying with laws that apply to its activities, including consumer-protection, privacy, telemarketing (such as the TCPA and CAN-SPAM), payment, tax, non-profit governance, and youth-protection laws.',
+                    'Configuring the Service appropriately, including roles, permissions, visibility settings, public portals, embeds, and calendar feeds. Anything you choose to make public will be public.',
+                    'Keeping its own copies of important records. We provide export tools, and we maintain backups for disaster recovery, but the Service is not a substitute for your own retained exports of financial and membership records.',
+                ],
+            },
         ],
     },
     {
         n: '06',
-        title: 'Intellectual property',
+        title: 'Acceptable use and prohibited data',
         body: [
-            'The Service, including its software, design, and trademarks, is owned by Memberley, Inc. and its licensors. We grant you a limited, non-exclusive, non-transferable right to use the Service in accordance with these Terms.',
-            'You may not copy, modify, reverse-engineer, or create derivative works of the Service except as expressly permitted.',
+            'You may use the Service only for lawful purposes and in accordance with these Terms. You agree not to, and not to permit anyone to:',
+            {
+                items: [
+                    'Access or attempt to access accounts, data, or systems you are not authorized to use, or circumvent any access control, rate limit, or tenant boundary.',
+                    'Probe, scan, or test the vulnerability of the Service, or attempt to interfere with its operation, except as permitted in Section 07.',
+                    'Introduce malware, automated scraping, or excessive load; or use the Service to send spam, unsolicited messages, or messages that violate carrier or platform rules.',
+                    'Impersonate any person or Organization, misrepresent your affiliation, or collect information from Members under false pretenses.',
+                    'Use the Service to discriminate unlawfully, to harass, or to violate anyone’s privacy, intellectual property, or other rights.',
+                    'Resell, sublicense, time-share, or provide the Service to third parties, or use it to build a competing product.',
+                    'Reverse-engineer, decompile, or attempt to extract the source code of the Service, except where the law prohibits this restriction.',
+                ],
+            },
+            'The Service is designed for club and membership records. You must not upload or store Social Security numbers, driver’s license or passport numbers, full payment card or bank account numbers, passwords for other services, or protected health information subject to HIPAA. Payment details must be entered only through the payment fields we provide, which send them directly to our payment processor. Brief safety notes that an Organization genuinely needs to run a program, such as an allergy, are permitted, and the Organization is responsible for limiting such notes to what is necessary and for restricting who can see them.',
+            'We may remove content or suspend access that we reasonably believe violates this Section, poses a security or legal risk, or harms other users, and we may do so without prior notice where the risk is urgent.',
         ],
     },
     {
         n: '07',
-        title: 'Termination',
+        title: 'Security research and responsible disclosure',
         body: [
-            'You may cancel your account at any time from within the Service. We may suspend or terminate your access if you breach these Terms, fail to pay fees, or if continued provision of the Service is no longer commercially or legally viable.',
-            'Upon termination, your right to use the Service ends immediately. Provisions that by their nature should survive termination will survive.',
+            `We welcome good-faith security research. If you believe you have found a vulnerability in the Service, please report it to ${CONTACT_EMAIL} with the subject line “Security” and give us a reasonable time to address it before any public disclosure. Do not access, modify, or exfiltrate data that is not your own, do not disrupt the Service or other users, and do not run automated scanners, denial-of-service tests, or social-engineering against us or our providers without prior written permission.`,
+            'Research conducted in accordance with this Section is authorized under these Terms, and we will not pursue legal action against you for it. Testing outside these limits, or against Organizations, Members, or third-party services, is not authorized.',
         ],
     },
     {
         n: '08',
-        title: 'Disclaimers',
+        title: 'Payments are processed by Stripe',
         body: [
-            'The Service is provided "as is" and "as available" without warranties of any kind, whether express or implied, including warranties of merchantability, fitness for a particular purpose, and non-infringement.',
-            'We do not warrant that the Service will be uninterrupted, error-free, or completely secure.',
+            'Payment processing for Organizations, including card, bank (ACH), and point-of-sale payments, is provided by Stripe and is subject to the Stripe Connected Account Agreement, which includes the Stripe Terms of Service. By enabling payments, an Organization agrees to be bound by the Stripe Connected Account Agreement, as it may be modified by Stripe from time to time, and authorizes us to share information with Stripe as needed to provide payment services.',
+            'Memberley is a software platform, not a bank, money transmitter, or payment processor. Funds paid to an Organization are collected into and paid out from the Organization’s own Stripe account, less applicable Stripe fees and any Memberley platform fee for the Organization’s plan. We do not hold Member funds and are not responsible for the timing or availability of payouts.',
+            'The Organization is solely responsible for refunds, chargebacks, disputes, returned or failed payments, bank authorizations required for ACH debits, sales and other taxes, and for accurately describing what Members are paying for. Where a chargeback, refund, or dispute results in a negative balance or fees, the Organization is responsible for those amounts. Member disputes about dues, fees, or refunds must be raised with the Organization; Memberley is not a party to those transactions.',
+            'We may rely on Stripe’s fraud, compliance, and verification decisions and are not responsible for accounts that Stripe declines, restricts, or closes.',
         ],
     },
     {
         n: '09',
-        title: 'Limitation of liability',
+        title: 'Fees, billing, and trials',
         body: [
-            'To the maximum extent permitted by law, Memberley will not be liable for any indirect, incidental, special, consequential, or punitive damages, or for any loss of profits or revenues, whether incurred directly or indirectly.',
-            'Our aggregate liability for any claim arising out of or relating to the Service will not exceed the amounts you paid us in the twelve months preceding the claim.',
+            'Paid plans and add-on modules are billed in advance on the recurring cycle shown at purchase, and renew automatically until cancelled. You authorize us and our payment processor to charge your payment method for all fees, applicable taxes, and any usage-based charges such as SMS. Fees are non-refundable except as expressly stated in these Terms or required by law.',
+            'We may change prices with at least 30 days’ notice. Changes apply at the start of your next billing cycle. If you do not agree, you may cancel before the change takes effect. Plans that carry a percentage-based platform fee on payments are charged that fee at the time of each payment.',
+            'If a payment fails or an invoice is overdue, we may suspend paid features after reasonable notice until the balance is paid, and we may charge reasonable collection costs. We may suspend or restrict accounts we reasonably believe are engaged in fraud or abuse without notice.',
         ],
     },
     {
         n: '10',
-        title: 'Changes to these terms',
+        title: 'Messages sent through the Service',
         body: [
-            'We may update these Terms from time to time. If we make material changes, we will notify you by email or through the Service. Continued use of the Service after changes take effect constitutes acceptance of the revised Terms.',
+            'When an Organization sends email, SMS, or notifications to its Members through the Service, the Organization is the sender and is responsible for the content and for having the required consent. Memberley provides the tools, opt-out handling, and delivery infrastructure.',
+            'Organizations must: send SMS only to Members who have opted in; honor opt-outs, which the Service applies automatically; include accurate sender identification; not send content that is prohibited by carriers or by our messaging providers, including content unrelated to the Organization’s membership relationship; and comply with the TCPA, CAN-SPAM, and similar laws. We may throttle, filter, or suspend messaging that appears to violate these rules or to harm deliverability for other customers.',
+            'Delivery of email and SMS depends on carriers and providers outside our control. We do not guarantee that any message will be delivered or delivered on time, and time-sensitive communications should not rely solely on the Service.',
         ],
     },
     {
         n: '11',
+        title: 'Third-party services and integrations',
+        body: [
+            'The Service interoperates with third-party services, including Stripe, QuickBooks, Mailchimp, Google sign-in, calendar applications, and websites where you embed Memberley content. Your use of any third-party service is governed by that provider’s terms and privacy policy. When you connect an integration, you authorize us to exchange data with that provider as needed to make it work, and you can disconnect it at any time from your settings.',
+            'We are not responsible for third-party services, for changes they make, for their availability or security, or for any loss caused by them. We may suspend or remove an integration if the provider changes its terms or if the integration presents a security or legal risk.',
+        ],
+    },
+    {
+        n: '12',
+        title: 'Electronic signatures and documents',
+        body: [
+            'The Service lets Organizations present waivers, agreements, and documents for electronic signature. You consent to conduct these transactions electronically and agree that electronic signatures, records, and acknowledgements made through the Service have the same effect as handwritten signatures and paper records, consistent with the federal ESIGN Act and applicable state laws. We record the signer’s name, the version signed, the time, and technical details such as IP address as evidence of signing.',
+            'Memberley provides the signing mechanism only. We do not draft, review, or warrant the enforceability or adequacy of any waiver or document an Organization presents, and Organizations should obtain their own legal advice about their documents.',
+        ],
+    },
+    {
+        n: '13',
+        title: 'Customer Data and our security commitments',
+        body: [
+            'You retain all rights in your Customer Data. You grant Memberley a worldwide, non-exclusive, royalty-free license to host, copy, process, transmit, back up, and display Customer Data solely to provide, secure, support, and improve the Service, to comply with law, and as otherwise permitted by these Terms and our Privacy Policy. We will not sell Customer Data, use it for advertising, or disclose it except as described in our Privacy Policy.',
+            'We maintain a written security program with administrative, technical, and physical safeguards that are designed to protect Customer Data and that are appropriate to the nature of the data and the size of our business. Today these include encryption in transit, encrypted backups, hashed passwords, optional two-factor authentication, role-based access control, tenant isolation, payment card and bank details tokenized and held by Stripe rather than on our servers, activity logging, rate limiting, automated testing, and least-privilege access for our personnel. We will not materially reduce the overall protection of Customer Data during your subscription.',
+            'No system is perfectly secure. You acknowledge that the Service is delivered over the public internet and relies on third-party infrastructure, that determined attackers may defeat reasonable safeguards, and that we cannot guarantee that Customer Data will never be accessed, disclosed, altered, or lost through unauthorized means. Our commitment is to implement and maintain reasonable safeguards, not to guarantee an outcome. You are responsible for the security of your own devices, networks, credentials, and Administrators.',
+        ],
+    },
+    {
+        n: '14',
+        title: 'Security incidents',
+        body: [
+            'If we confirm a Security Incident affecting your Customer Data, we will notify the Organization’s owner without undue delay and in any event within the time required by applicable law, using the contact details on the account. Our notice will describe what we know about the nature of the incident, the categories of data and Members affected, the measures we have taken or recommend, and a point of contact. We will update you as our investigation progresses and will provide reasonable assistance so that you can meet your own notification obligations.',
+            'Because the Organization is the party responsible to its Members and to regulators, the Organization decides whether and how to notify Members or authorities, and bears the cost of doing so, unless the incident was caused by our breach of these Terms. Neither our notice nor our assistance is an admission of fault or liability.',
+            'You agree to notify us promptly of any Security Incident that you discover, to cooperate with our investigation, and not to publicly attribute an incident to Memberley before we have had a reasonable opportunity to investigate.',
+        ],
+    },
+    {
+        n: '15',
+        title: 'Data retention, export, and deletion',
+        body: [
+            'You can export your Customer Data from the Service at any time during your subscription. For 30 days after termination or expiration, we will make your Customer Data available for export on request. After that period we will delete or de-identify Customer Data within 90 days, except for records we must keep for legal, tax, accounting, fraud-prevention, or dispute purposes, and except for copies in encrypted backups, which are overwritten on a rolling schedule and age out within 24 months. Backup copies are not restored to production except for disaster recovery.',
+            'Payment records held by Stripe are governed by Stripe’s terms and retention. We are not responsible for retrieving Customer Data after the export window has closed.',
+        ],
+    },
+    {
+        n: '16',
+        title: 'Intellectual property and feedback',
+        body: [
+            'The Service, including its software, design, documentation, trademarks, and all improvements, is owned by Memberley and its licensors and is protected by intellectual property laws. Subject to these Terms, we grant you a limited, non-exclusive, non-transferable, revocable right to access and use the Service for your internal purposes. All rights not expressly granted are reserved.',
+            'If you send us suggestions or feedback, you grant us a perpetual, irrevocable, royalty-free license to use it without obligation to you. We may also use de-identified, aggregated data derived from use of the Service to operate, secure, and improve it, provided it does not identify you or any Member.',
+        ],
+    },
+    {
+        n: '17',
+        title: 'Confidentiality',
+        body: [
+            'Each party will protect the other’s non-public information that it receives in connection with the Service, including Customer Data and our non-public product, security, and pricing information, using at least reasonable care, and will use it only to perform under these Terms. This obligation does not apply to information that is public through no fault of the recipient, already known to it, independently developed, or that must be disclosed by law, in which case the recipient will give notice where legally permitted.',
+        ],
+    },
+    {
+        n: '18',
+        title: 'Suspension and termination',
+        body: [
+            'You may cancel your subscription at any time from your billing settings. Cancellation takes effect at the end of the current billing period, and prepaid fees are not refunded except as stated in these Terms.',
+            'We may suspend or terminate your access, in whole or in part, if you materially breach these Terms, if your account is overdue, if we are required to by law or by a payment or messaging provider, if your use poses a security, legal, or reputational risk, or if we discontinue the Service. Where practical we will give notice and an opportunity to cure. On termination, your right to use the Service ends and Section 15 governs your data. Sections that by their nature should survive, including Sections 13 through 25, will survive.',
+        ],
+    },
+    {
+        n: '19',
+        title: 'Disclaimer of warranties',
+        body: [
+            'THE SERVICE IS PROVIDED “AS IS” AND “AS AVAILABLE.” TO THE FULLEST EXTENT PERMITTED BY LAW, MEMBERLEY AND ITS SUPPLIERS DISCLAIM ALL WARRANTIES, EXPRESS, IMPLIED, OR STATUTORY, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, AND ANY WARRANTIES ARISING FROM COURSE OF DEALING OR USAGE OF TRADE.',
+            'WE DO NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE; THAT DATA WILL NOT BE LOST, CORRUPTED, OR ACCESSED WITHOUT AUTHORIZATION; THAT DEFECTS WILL BE CORRECTED; OR THAT THE SERVICE OR ANY OUTPUT, INCLUDING REPORTS, CALCULATIONS, REMINDERS, OR AI-ASSISTED FEATURES, WILL BE ACCURATE OR RELIABLE. THE SERVICE IS NOT LEGAL, TAX, ACCOUNTING, OR SAFETY ADVICE. YOU ARE RESPONSIBLE FOR VERIFYING FINANCIAL FIGURES, DEADLINES, ELIGIBILITY, AND COMPLIANCE, AND FOR ANY DECISIONS YOU MAKE BASED ON THE SERVICE.',
+            'Some jurisdictions do not allow the exclusion of certain warranties, so some of these exclusions may not apply to you.',
+        ],
+    },
+    {
+        n: '20',
+        title: 'Limitation of liability',
+        body: [
+            'TO THE FULLEST EXTENT PERMITTED BY LAW, MEMBERLEY AND ITS OFFICERS, DIRECTORS, EMPLOYEES, CONTRACTORS, AND SUPPLIERS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR FOR ANY LOSS OF PROFITS, REVENUE, GOODWILL, DATA, OR USE, OR COSTS OF SUBSTITUTE SERVICES, ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICE, HOWEVER CAUSED AND UNDER ANY THEORY OF LIABILITY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.',
+            'WITHOUT LIMITING THE FOREGOING, MEMBERLEY WILL NOT BE LIABLE FOR: (A) UNAUTHORIZED ACCESS TO, OR ALTERATION, LOSS, OR DISCLOSURE OF, CUSTOMER DATA OR TRANSMISSIONS, INCLUDING AS A RESULT OF A SECURITY INCIDENT, EXCEPT TO THE EXTENT CAUSED BY OUR FAILURE TO MAINTAIN THE SAFEGUARDS DESCRIBED IN SECTION 13; (B) THE ACTS OR OMISSIONS OF THIRD PARTIES, INCLUDING ATTACKERS, PAYMENT PROCESSORS, MESSAGING CARRIERS, HOSTING PROVIDERS, AND INTEGRATION PARTNERS; (C) ANY MEMBER’S USE OF THE SERVICE OR ANY DISPUTE BETWEEN AN ORGANIZATION AND ITS MEMBERS; (D) YOUR FAILURE TO KEEP EXPORTS OR TO SECURE YOUR ACCOUNTS AND DEVICES; OR (E) EVENTS DESCRIBED IN SECTION 22.',
+            'TO THE FULLEST EXTENT PERMITTED BY LAW, MEMBERLEY’S TOTAL CUMULATIVE LIABILITY ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICE WILL NOT EXCEED THE GREATER OF (I) THE FEES YOU PAID TO MEMBERLEY FOR THE SERVICE IN THE TWELVE MONTHS BEFORE THE EVENT GIVING RISE TO THE CLAIM, EXCLUDING AMOUNTS PAID TO STRIPE OR COLLECTED ON BEHALF OF AN ORGANIZATION, OR (II) ONE HUNDRED U.S. DOLLARS ($100).',
+            'These limitations are an essential basis of the bargain between you and Memberley and apply even if a remedy fails of its essential purpose. They do not limit liability that cannot be limited by law, including liability for fraud, willful misconduct, or gross negligence where the law prohibits its exclusion.',
+        ],
+    },
+    {
+        n: '21',
+        title: 'Indemnification',
+        body: [
+            'You will defend, indemnify, and hold harmless Memberley and its officers, directors, employees, contractors, and suppliers from and against any claims, damages, losses, fines, penalties, and expenses, including reasonable attorneys’ fees, arising out of or relating to: (a) Customer Data, including any claim that it was collected, stored, or used without proper consent or in violation of law; (b) your or your Administrators’ or Members’ use of the Service in breach of these Terms or applicable law; (c) messages sent through the Service by or for you; (d) payments, refunds, chargebacks, taxes, or disputes with your Members; (e) any waiver, document, program, facility, or event you administer through the Service, including personal injury or property damage claims; or (f) your negligence or willful misconduct.',
+            'We will notify you promptly of any claim, allow you to control the defense with counsel reasonably acceptable to us, and cooperate at your expense. You may not settle any claim in a way that admits fault by or imposes obligations on Memberley without our written consent.',
+        ],
+    },
+    {
+        n: '22',
+        title: 'Force majeure',
+        body: [
+            'Neither party is liable for any failure or delay caused by events beyond its reasonable control, including natural disasters, epidemics, war, terrorism, civil unrest, labor disputes, government action, utility or internet failures, denial-of-service attacks, cyberattacks, ransomware, zero-day vulnerabilities in widely used software, and failures or changes of third-party hosting, payment, messaging, or infrastructure providers, provided that the affected party uses reasonable efforts to mitigate. This Section does not excuse your payment obligations for Service already provided.',
+        ],
+    },
+    {
+        n: '23',
+        title: 'Governing law and dispute resolution',
+        body: [
+            'These Terms are governed by the laws of the Commonwealth of Virginia and applicable United States federal law, without regard to conflict-of-law rules. The United Nations Convention on Contracts for the International Sale of Goods does not apply.',
+            `Informal resolution first. Before starting any formal proceeding, you agree to contact us at ${CONTACT_EMAIL} with a description of the dispute and the relief you seek, and to work with us in good faith for at least 30 days to resolve it. Most concerns can be resolved this way.`,
+            'Binding arbitration. If a dispute is not resolved informally, it will be resolved by binding individual arbitration administered by the American Arbitration Association under its rules then in effect, seated in Fairfax County, Virginia, before a single arbitrator, with hearings conducted by video where practical. The arbitrator may award the same individual relief a court could award, and judgment on the award may be entered in any court of competent jurisdiction. The Federal Arbitration Act governs this Section.',
+            'Class action waiver. Disputes must be brought on an individual basis. You and Memberley each waive the right to participate in a class, collective, consolidated, or representative action, and the arbitrator may not consolidate more than one person’s claims. If this waiver is found unenforceable as to a particular claim, that claim must be brought in court and severed from any arbitration.',
+            'Exceptions. Either party may bring an individual claim in small-claims court, and either party may seek injunctive or equitable relief in court to protect intellectual property, Customer Data, or the security of the Service. For any matter not subject to arbitration, you consent to the exclusive jurisdiction of the state and federal courts located in Fairfax County, Virginia.',
+            `Opt-out. You may opt out of this arbitration agreement by emailing ${CONTACT_EMAIL} with the subject line “Arbitration opt-out” and the email address on your account within 30 days of first accepting these Terms. Opting out does not affect any other provision.`,
+        ],
+    },
+    {
+        n: '24',
+        title: 'Changes to these Terms',
+        body: [
+            'We may update these Terms from time to time. For material changes we will give at least 14 days’ notice by email to the account owner or by a prominent notice in the Service, unless a shorter period is required by law or needed to address a security or legal issue. Non-material changes take effect when posted. Your continued use of the Service after the effective date constitutes acceptance. If you do not agree, you must stop using the Service and may cancel; we will refund any prepaid fees for the unused portion of your term if the change materially and adversely affects you.',
+        ],
+    },
+    {
+        n: '25',
+        title: 'General terms',
+        body: [
+            {
+                items: [
+                    'Entire agreement. These Terms, our Privacy Policy, and any order or plan details you accept in the Service form the entire agreement between you and Memberley about the Service and supersede all prior agreements. Terms on your purchase orders or portals have no effect.',
+                    'Assignment. You may not assign these Terms without our written consent. We may assign them in connection with a merger, acquisition, reorganization, or sale of assets, and will notify you if we do.',
+                    'Notices. We may give notice by email to the addresses on your account or through the Service. Notices to us must be sent to the address in Section 26 and are effective on receipt.',
+                    'Severability and waiver. If any provision is unenforceable, it will be modified to the minimum extent necessary and the rest remains in effect. Our failure to enforce a provision is not a waiver.',
+                    'No third-party beneficiaries. Except for the indemnified parties in Section 21, no one other than you and Memberley has rights under these Terms. Members are not third-party beneficiaries of an Organization’s agreement with us.',
+                    'Export and sanctions. You represent that you are not located in, and are not a national of, any country subject to U.S. embargo, and are not on any U.S. government restricted-party list, and you will comply with export laws.',
+                    'Independent contractors. The parties are independent contractors. These Terms do not create a partnership, joint venture, agency, or fiduciary relationship.',
+                    'Publicity. We will not use your Organization’s name or logo in marketing without your permission.',
+                ],
+            },
+        ],
+    },
+    {
+        n: '26',
         title: 'Contact',
         body: [
-            `Questions about these Terms can be sent to ${CONTACT_EMAIL}.`,
+            `Questions about these Terms, notices, security reports, and arbitration opt-outs can be sent to ${CONTACT_EMAIL}. Memberley, Inc. is based in Northern Virginia, United States.`,
         ],
     },
 ];
@@ -121,9 +303,11 @@ const sections = [
                         class="mt-6 max-w-[60ch] text-[1rem] leading-relaxed text-stone-600"
                     >
                         These terms govern your access to and use of Memberley.
-                        Please read them carefully — they include important
-                        information about your rights, responsibilities, and limits
-                        on our liability.
+                        Please read them carefully — they cover your
+                        responsibilities, how payments and data are handled,
+                        what we commit to on security, and limits on our
+                        liability. They also include a binding arbitration
+                        agreement and class action waiver.
                     </p>
                     <div
                         class="mt-8 font-mono text-[0.75rem] tracking-wide text-stone-500 uppercase"
@@ -180,9 +364,20 @@ const sections = [
                                             {s.title}
                                         </h2>
                                         <div class="mt-4 max-w-[70ch] space-y-4 text-[0.9375rem] leading-relaxed text-stone-600">
-                                            {s.body.map((p) => (
-                                                <p>{p}</p>
-                                            ))}
+                                            {s.body.map((block) =>
+                                                typeof block === 'string' ? (
+                                                    <p>{block}</p>
+                                                ) : (
+                                                    <ul
+                                                        role="list"
+                                                        class="list-disc space-y-2 pl-5 marker:text-stone-400"
+                                                    >
+                                                        {block.items.map((item) => (
+                                                            <li>{item}</li>
+                                                        ))}
+                                                    </ul>
+                                                ),
+                                            )}
                                         </div>
                                     </article>
                                 ))

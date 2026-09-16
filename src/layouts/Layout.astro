@@ -119,6 +119,7 @@ const GOOGLE_ADS_ID =
         <script is:inline define:vars={{ metaPixelId: META_PIXEL_ID }}>
             if (
                 metaPixelId &&
+                !navigator.globalPrivacyControl &&
                 window.location.hostname !== 'localhost' &&
                 !window.location.hostname.endsWith('.test')
             ) {
@@ -164,6 +165,7 @@ const GOOGLE_ADS_ID =
         <script is:inline define:vars={{ googleAdsId: GOOGLE_ADS_ID }}>
             if (
                 googleAdsId &&
+                !navigator.globalPrivacyControl &&
                 window.location.hostname !== 'localhost' &&
                 !window.location.hostname.endsWith('.test')
             ) {

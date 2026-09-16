@@ -8,96 +8,227 @@ const eyebrow =
     'font-mono text-[0.6875rem] font-medium tracking-wide text-brand-800 uppercase';
 const display = 'font-serif font-semibold tracking-tight';
 
-const lastUpdated = 'June 30, 2026';
+const lastUpdated = 'September 16, 2026';
 
-const sections = [
+type Block = string | { items: string[] };
+
+type Section = {
+    n: string;
+    title: string;
+    body: Block[];
+};
+
+const sections: Section[] = [
     {
         n: '01',
-        title: 'Overview',
+        title: 'Overview and scope',
         body: [
-            'This Privacy Policy describes how Memberley, Inc. ("Memberley," "we," "us") collects, uses, and shares information when you use Memberley (the "Service"). It applies to organizations that run their membership on Memberley and to the members, customers, and visitors they serve.',
-            `We aim to collect only what we need to operate the Service, and to be clear about how it is used. If you have questions, you can reach us at ${CONTACT_EMAIL}.`,
+            'This Privacy Policy describes how Memberley, Inc. (“Memberley,” “we,” “us”) collects, uses, shares, and protects information when you use the Memberley platform, applications, organization portals, embeds, calendar feeds, and website (together, the “Service”). It applies to the organizations that run their membership on Memberley, to the administrators who manage those organizations, to the members and households they serve, and to visitors to our website.',
+            `We are based in the United States and we design the Service to collect only what is needed to run it. If anything here is unclear, write to us at ${CONTACT_EMAIL}.`,
         ],
     },
     {
         n: '02',
-        title: 'Information we collect',
+        title: 'Our role: organizations and their members',
         body: [
-            'Account information you provide, such as your name, email address, organization details, and login credentials.',
-            'Member and customer data that an organization stores in the Service, including contact details, memberships, classes, payments, and related records ("Customer Data").',
-            'Usage and device information, such as pages viewed, features used, IP address, browser type, and similar diagnostic data, collected automatically as you use the Service.',
+            'Memberley is used by clubs, pools, HOAs, teams, and similar groups (each an “Organization”) to manage their members. When an Organization stores information about its members, families, payments, check-ins, or documents in the Service, that Organization decides what to collect and why. In privacy-law terms, the Organization is the controller (or “business”) of that information and Memberley is its processor (or “service provider”). We handle it only on the Organization’s instructions and as described in our Terms of Use and this Policy.',
+            'If you are a member of an Organization that uses Memberley, the Organization’s own privacy practices, rules, and notices govern your relationship with it. Requests to access, correct, or delete records that an Organization holds about you should go to the Organization first. We will help Organizations respond, and if you contact us directly we may forward your request to the Organization or ask it for instructions.',
+            'For the account information we collect directly, for our website, and for the operation and security of the Service itself, Memberley acts as the controller and this Policy applies directly.',
         ],
     },
     {
         n: '03',
-        title: 'How we use information',
+        title: 'Information we collect',
         body: [
-            'To provide, maintain, and improve the Service, process transactions, and provide support.',
-            'To secure the Service, prevent fraud and abuse, and comply with our legal obligations.',
-            'To communicate with you about your account, including service, security, and transactional messages that are necessary to operate the Service.',
+            'Information you or your Organization provide:',
+            {
+                items: [
+                    'Account and profile information: name, email address, phone number, password (stored only as a one-way hash), avatar, time zone, notification preferences, and, if you sign in with Google, the name, email, and profile image Google shares with us.',
+                    'Organization information: the Organization’s name, address, branding, settings, staff roles, plan, and billing contact.',
+                    'Membership and household records: membership tier and status, join and renewal dates, household members and their relationships, dates of birth where an Organization requires them for age-based programs, emergency contacts, custom fields the Organization defines, and notes staff add.',
+                    'Payment information: when you pay or set up a payment method, your card or bank details are entered in fields served by Stripe and sent directly to Stripe. We never receive or store full card numbers or bank account numbers. We keep a payment token, the card brand or bank name, the last four digits, expiration, billing name, and the history of charges, refunds, and payouts needed to run the Organization’s books.',
+                    'Documents and signatures: waivers and agreements an Organization asks you to sign, plus the signer’s name, the version signed, the time, and the IP address, as evidence of signing.',
+                    'Activity records: check-ins, guest passes, reservations, class and event registrations, attendance, point-of-sale purchases, and add-on purchases.',
+                    'Communications: messages an Organization sends you through the Service, your delivery and opt-out status, your replies to those messages, and any support requests you send us.',
+                    'Assistant queries: questions you type into the in-app assistant, described in Section 06.',
+                ],
+            },
+            'Information collected automatically when you use the Service: IP address, device and browser type, operating system, language, referring pages, the pages and features you use and when, error and performance diagnostics, and identifiers set by cookies or similar technologies (see Section 07). Where you install Memberley as an app on your device, we may also receive the information the device makes available for that purpose, such as a push-notification token if you enable notifications.',
+            'Information from other sources: Organizations may import member lists from prior systems or spreadsheets, and connected services such as QuickBooks or Mailchimp may return information about the records synced with them.',
         ],
     },
     {
         n: '04',
-        title: 'SMS and email communications',
+        title: 'How we use information',
         body: [
-            'We send transactional messages — such as receipts, account notices, password resets, and confirmations — by email because they are necessary to provide the Service.',
-            'Marketing and other non-essential email and SMS messages are opt-in only. We will only send them if you have given consent, and they are sent occasionally rather than on a fixed schedule.',
-            'You can opt out at any time: unsubscribe from any marketing email, or reply STOP to any text message. Message and data rates may apply to SMS, and message frequency varies. Opting out of marketing messages does not stop transactional messages required to run your account.',
+            'We use information for the following purposes, each of which is necessary to provide the Service you or your Organization requested, to meet our legitimate interests in running a secure and reliable business, to comply with law, or with your consent where consent is required:',
+            {
+                items: [
+                    'To provide, operate, and personalize the Service: create accounts, run memberships, process payments through Stripe, deliver check-in and reservation features, and show you the information relevant to your Organization.',
+                    'To communicate with you: send transactional and service messages such as receipts, renewal notices, reminders, password resets, security alerts, and changes to our terms; and, only with your opt-in, marketing messages (Section 09).',
+                    'To secure and protect the Service: authenticate users, detect and prevent fraud, abuse, and unauthorized access, enforce our Terms, investigate incidents, and keep audit trails.',
+                    'To support and improve the Service: respond to support requests, monitor performance and errors, understand how features are used, and develop new functionality. We use aggregated or de-identified information for this wherever possible.',
+                    'To comply with legal obligations: keep financial and tax records, respond to lawful requests, and meet our obligations under payment-network and messaging-carrier rules.',
+                    'To measure our own marketing: understand how visitors reach our website and whether our advertising works (Section 07).',
+                ],
+            },
+            'We do not use Customer Data to build profiles of members for advertising, and we do not use it to train artificial-intelligence models.',
         ],
     },
     {
         n: '05',
-        title: 'How we share information',
+        title: 'Information we do not collect or want',
         body: [
-            'We do not sell your personal information. We share information only as needed to operate the Service.',
-            'With service providers that help us run the Service — for example, hosting, payment processing, email, and SMS delivery — who are permitted to use the information only to provide those services to us.',
-            'When required by law, to protect our rights or the safety of others, or in connection with a merger, acquisition, or sale of assets, subject to this Policy.',
+            'The Service is not designed for Social Security numbers, driver’s license or passport numbers, full payment card or bank account numbers entered anywhere other than the payment fields, passwords for other services, or protected health information subject to HIPAA. Our Terms prohibit uploading them. If we become aware that such information has been stored in the Service, we may remove it or ask the Organization to do so.',
         ],
     },
     {
         n: '06',
-        title: 'Data retention',
+        title: 'The in-app assistant',
         body: [
-            'We retain information for as long as your account is active or as needed to provide the Service, then for the period required to meet our legal, accounting, or reporting obligations.',
-            'Organizations control much of their Customer Data and may update or delete records within the Service. When an account is closed, we delete or anonymize associated data within a reasonable period, except where retention is required by law.',
+            'The Service includes an assistant that helps you find the right page or help article. When you ask it a question, the text of your question, together with a list of the pages and features available to you, is sent to our AI provider, Anthropic, to generate an answer. We do not send your Organization’s member records, payment data, or documents to the assistant. Under our agreement with Anthropic, your inputs are not used to train its models. Please do not type personal information about other people into the assistant.',
         ],
     },
     {
         n: '07',
-        title: 'Security',
+        title: 'Cookies, analytics, and advertising measurement',
         body: [
-            'We use reasonable administrative, technical, and physical safeguards designed to protect information against unauthorized access, loss, or misuse.',
-            'No method of transmission or storage is completely secure, so we cannot guarantee absolute security. Please notify us promptly if you believe your account has been compromised.',
+            'We use cookies and similar technologies for these purposes:',
+            {
+                items: [
+                    'Strictly necessary: keeping you signed in, remembering your Organization, protecting forms against forgery, and remembering choices like “remember me.” The Service does not work without these.',
+                    'Analytics: we use PostHog to understand how the Service and our website are used, such as which pages are visited and where errors occur. PostHog is configured to identify users of the Service by account so that we can diagnose problems, and to store data in the United States.',
+                    'Advertising measurement: we use Google Ads conversion measurement and the Meta (Facebook) Pixel so we can tell whether our advertising led someone to start a trial, sign up, or view the demo. These tags load on our marketing website and on the Memberley application, but never on member portals embedded in Organizations’ websites. They may set cookies and report the pages you visit to Google and Meta, which may combine that information with other data they hold about you under their own privacy policies. They do not receive your Organization’s member records, payments, or documents.',
+                ],
+            },
+            'We do not sell personal information. Where a state law treats the use of advertising-measurement tags as “sharing” or “targeted advertising,” you can opt out by turning on the Global Privacy Control signal in your browser, which we honor on both our website and the application by not loading the advertising tags at all; by blocking or clearing cookies in your browser settings; or by using Google’s and Meta’s ad settings. Disabling strictly necessary cookies will prevent you from signing in.',
         ],
     },
     {
         n: '08',
-        title: 'Your choices and rights',
+        title: 'How we share information',
         body: [
-            'You can access and update much of your account information directly within the Service. You may also opt out of marketing email and SMS as described above.',
-            `Depending on where you live, you may have rights to access, correct, delete, or port your personal information, or to object to certain processing. To exercise these rights, contact us at ${CONTACT_EMAIL}. If your information is held by an organization that uses Memberley, we may direct your request to that organization.`,
+            'We share personal information only in the following circumstances. We do not sell it, and we do not share Customer Data with third parties for their own marketing.',
+            {
+                items: [
+                    'With your Organization and its administrators: information you provide as a member is visible to the Organization you joined, according to the roles and settings it configures. Anything an Organization chooses to publish on a public portal, embed, or calendar feed is visible to anyone with the link.',
+                    'With service providers that process information on our behalf, under contracts that restrict their use of it to providing services to us: Stripe (payments, payouts, identity verification for Organizations), Resend (transactional email), Twilio (SMS), Vultr (cloud hosting, United States), Cloudflare (file storage, encrypted backups, and network security), PostHog (product analytics), Laravel Nightwatch (application performance and error monitoring), Anthropic (the assistant, Section 06), Google (sign-in and advertising measurement), and Meta (advertising measurement).',
+                    'With services an Organization chooses to connect, such as QuickBooks or Mailchimp, at the Organization’s direction. Data sent to a connected service is governed by that provider’s terms, and the Organization can disconnect it at any time.',
+                    'To comply with law or protect rights: when we believe in good faith that disclosure is required by law, subpoena, or legal process; to enforce our Terms; to protect the safety, rights, or property of Memberley, our users, or the public; or to detect and prevent fraud or security threats. Where legally permitted, we will notify the affected Organization of requests for its Customer Data and give it an opportunity to object.',
+                    'In a business transfer: if Memberley is involved in a merger, acquisition, financing, or sale of assets, information may be transferred as part of that transaction, subject to this Policy and with notice to you.',
+                    'With your consent, or at your direction.',
+                ],
+            },
+            'We may share aggregated or de-identified information that cannot reasonably be used to identify you, such as overall usage statistics.',
         ],
     },
     {
         n: '09',
-        title: "Children's privacy",
+        title: 'Email and SMS communications',
         body: [
-            'The Service is not directed to children under 13, and we do not knowingly collect personal information from them. Where an organization manages records for minors as part of its programs, it is responsible for obtaining any consents required by law.',
+            'We send transactional messages — such as receipts, account notices, renewal and payment reminders, password resets, security alerts, and confirmations — by email because they are necessary to provide the Service. Organizations may also send you messages through the Service; those messages come from the Organization, which is responsible for their content.',
+            'Marketing and other non-essential email and SMS messages are opt-in only. We will only send them if you have given consent, and they are sent occasionally rather than on a fixed schedule. Consent to receive SMS is not a condition of any purchase or membership.',
+            'You can opt out at any time: unsubscribe from any marketing email, reply STOP to any text message, or change your preferences in your notification settings. Reply HELP to any text for assistance. Message and data rates may apply to SMS, and message frequency varies. Opting out of marketing messages does not stop transactional messages required to run your account. Mobile phone numbers and SMS opt-in status are never shared with third parties for their marketing purposes.',
         ],
     },
     {
         n: '10',
-        title: 'Changes to this policy',
+        title: 'Data retention',
         body: [
-            'We may update this Privacy Policy from time to time. If we make material changes, we will notify you by email or through the Service. Continued use of the Service after changes take effect constitutes acceptance of the revised Policy.',
+            'We keep personal information for as long as needed to provide the Service and for the purposes described in this Policy:',
+            {
+                items: [
+                    'Account and membership records: for as long as the account or membership is active, and thereafter as the Organization directs. Organizations control their records and can update or delete them within the Service.',
+                    'After an Organization closes its account: Customer Data is available for export for 30 days, then deleted or de-identified within 90 days, except as described below.',
+                    'Financial records: charge, refund, payout, and invoice records are kept for up to seven years to meet tax, accounting, and payment-network obligations.',
+                    'Signed documents: waiver and agreement signatures are kept for as long as the Organization retains them, because they may be needed to establish what was agreed.',
+                    'Security and access logs: generally up to 12 months, or longer if needed to investigate an incident.',
+                    'Backups: we keep encrypted backups on a rolling schedule for disaster recovery. Deleted data may persist in backups until they are overwritten; the oldest copies age out within 24 months. We restore backups only to recover from a failure, not to recover individual deleted records.',
+                ],
+            },
+            'We may keep information longer where required by law, to resolve disputes, or to enforce our agreements, and we may retain de-identified information indefinitely.',
         ],
     },
     {
         n: '11',
+        title: 'How we protect information',
+        body: [
+            'We maintain a security program with administrative, technical, and physical safeguards designed to protect personal information against unauthorized access, loss, misuse, alteration, and destruction. Our current safeguards include:',
+            {
+                items: [
+                    'Encryption in transit: all connections to the Service use HTTPS/TLS.',
+                    'Encryption at rest: backups are encrypted before they are stored, and particularly sensitive fields are additionally encrypted at the application layer.',
+                    'Credential protection: passwords are stored only as salted one-way hashes; sign-in attempts are rate-limited; two-factor authentication is available to every user and strongly recommended for administrators; sessions can be revoked.',
+                    'Payment isolation: card and bank details are handled by Stripe, a PCI DSS Level 1 service provider, and never touch our servers. Webhooks from Stripe are cryptographically verified.',
+                    'Access control and tenant isolation: role-based permissions within each Organization, and application-level enforcement that prevents one Organization’s users from accessing another Organization’s records.',
+                    'Monitoring and logging: activity logs of administrative actions, application error and performance monitoring, and alerts on failed backups.',
+                    'Secure development: automated test suites and code review before changes are deployed, prompt application of security updates to our dependencies, and secrets stored outside of source code.',
+                    'Least privilege: access to production systems and Customer Data is limited to personnel who need it to operate or support the Service, protected by multi-factor authentication.',
+                ],
+            },
+            'No method of transmission or storage is completely secure, and we cannot guarantee absolute security. You play a part too: use a strong, unique password, turn on two-factor authentication, keep your devices updated, sign out of shared devices, and tell us promptly if you believe your account has been compromised.',
+        ],
+    },
+    {
+        n: '12',
+        title: 'Security incidents and breach notification',
+        body: [
+            'If we confirm a security incident that affects personal information we hold, we will investigate, contain it, and notify the affected Organizations without undue delay and within the time required by applicable law, describing what happened, what information was involved, what we have done, and what we recommend. Because Organizations are responsible for their members, they decide whether and how to notify members and regulators, and we will provide the information and assistance they reasonably need to do so. Where we are the controller of the affected information, we will notify affected individuals and authorities directly as the law requires.',
+            `You can report a suspected security issue at any time to ${CONTACT_EMAIL} with the subject line “Security.” We welcome good-faith reports and will not pursue action against researchers who follow the responsible-disclosure guidelines in our Terms of Use.`,
+        ],
+    },
+    {
+        n: '13',
+        title: 'Your rights and choices',
+        body: [
+            'Depending on where you live, you may have the right to know what personal information we hold about you, to access it, to correct it, to delete it, to receive a portable copy, to opt out of targeted advertising or sale of personal information, and to not be discriminated against for exercising these rights. Residents of Virginia, California, Colorado, Connecticut, and other states with comprehensive privacy laws may also appeal a decision we make about a request.',
+            {
+                items: [
+                    'Within the Service: you can view and update your profile, manage household members, change notification preferences, download your data where an export is offered, and enable or disable two-factor authentication from your account settings.',
+                    `Directly with us: email ${CONTACT_EMAIL} with the subject line “Privacy request.” We will verify your identity using the email address on your account or other reasonable means, and respond within 45 days, extending once by 45 days if reasonably necessary and telling you why. You may use an authorized agent if the agent provides written proof of authority.`,
+                    'Through your Organization: if the information is held by an Organization you belong to, we may direct your request to it or act only on its instructions, since it controls those records.',
+                    `Appeals: if we decline a request, you may appeal by replying to our response. We will respond to appeals within 60 days. If your appeal is denied, you may contact your state attorney general; Virginia residents can reach the Office of the Attorney General at consumer complaints, and California residents can contact the California Privacy Protection Agency.`,
+                    'Marketing: opt out of marketing email and SMS as described in Section 09. Opt out of advertising measurement as described in Section 07.',
+                ],
+            },
+            'California residents: in the past 12 months we have collected the categories of personal information described in Section 03 for the purposes in Section 04 and disclosed them to the service providers in Section 08. We do not sell personal information and do not knowingly collect or sell personal information of consumers under 16. Our use of Google and Meta advertising-measurement tags may be considered “sharing” for cross-context behavioral advertising; you can opt out using the Global Privacy Control signal or the other methods in Section 07.',
+            'If you are in the European Economic Area, the United Kingdom, or Switzerland: the Service is hosted in the United States, and by using it you understand that your information will be transferred there. Where we act as controller, our legal bases are performance of a contract, our legitimate interests in running and securing the Service, compliance with legal obligations, and consent where required (for example, for marketing). You may withdraw consent at any time, and you may lodge a complaint with your local supervisory authority.',
+        ],
+    },
+    {
+        n: '14',
+        title: 'Children and minors',
+        body: [
+            'The Service is not directed to children under 13, and we do not knowingly allow them to create accounts or knowingly collect personal information directly from them. If we learn that a child under 13 has created an account, we will delete it.',
+            'Organizations often run programs for children and teens, such as swim teams and lessons, and parents or guardians maintain records for the minors in their household. Those records are collected by the Organization or by the responsible adult, not from the child, and the Organization is responsible for obtaining any parental consents the law requires. Parents and guardians can review or update household records in their account, or contact their Organization.',
+        ],
+    },
+    {
+        n: '15',
+        title: 'Where information is stored',
+        body: [
+            'The Service is operated from and hosted in the United States, and our service providers may process information in the United States and in other countries where they operate. Privacy laws in those countries may differ from those where you live. When we transfer information from outside the United States, we rely on contractual protections with our providers and on the safeguards described in this Policy.',
+        ],
+    },
+    {
+        n: '16',
+        title: 'Third-party sites and Organization content',
+        body: [
+            'The Service may link to or embed third-party websites and services, and Organizations may embed Memberley content, such as calendars or sign-up forms, on their own websites. We are not responsible for the privacy practices of third-party sites, of Organizations’ websites, or of content Organizations publish. When you use a Memberley embed on an Organization’s website, that website’s own cookies and analytics may also apply.',
+        ],
+    },
+    {
+        n: '17',
+        title: 'Changes to this Policy',
+        body: [
+            'We may update this Privacy Policy from time to time. If we make material changes, we will notify you by email to the address on your account or through a prominent notice in the Service before they take effect, and we will update the date at the top of this page. Continued use of the Service after the effective date constitutes acceptance of the revised Policy. Prior versions are available on request.',
+        ],
+    },
+    {
+        n: '18',
         title: 'Contact',
         body: [
-            `Questions about this Privacy Policy or our handling of your information can be sent to ${CONTACT_EMAIL}.`,
+            `Questions, privacy requests, and appeals can be sent to ${CONTACT_EMAIL}. Memberley, Inc. is based in Northern Virginia, United States.`,
         ],
     },
 ];
@@ -123,10 +254,12 @@ const sections = [
                     <p
                         class="mt-6 max-w-[60ch] text-[1rem] leading-relaxed text-stone-600"
                     >
-                        This policy explains what information Memberley collects, how
-                        we use it, and the choices you have. Marketing email and SMS
-                        are opt-in only and sent occasionally — you can opt out at
-                        any time.
+                        This policy explains what information Memberley collects,
+                        how we use and protect it, who we share it with, and the
+                        choices and rights you have. We never sell personal
+                        information, card and bank details never touch our
+                        servers, and marketing email and SMS are opt-in only —
+                        you can opt out at any time.
                     </p>
                     <div
                         class="mt-8 font-mono text-[0.75rem] tracking-wide text-stone-500 uppercase"
@@ -183,9 +316,20 @@ const sections = [
                                             {s.title}
                                         </h2>
                                         <div class="mt-4 max-w-[70ch] space-y-4 text-[0.9375rem] leading-relaxed text-stone-600">
-                                            {s.body.map((p) => (
-                                                <p>{p}</p>
-                                            ))}
+                                            {s.body.map((block) =>
+                                                typeof block === 'string' ? (
+                                                    <p>{block}</p>
+                                                ) : (
+                                                    <ul
+                                                        role="list"
+                                                        class="list-disc space-y-2 pl-5 marker:text-stone-400"
+                                                    >
+                                                        {block.items.map((item) => (
+                                                            <li>{item}</li>
+                                                        ))}
+                                                    </ul>
+                                                ),
+                                            )}
                                         </div>
                                     </article>
                                 ))
