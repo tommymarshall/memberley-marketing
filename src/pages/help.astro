@@ -60,6 +60,18 @@ const faqGroups: FaqGroup[] = [
           label: "How Joint Access works",
         },
       },
+      {
+        q: "Can our lifeguards and teen staff get their own logins?",
+        a: "Yes, with the Staffing module ($250/yr, free your first year). Invite staff by email or CSV, give them positions like Lifeguard or Gate, and they get their own login with no admin access. You build shifts by facility and position as drafts; staff see nothing until you publish, and then each person gets one email with their shifts. They check My shifts on their phone, get a reminder before each shift, can say they can’t make one before your cutoff, and — with Front Desk & Check-in or Point of Sale — can work the front desk without access to refunds or member contact details. Clubs can invite staff aged 14 to 17 once they confirm a parent or guardian has agreed.",
+        link: {
+          href: `${DOCS_URL}/staffing/staff/`,
+          label: "How Staffing works",
+        },
+      },
+      {
+        q: "Does Staffing include a time clock or payroll?",
+        a: "Not yet. Staffing covers the schedule and front-desk access; it doesn’t clock hours in and out, keep timesheets, store pay rates, or export payroll, so keep your current way of tracking hours for now. Staff also can’t set their availability, request time off, or trade shifts in Memberley. When someone can’t make a shift, they say so in Memberley and you reassign it.",
+      },
     ],
   },
   {
@@ -67,7 +79,7 @@ const faqGroups: FaqGroup[] = [
     faqs: [
       {
         q: "What does Memberley cost?",
-        a: "Two plans, both with unlimited members: Starter is $0/yr with a 3% fee per payment processed through Memberley. Community is $500/yr with zero payment fees. Add-on modules (reservations, front desk & check-in, point of sale, communications, branded site & embed, classes & events, assessments & capital fees) are free for your entire first year, then flat-priced at $100–$250 per year each. Standard Stripe processing fees apply on every plan, as with any provider.",
+        a: "Two plans, both with unlimited members: Starter is $0/yr with a 3% fee per payment processed through Memberley. Community is $500/yr with zero payment fees. Add-on modules (reservations, front desk & check-in, point of sale, communications, branded site & embed, classes & events, assessments & capital fees, staffing) are free for your entire first year, then flat-priced at $100–$250 per year each. Standard Stripe processing fees apply on every plan, as with any provider.",
       },
       {
         q: "Which plan should we pick?",

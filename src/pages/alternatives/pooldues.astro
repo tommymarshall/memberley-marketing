@@ -81,6 +81,12 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
     memberley: "Tenure-based · one-time · initiation",
     competitor: "Initiation fee at signup",
   },
+  // PoolDues "Shift Module" (volunteers and paid staff, staff toggle on a member record, job-restricted shift calendars, "Auto-Create Shifts", "Totaling Worker Time" report; no punch clock or payroll export), included in the $1,999/yr price, as researched in app plan 023 (2026-09-28) — re-verify before publishing.
+  {
+    label: "Staff scheduling",
+    memberley: "Shifts · staff front desk · no worker-time totals yet",
+    competitor: "Volunteer & staff shifts · worker-time totals",
+  },
   {
     label: "Guest passes & member check-in",
     memberley: true,
@@ -171,6 +177,10 @@ const faqs = [
   {
     q: "Can Memberley bill our capital contribution and initiation fee?",
     a: "Yes. The Assessments & Capital Fees module ($150/yr, free your first year) bills a capital contribution only during a member’s first few membership years, a one-time initiation fee for new members, and special assessments to everyone who is a member on a given date. Memberley counts each household’s membership year from the day they were first accepted — waitlist time never counts — adds the charge beside their dues at renewal, and stops on its own when the window ends. PoolDues collects initiation fees at signup; the recurring, tenure-based part is what boards usually track by hand today.",
+  },
+  {
+    q: "Can Memberley schedule our lifeguards and gate staff?",
+    a: "Yes. The Staffing module ($250/yr, free your first year) gives staff their own logins with no admin access and a shift schedule by facility and position, with headcounts, short-shift warnings, and repeat and copy. Drafts stay hidden until you publish, then each person gets one email with their shifts. Staff see My shifts, get reminders, can say they can’t make a shift, and — with Front Desk & Check-in or Point of Sale — can work the front desk. PoolDues’s Shift Module is included in its $1,999/yr price, covers volunteers as well as paid staff, and totals worker time in a report; Memberley doesn’t total hours or have a time clock yet.",
   },
   {
     q: "Can we switch in the middle of the season?",

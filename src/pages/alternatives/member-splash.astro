@@ -93,6 +93,12 @@ const rows: { label: string; memberley: Cell; competitor: Cell }[] = [
     memberley: "Tenure-based · one-time · initiation",
     competitor: "Initiation fee at signup",
   },
+  // Staffing per Member Splash help center "Staffing – Getting Started" (2026-04) and membersplash.com "Workforce Scheduler – New 2026", as researched in app plan 023 (2026-09-28): headcounts, recurring shifts, My Schedule, time-off requests, and a time clock with review/export, included in the annual price — re-verify before publishing.
+  {
+    label: "Staff scheduling",
+    memberley: "Shifts · staff front desk · no time clock yet",
+    competitor: "Shifts · time-off requests · time clock",
+  },
   { label: "Guest passes & QR check-in", memberley: true, competitor: true },
   { label: "Waitlist automation", memberley: true, competitor: true },
   {
@@ -189,6 +195,10 @@ const faqs = [
   {
     q: "Can Memberley bill our capital contribution and initiation fee?",
     a: "Yes. The Assessments & Capital Fees module ($150/yr, free your first year) bills a capital contribution only during a member’s first few membership years, a one-time initiation fee for new members, and special assessments to everyone who is a member on a given date. Memberley counts each household’s membership year from the day they were first accepted — waitlist time never counts — adds the charge beside their dues at renewal, and stops on its own when the window ends. Member Splash collects initiation fees at signup; the recurring, tenure-based part is what boards usually track by hand today.",
+  },
+  {
+    q: "Can Memberley schedule our lifeguards and gate staff?",
+    a: "Yes. The Staffing module ($250/yr, free your first year) gives staff their own logins with no admin access and a shift schedule by facility and position, with headcounts, short-shift warnings, and repeat and copy. Drafts stay hidden until you publish, then each person gets one email with their shifts. Staff see My shifts, get reminders, can say they can’t make a shift, and — with Front Desk & Check-in or Point of Sale — can work the front desk. Member Splash’s Staffing module is included in its annual price and also has time-off requests and a time clock with review and export; Memberley doesn’t have a time clock yet, so keep your current way of tracking hours if you rely on one.",
   },
   {
     q: "Can we switch in the middle of the season?",

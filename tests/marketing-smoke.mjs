@@ -151,6 +151,28 @@ assert.doesNotMatch(
     'Placeholder testimonials must never ship in a production build',
 );
 
+assert.match(
+    homepage,
+    />\s*Staffing\s*<\/span>[\s\S]*?\$250\/yr/,
+    'Homepage pricing must list the Staffing module at its seeded price',
+);
+
+// The app lets clubs invite staff aged 14 to 17 (plan 023); these legal
+// sentences have to be live before that ships.
+const termsPage = pages.find(({ pagePath }) => pagePath === 'terms/index.html')?.html ?? '';
+const privacyPage = pages.find(({ pagePath }) => pagePath === 'privacy/index.html')?.html ?? '';
+
+assert.match(
+    termsPage,
+    /may invite a person aged 14 to 17 to use the Service as one of its staff/,
+    'Terms must carry the teen-staff exception to the 18+ rule',
+);
+assert.match(
+    privacyPage,
+    /Organizations may invite people aged 14 to 17 to work as staff\./,
+    'Privacy Policy must describe what teen staff accounts hold',
+);
+
 const helpPage = pages.find(({ pagePath }) => pagePath === 'help/index.html')?.html ?? '';
 
 assert.match(helpPage, /Email Tommy/, 'Help CTA must name the person who answers');
