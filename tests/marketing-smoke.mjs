@@ -172,6 +172,16 @@ assert.match(
     /Organizations may invite people aged 14 to 17 to work as staff\./,
     'Privacy Policy must describe what teen staff accounts hold',
 );
+assert.match(
+    privacyPage,
+    /Staff records, for people an Organization schedules as staff:/,
+    'Privacy Policy must list staff records among the information collected',
+);
+assert.match(
+    privacyPage,
+    /never for staff an Organization has marked as under 18/,
+    'Privacy Policy must say advertising tags never load for staff under 18',
+);
 
 const helpPage = pages.find(({ pagePath }) => pagePath === 'help/index.html')?.html ?? '';
 
