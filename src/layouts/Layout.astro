@@ -44,6 +44,13 @@ const META_PIXEL_ID =
 const GOOGLE_ADS_ID =
     (import.meta.env.PUBLIC_GOOGLE_ADS_ID as string | undefined) ??
     'AW-18393786799';
+
+// Third-party CSS must never hold up first paint: as a plain stylesheet link,
+// a hung fonts.googleapis.com left the page blank until it answered. It
+// preloads and switches itself on when it arrives; text shows in the fallback
+// stack until then (display=swap).
+const GOOGLE_FONTS_HREF =
+    'https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,400..900;1,400..900&family=Geist:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap';
 ---
 
 <!doctype html>
@@ -92,9 +99,12 @@ const GOOGLE_ADS_ID =
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,400..900;1,400..900&family=Geist:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap"
-            rel="stylesheet"
+            rel="preload"
+            as="style"
+            href={GOOGLE_FONTS_HREF}
+            onload="this.onload=null;this.rel='stylesheet'"
         />
+        <noscript><link rel="stylesheet" href={GOOGLE_FONTS_HREF} /></noscript>
 
         <script
             is:inline
@@ -245,11 +255,17 @@ const GOOGLE_ADS_ID =
             }
         </script>
 
-        <!-- GhostChat widget -->
-        <script
-            is:inline
-            src="https://api.ghostchat.dev/widget.js"
-            data-site="cl95794ad5a98f4abda61f3c0a"
-            defer></script>
+        <!-- GhostChat widget. Injected after the load event rather than as a
+             deferred tag, which held DOMContentLoaded and the load event for as
+             long as GhostChat took to answer. The widget reads data-site off its
+             own tag and boots whether or not the DOM is ready. -->
+        <script is:inline>
+            window.addEventListener('load', function () {
+                var widget = document.createElement('script');
+                widget.src = 'https://api.ghostchat.dev/widget.js';
+                widget.dataset.site = 'cl95794ad5a98f4abda61f3c0a';
+                document.body.appendChild(widget);
+            });
+        </script>
     </body>
 </html>

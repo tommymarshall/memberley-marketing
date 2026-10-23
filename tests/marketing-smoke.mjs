@@ -68,6 +68,25 @@ for (const { pagePath, html } of pages) {
         /support@memberley\.com/,
         `${pagePath} must point at tommy@memberley.com, not the retired support@ address`,
     );
+
+    // A slow or hung vendor must never hold up the page: a plain stylesheet link
+    // to fonts.googleapis.com blanked it until Google answered, and a deferred
+    // GhostChat tag held DOMContentLoaded just as long.
+    const outsideNoscript = html.replace(/<noscript>[\s\S]*?<\/noscript>/g, '');
+    for (const link of outsideNoscript.match(/<link\b[^>]*>/g) ?? []) {
+        assert.ok(
+            !(/\brel="stylesheet"/.test(link) && /\bhref="https?:\/\//.test(link)),
+            `${pagePath} loads a third-party stylesheet that blocks first paint: ${link}`,
+        );
+    }
+    for (const script of outsideNoscript.match(/<script\b[^>]*\bsrc="https?:\/\/[^"]*"[^>]*>/g) ?? []) {
+        assert.match(script, /\basync\b/, `${pagePath} loads a third-party script that is not async: ${script}`);
+    }
+    assert.match(
+        html,
+        /window\.addEventListener\('load'[\s\S]*?api\.ghostchat\.dev\/widget\.js/,
+        `${pagePath} must inject the GhostChat widget after the page has loaded`,
+    );
 }
 
 for (const [pagePath, logo] of Object.entries(competitorLogos)) {
