@@ -523,6 +523,56 @@ function formatFee(value: number): string {
               />
             </div>
           </div>
+
+          <div
+            class="mt-24 grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16"
+          >
+            <div data-reveal>
+              <div class={eyebrow}>Shifts without the group text</div>
+              <h2
+                class="mt-5 max-w-[16ch] font-serif text-[clamp(2.3rem,4.2vw,3.6rem)] leading-[1] font-semibold tracking-[-0.045em] text-balance text-stone-950"
+              >
+                See the gaps before the gates open.
+              </h2>
+              <p
+                class="mt-6 max-w-[44ch] text-[1rem] leading-[1.7] text-stone-600"
+              >
+                Build the week by facility and position, and Memberley flags
+                every shift that’s still short. Drafts stay private until you
+                publish. Then each person gets one email with their shifts, and
+                a reminder before each one.
+              </p>
+              <ul class="mt-7 grid gap-3 text-[0.875rem] text-stone-700">
+                {
+                  [
+                    "Staff logins with no admin access",
+                    "Positions, headcounts, and short-shift warnings",
+                    "Repeat a shift or copy a whole week forward",
+                    "Staff work the front desk without member contact details",
+                  ].map((item) => (
+                    <li class="flex items-center gap-3">
+                      <span class="grid size-5 place-items-center rounded-full bg-brand-100 text-[0.6875rem] font-bold text-brand-800">
+                        ✓
+                      </span>
+                      {item}
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+            <div class="browser-frame" data-reveal style="--reveal-delay:90ms">
+              <div class="browser-chrome"><span></span></div>
+              <img
+                src="/product/staffing.webp"
+                alt="Memberley shift schedule for a sample swim club: a week of lifeguard, head guard, and swim instructor shifts at the main pool, with two short shifts flagged for action"
+                width="2880"
+                height="1800"
+                loading="lazy"
+                decoding="async"
+                class="block aspect-[16/10] w-full object-cover object-left-top"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
